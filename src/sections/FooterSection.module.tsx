@@ -4,10 +4,10 @@ import logo from '../assets/icons/fynko.svg';
 import { Reveal } from '../components/Reveal';
 
 const footerLinks = {
-  Producto:  ['Características', 'Precios', 'API', 'Integraciones'],
-  Empresa:   ['Nosotros', 'Blog', 'Carreras', 'Prensa'],
-  Recursos:  ['Documentación', 'Soporte', 'Comunidad', 'Partners'],
+  Producto:  ['Características', 'Precios', 'API'],
+  Recursos:  ['Documentación', 'Soporte', 'Comunidad'],
   Legal:     ['Privacidad', 'Términos', 'Cookies'],
+  Empresa:   ['Nosotros', 'Blog'],
 }
 
 export default function Footer() {
@@ -42,7 +42,7 @@ export default function Footer() {
           ))}
         </div>
         <div className={styles.footerBottom}>
-          <span className={styles.footerCopy}>© 2026 Fynko. Todos los derechos reservados.</span>
+          <span className={styles.footerCopy}>© 2026 Frimeet. Todos los derechos reservados.</span>
     
         </div>
       </div>
