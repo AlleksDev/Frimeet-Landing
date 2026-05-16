@@ -35,7 +35,7 @@ const MissionSection = () => {
           <div className={styles.bigCard}>
             <div className={styles.bigCardTop}>
               <div className={styles.bigCardIcon}>
-                <Heart size={26} strokeWidth={2.5} className={styles.icPink} />
+                <Heart size={26} strokeWidth={2.5} />
               </div>
               <div>
                 <div className={styles.bigCardLabel}>Conexiones reales</div>

@@ -25,10 +25,11 @@
 
 .badge {
   display: inline-block;
-  background: #FFD6E7;
-  color: #B5005B;
+  background: #FF2D8720;
+  color: #FF2D87;
   font-size: 13px;
   font-weight: 600;
+  font-family: General Sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   padding: 6px 18px;
   border-radius: 999px;
   width: fit-content;
