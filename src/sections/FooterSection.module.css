@@ -39,15 +39,18 @@
 }
 
 .footerLogoIcon {
-  font-size: 28px;
+  width: 32px;
+  height: 32px;
   color: #ffffff;
 }
 
 .footerLogoName {
+  font-family: var(--font-title);
   font-size: 1.3rem;
-  font-weight: 900;
+  font-weight: 800;
   color: #ffffff;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .footerTagline {
