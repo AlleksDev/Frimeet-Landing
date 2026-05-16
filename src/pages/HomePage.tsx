@@ -3,7 +3,6 @@ import HeroSection from '../sections/HeroSection.module'
 import AboutSection from '../sections/AboutSection.module'
 import MissionSection from '../sections/MisionSection.module'
 import VisionSection from '../sections/VisionSection.module'
-import { Bus } from 'lucide-react'
 import BusinessSection from '../sections/BusinessSection.module'
 import Footer from '../sections/FooterSection.module'
 
