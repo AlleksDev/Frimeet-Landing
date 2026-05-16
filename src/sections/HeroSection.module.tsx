@@ -1,13 +1,11 @@
 import styles from './HeroSection.module.css'
-import foto1 from '../assets/images/foto1.svg'
-import foto2 from '../assets/images/foto2.svg'
+import foto1 from '../assets/images/foto1.png'
+import foto2 from '../assets/images/foto2.png'
 
 const HeroSection = () => {
   return (
-    <section className={styles.hero} id='hero'>
-      <div className={styles.bgGradient} />
+    <section className={styles.hero} id='hero'>      
       
-
       <div className={styles.container}>
         <div className={styles.imageLeft}>
           <img src={foto1} alt="Foto 1" />
@@ -30,9 +28,9 @@ const HeroSection = () => {
           </div>
         </div>
         
-        <div className={styles.imagesRight}>
-          <img src={foto2} alt="Foto 2" />
-        </div>
+      </div>
+      <div className={styles.imagesRight}>
+        <img src={foto2} alt="Foto 2" />
       </div>
     </section>
   )
