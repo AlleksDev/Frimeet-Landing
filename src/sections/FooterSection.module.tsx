@@ -1,5 +1,5 @@
 import styles from './FooterSection.module.css';
-import { Zap, MapPin, Mail} from 'lucide-react';
+import { MapPin, Mail} from 'lucide-react';
 import logo from '../assets/icons/fynko.svg';
 
 const footerLinks = {
@@ -18,15 +18,15 @@ export default function Footer() {
 
           <div className={styles.footerBrand}>
             <div className={styles.footerLogo}>
-              <img src={logo} alt="Frymeet Logo" className={styles.footerLogoIcon} />
-              <span className={styles.footerLogoName}>Frymeet</span>
+              <img src={logo} alt="Frimeet Logo" className={styles.footerLogoIcon} />
+              <span className={styles.footerLogoName}>Frimeet</span>
             </div>
             <p className={styles.footerTagline}>
               Motor de integración social y económica. Transformamos cómo descubres y disfrutas tu ciudad.
             </p>
             <div className={styles.footerContact}>
               <span className={styles.footerContactItem}><MapPin size={14} /> México • Latinoamérica</span>
-              <span className={styles.footerContactItem}><Mail size={14} /> frymeetglobal@gmail.com</span>
+              <span className={styles.footerContactItem}><Mail size={14} /> Frimeetglobal@gmail.com</span>
             </div>
           </div>
           {Object.entries(footerLinks).map(([section, links]) => (

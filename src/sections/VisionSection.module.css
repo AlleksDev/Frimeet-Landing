@@ -4,7 +4,6 @@
   padding: 80px 40px;
   position: relative;
   overflow: hidden;
-  height: 100%;
 }
 
 .visionContainer {
@@ -13,7 +12,6 @@
   justify-content: center;
   align-items: center;
   gap: 72px;
-  height: 100%;
 }
 
 .dot {
@@ -96,8 +94,8 @@
 
 .badge {
   display: inline-block;
-  background: #FFD6E7;
-  color: #B5005B;
+  background: #ff590020;
+  color: #FF5900;
   font-size: 13px;
   font-weight: 600;
   padding: 6px 18px;
@@ -149,4 +147,126 @@
   font-size: 19px;
   color: #FF2D87;
   flex-shrink: 0;
+}
+
+/* ---- Tablet ---- */
+@media (max-width: 1024px) {
+  .visionSection {
+    padding: 60px 32px;
+  }
+
+  .visionContainer {
+    gap: 48px;
+  }
+
+  .heroCard {
+    height: 350px;
+    padding: 32px;
+  }
+
+  /* Hide decorative dots that may overflow on tablet */
+  .dotOrangeBR {
+    display: none;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+  .visionSection {
+    padding: 50px 20px;
+  }
+
+  .visionContainer {
+    flex-direction: column-reverse;
+    gap: 40px;
+  }
+
+  /* Hide all decorative elements on mobile */
+  .dot,
+  .dash {
+    display: none;
+  }
+
+  .visionRight {
+    align-items: center;
+    text-align: center;
+  }
+
+  .badge {
+    align-self: center;
+  }
+
+  .visionTitle {
+    font-size: clamp(1.6rem, 6vw, 2.4rem);
+    text-align: center;
+  }
+
+  .visionBody {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .visionList {
+    align-items: center;
+  }
+
+  .visionItem {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .visionLeft {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .heroCard {
+    height: auto;
+    min-height: 280px;
+    padding: 32px 24px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .heroCardTitle {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .visionSection {
+    padding: 40px 16px;
+  }
+
+  .visionTitle {
+    font-size: clamp(1.4rem, 7vw, 2rem);
+  }
+
+  .visionBody {
+    font-size: 0.88rem;
+  }
+
+  .heroCard {
+    padding: 28px 20px;
+    min-height: 240px;
+    gap: 20px;
+  }
+
+  .heroIconWrap {
+    width: 56px;
+    height: 56px;
+  }
+
+  .heroCardTitle {
+    font-size: 1.1rem;
+  }
+
+  .heroCardSub {
+    font-size: 0.85rem;
+  }
+
+  .visionItem {
+    font-size: 0.85rem;
+  }
 }

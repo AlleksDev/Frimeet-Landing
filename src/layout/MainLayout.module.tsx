@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import Navbar from '../components/Navbar.module'
 import styles from './MainLayout.module.css'
 
