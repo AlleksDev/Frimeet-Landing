@@ -61,7 +61,7 @@ const Navbar = () => {
       <nav className={`${styles.navbar} ${isDark ? styles.navDark : ''}`}>
         <div className={styles.logo}>
           <img src={fynkoLogo} alt="Fynko Logo" />
-          <span className={styles.logoText}>Frymeet</span>
+          <span className={styles.logoText}>Frimeet</span>
         </div>
 
         <button

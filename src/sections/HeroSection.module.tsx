@@ -19,7 +19,7 @@ const HeroSection = () => {
           </h1>
 
           <p className={styles.subtext}>
-            Planea, comparte y disfruta tu ciudad con amigos. Descubre lugares, crea planes personalizados y vive experiencias únicas con Frymeet.
+            Planea, comparte y disfruta tu ciudad con amigos. Descubre lugares, crea planes personalizados y vive experiencias únicas con Frimeet.
           </p>
 
           <div className={styles.ctas}>
