@@ -1,0 +1,81 @@
+.navbar {
+  position: fixed; /* ← ahora sí queda arriba siempre */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  background-color: #0a0a0a22;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.366);
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Cuando el fondo es claro */
+.navDark {
+  background-color: #ffffffcc;
+  border-bottom: 1px solid #00000022;
+}
+
+.navDark .navLinks a,
+.navDark .logoText {
+  color: #000 !important;
+  opacity: 1;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navDark .logo img {
+  filter: invert(1);
+}
+
+
+.logoText {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.1rem;
+}
+
+.navLinks {
+  display: flex;
+  list-style: none;
+  gap: 66px;
+  align-items: center;
+}
+
+.navLinks a {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+  opacity: 0.85;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.navLinks a.active {
+  color: var(--orange);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 16px 24px;
+  }
+
+  .navLinks {
+    gap: 20px;
+  }
+
+  .navLinks li:nth-child(4) {
+    display: none;
+  }
+}

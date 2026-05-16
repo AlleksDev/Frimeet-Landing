@@ -1,0 +1,9 @@
+.layout {
+  min-height: 100vh;
+  position: relative;
+}
+
+.main {
+  width: 100%;
+  background-color: #ffffff;
+}
