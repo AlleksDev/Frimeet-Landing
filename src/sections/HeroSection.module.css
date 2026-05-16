@@ -222,6 +222,9 @@
 }
 
 /* ---- Absolute ---- */
+.imagesRightInside {
+  display: none;
+}
 
 .imagesRight {
   position: absolute;
@@ -277,38 +280,28 @@
 
 @media (max-width: 768px) {
   .hero {
-    min-height: auto;
+    min-height: 85vh;
     flex-direction: column;
     overflow: hidden;
   }
 
   .hero::after {
-    display: none;
+    top: 65%;
+    height: 150px;
+    transform: skewY(3.5deg);
   }
 
   .container {
     position: relative;
     flex-direction: column;
     padding: 100px 20px 60px;
-    min-height: auto;
+    min-height: 85vh;
     height: auto;
-    clip-path: none;
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
   }
 
   .imageLeft {
-    position: relative;
-    width: 60%;
-    height: auto;
-    transform: none;
-    left: auto;
-    top: auto;
-    margin: 0 auto 20px;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .imageLeft img {
-    max-height: 35vh;
+    display: none;
   }
 
   .content {
@@ -336,6 +329,16 @@
 
   .imagesRight {
     display: none;
+  }
+  
+  .imagesRightInside {
+    display: block;
+    position: absolute;
+    max-width: 55vw;
+    right: 0;
+    top: 35%;
+    transform: translateY(-50%);
+    z-index: 2;
   }
 
   .ctas {

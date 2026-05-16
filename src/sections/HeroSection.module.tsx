@@ -27,7 +27,9 @@ const HeroSection = () => {
             <a href="#" className={styles.btnSecondary}>Ver demo</a>
           </div>
         </div>
-        
+        <div className={styles.imagesRightInside}>
+          <img src={foto2} alt="Foto 2" />
+        </div>
       </div>
       <div className={styles.imagesRight}>
         <img src={foto2} alt="Foto 2" />

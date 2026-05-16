@@ -255,12 +255,12 @@
   }
 
   .ctaSection::after {
-    display: none;
+    top: 70%;
   }
 
   .ctaInner {
     padding: 60px 20px 60px;
-    clip-path: none;
+    clip-path: polygon(0 0, 100% 0, 100% 89%, 0 100%);
     height: auto;
   }
 
@@ -315,7 +315,7 @@
   }
 
   .ctaInner {
-    padding: 50px 16px 50px;
+    padding: 50px 16px 80px;
   }
 
   .ctaTitle {
