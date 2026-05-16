@@ -1,0 +1,153 @@
+.visionSection {
+  width: 100%;
+  background: #ffffff;
+  padding: 80px 40px;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.visionContainer {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 72px;
+  height: 100%;
+}
+
+/* ---- Puntos decorativos ---- */
+.dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.dotOrangeTL { width: 22px; height: 22px; background: #FF5900; top: 54px; left: 320px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305);}
+.dotGreenBL  { width: 18px; height: 18px; background: #B8F02D; bottom: 122px; left: 302px;box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305); }
+.dotGreenMid { width: 12px; height: 12px; background: #B8F02D; top: 106px; left: 620px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305);}
+.dotOrangeBR { width: 20px; height: 20px; background: #FF5900; bottom: 54px; right: 830px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305); }
+.dash {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  width: 28px;
+  height: 3px;
+  background: #FF2D87;
+  border-radius: 2px;
+}
+
+/* ---- Tarjeta izquierda ---- */
+
+.heroCard {
+  background: linear-gradient(145deg, #FF8C00 0%, #FF2D87 100%);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 28px;
+  text-align: center;
+  color: white;
+  height: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.305);
+}
+
+.heroIconWrap {
+  width: 72px;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: white;
+}
+
+.heroCardLabel {
+  font-size: 13px;
+  opacity: 0.85;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.heroCardTitle {
+  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.heroCardSub {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  line-height: 1.55;
+  max-width: 230px;
+}
+
+/* ---- Derecha ---- */
+.visionRight {
+ 
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.badge {
+  display: inline-block;
+  background: #FFD6E7;
+  color: #B5005B;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.visionTitle {
+  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #000000;
+  margin: 0;
+}
+
+.visionTitleGrad {
+  background: linear-gradient(90deg, #FF2D87, #FF5900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.visionBody {
+  font-size: 0.93rem;
+  color: #666666;
+  line-height: 1.7;
+  max-width: 440px;
+  margin: 0;
+}
+
+.visionList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.visionItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #222222;
+  font-weight: 500;
+}
+
+.visionItemIcon {
+  font-size: 19px;
+  color: #FF2D87;
+  flex-shrink: 0;
+}
