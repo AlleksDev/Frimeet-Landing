@@ -268,7 +268,7 @@
 
   .smallCard {
     position: absolute;
-    bottom: 0;
+    bottom: 5vh;
     right: auto;
     left: 50%;
     transform: translateX(-50%);
@@ -308,8 +308,12 @@
   }
 
   .smallCard {
+    position: absolute;
     width: 240px;
     padding: 14px 16px;
+    left: auto;
+    right: 6vw !important;
+    bottom: 4vh;
   }
 
   .smallCardNum {
