@@ -137,6 +137,7 @@
 }
 
 .headlineWhite {
+  height: 10vw;
   filter: drop-shadow(2px 2px 2px #000000);
   font-size: clamp(4.2rem, 6.5vw, 6.5rem);
   color: #ffffff;
@@ -144,7 +145,7 @@
 
 .headlinePink, 
 .headlineOrange {
-  height: auto;
+  height: 10vw;
   font-size: clamp(4.2rem, 6.5vw, 6.5rem);
   
   background: linear-gradient(90deg, #ff6b1a, #ff2d87, #ff6b1a, #ff2d87);

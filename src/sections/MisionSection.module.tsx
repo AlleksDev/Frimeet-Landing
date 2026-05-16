@@ -25,7 +25,7 @@ const MissionSection = () => {
               'Impacto económico directo en micronegocios locales',
             ].map((item) => (
               <div key={item} className={styles.checkItem}>
-                {item}
+                <span>{item}</span>
                 <CheckCircle size={15} className={styles.icPink} />
               </div>
             ))}

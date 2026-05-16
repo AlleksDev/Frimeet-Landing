@@ -307,6 +307,9 @@
   .heroCardTitle {
     font-size: 1.2rem;
   }
+  .visionItem {
+    text-align: left;
+  }
 }
 
 @media (max-width: 480px) {
