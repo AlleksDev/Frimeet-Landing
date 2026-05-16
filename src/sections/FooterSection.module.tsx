@@ -1,5 +1,6 @@
 import styles from './FooterSection.module.css';
 import { Zap, MapPin, Mail} from 'lucide-react';
+import logo from '../assets/icons/fynko.svg';
 
 const footerLinks = {
   Producto:  ['Características', 'Precios', 'API', 'Integraciones'],
@@ -17,15 +18,15 @@ export default function Footer() {
 
           <div className={styles.footerBrand}>
             <div className={styles.footerLogo}>
-              <Zap size={28} className={styles.footerLogoIcon} />
-              <span className={styles.footerLogoName}>FRIMEET</span>
+              <img src={logo} alt="Frymeet Logo" className={styles.footerLogoIcon} />
+              <span className={styles.footerLogoName}>Frymeet</span>
             </div>
             <p className={styles.footerTagline}>
               Motor de integración social y económica. Transformamos cómo descubres y disfrutas tu ciudad.
             </p>
             <div className={styles.footerContact}>
               <span className={styles.footerContactItem}><MapPin size={14} /> México • Latinoamérica</span>
-              <span className={styles.footerContactItem}><Mail size={14} /> finkoglobal@gmail.com</span>
+              <span className={styles.footerContactItem}><Mail size={14} /> frymeetglobal@gmail.com</span>
             </div>
           </div>
           {Object.entries(footerLinks).map(([section, links]) => (
@@ -41,11 +42,7 @@ export default function Footer() {
         </div>
         <div className={styles.footerBottom}>
           <span className={styles.footerCopy}>© 2026 Fynko. Todos los derechos reservados.</span>
-          <div className={styles.footerSocials}>
-            <button className={styles.socialBtn} aria-label="X / Twitter"></button>
-            <button className={styles.socialBtn} aria-label="Instagram"></button>
-            <button className={styles.socialBtn} aria-label="GitHub"></button>
-          </div>
+    
         </div>
       </div>
     </footer>
