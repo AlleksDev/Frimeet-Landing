@@ -110,10 +110,22 @@
 /* ---- CTA ---- */
 .ctaSection {
   width: 100%;
-  background: linear-gradient(135deg, #FF5900 0%, #FF2D87 60%);
-  padding: 80px 40px 100px;
+  height: 80vh;
   position: relative;
   overflow: hidden;
+  background-color: #111111;
+}
+
+.ctaSection::after {
+  content: '';
+  position: absolute;
+  top: 62%;
+  left: 0; right: 0;
+  height: 120px;
+  width: 102%;
+  background: #B8F02D;
+  transform: skewY(2.5deg);
+  transform-origin: bottom left;
 }
 .ctaBlobGreen {
   position: absolute;
@@ -132,15 +144,19 @@
   pointer-events: none;
 }
 .ctaInner {
-  max-width: 700px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 80px 40px 100px;
   gap: 20px;
   text-align: center;
   position: relative;
   z-index: 1;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(135deg, #FF5900 0%, #FF2D87 60%);
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
 }
 .ctaTitle {
   font-family: 'Clash Display', sans-serif;
