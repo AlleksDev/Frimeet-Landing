@@ -1,38 +1,41 @@
 import styles from './AboutSection.module.css'
+import { Map, Target, MessageCircle, Users, BarChart3, CheckCircle } from 'lucide-react'
+
 
 const AboutSection = () => {
   const features = [
-    {
-      icon: '🗺️',
-      title: 'Rutas optimizadas',
-      description: 'Algoritmos genéticos calculan itinerarios perfectos evaluando distancia, presupuesto y variedad.'
-    },
-    {
-      icon: '🎯',
-      title: 'Comercios Invisibles',
-      description: 'Descubre negocios locales que no aparecen en mapas oficiales, validados por la comunidad.'
-    },
-    {
-      icon: '💬',
-      title: 'IA Conversacional',
-      description: 'Busca por intención natural: "lugar tranquilo para platicar con amigos bajo 500 pesos".'
-    },
-    {
-      icon: '👥',
-      title: 'Comunidad activa',
-      description: 'Exploradores, validadores y consumidores colaboran para mapear la economía local.'
-    },
-    {
-      icon: '📊',
-      title: 'Analíticas para Negocios',
-      description: 'Panel de tendencias de búsqueda para comercios locales que quieren crecer.'
-    },
-    {
-      icon: '✓',
-      title: 'Validación Real',
-      description: 'Sistema de geolocalización y clustering para detectar y filtrar lugares falsos.'
-    }
-  ]
+  {
+    icon: <Map size={26} strokeWidth={2.5} />,
+    title: 'Rutas optimizadas',
+    description: 'Algoritmos genéticos calculan itinerarios perfectos evaluando distancia, presupuesto y variedad.'
+  },
+  {
+    icon: <Target size={26} strokeWidth={2.5} />,
+    title: 'Comercios Invisibles',
+    description: 'Descubre negocios locales que no aparecen en mapas oficiales, validados por la comunidad.'
+  },
+  {
+    icon: <MessageCircle size={26} strokeWidth={2.5} />,
+    title: 'IA Conversacional',
+    description: 'Busca por intención natural: "lugar tranquilo para platicar con amigos bajo 500 pesos".'
+  },
+  {
+    icon: <Users size={26} strokeWidth={2.5} />,
+    title: 'Comunidad activa',
+    description: 'Exploradores, validadores y consumidores colaboran para mapear la economía local.'
+  },
+  {
+    icon: <BarChart3 size={26} strokeWidth={2.5} />,
+    title: 'Analíticas para Negocios',
+    description: 'Panel de tendencias de búsqueda para comercios locales que quieren crecer.'
+  },
+  {
+    icon: <CheckCircle size={26} strokeWidth={2.5} />,
+    title: 'Validación Real',
+    description: 'Sistema de geolocalización y clustering para detectar y filtrar lugares falsos.'
+  }
+]
+
 
   const steps = [
     {

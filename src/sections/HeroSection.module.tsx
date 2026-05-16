@@ -21,8 +21,7 @@ const HeroSection = () => {
           </h1>
 
           <p className={styles.subtext}>
-            Lorem ipsum dolor sit amet. andal it es boneka ambalabu
-            ige ergo sum tuntunt sahur tralalero.
+            Planea, comparte y disfruta tu ciudad con amigos. Descubre lugares, crea planes personalizados y vive experiencias únicas con Frymeet.
           </p>
 
           <div className={styles.ctas}>

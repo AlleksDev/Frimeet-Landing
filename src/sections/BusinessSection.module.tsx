@@ -21,7 +21,7 @@ export default function BusinessSection() {
           <div className={styles.businessHeader}>
             <h2 className={styles.businessTitle}>
               Encuentra tu<br />
-              <span className={styles.businessTitleGrad}>rol en Fynko</span>
+              <span className={styles.businessTitleGrad}>rol en Frymeet</span>
             </h2>
             <p className={styles.businessSub}>
               Fynco no sirve solamente para encontrar nuevos lugares, también puedes registrarte como negocio
@@ -72,7 +72,7 @@ export default function BusinessSection() {
             ¿Listo para redescubrir<br />tu ciudad?
           </h2>
           <p className={styles.ctaSub}>
-            Descarga Frimeet y comienza a crear planes perfectos con tu comunidad.
+            Descarga Frymeet y comienza a crear planes perfectos con tu comunidad.
             Tu próxima aventura está a un tap de distancia.
           </p>
 

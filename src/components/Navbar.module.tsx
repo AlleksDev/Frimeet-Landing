@@ -14,13 +14,11 @@ const Navbar = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActive(entry.target.id)
-
-            // Detecta si el fondo es claro u oscuro
             const bg = window.getComputedStyle(entry.target).backgroundColor
             const rgb = bg.match(/\d+/g)?.map(Number)
             if (rgb) {
               const brightness = (rgb[0] + rgb[1] + rgb[2]) / 3
-              setIsDark(brightness > 180) // fondo claro → navbar negra
+              setIsDark(brightness > 180)
             }
           }
         })
@@ -35,7 +33,7 @@ const Navbar = () => {
     <nav className={`${styles.navbar} ${isDark ? styles.navDark : ''}`}>
       <div className={styles.logo}>
         <img src={fynkoLogo} alt="Fynko Logo" />
-        <span className={styles.logoText}>Fynko</span>
+        <span className={styles.logoText}>Frymeet</span>
       </div>
 
       <ul className={styles.navLinks}>
