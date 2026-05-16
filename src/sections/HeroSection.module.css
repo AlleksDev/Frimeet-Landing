@@ -137,28 +137,37 @@
 }
 
 .headlineWhite {
+  filter: drop-shadow(2px 2px 2px #000000);
   font-size: clamp(4.2rem, 6.5vw, 6.5rem);
   color: #ffffff;
 }
 
-.headlinePink {
-  height: auto;
-  font-size: clamp(4.2rem, 6.5vw, 6.5rem);
-  background: linear-gradient(90deg, #ff6b1a 0%, #ff2d87 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-style: italic;
-}
-
+.headlinePink, 
 .headlineOrange {
   height: auto;
   font-size: clamp(4.2rem, 6.5vw, 6.5rem);
-  background: linear-gradient(90deg, #ff6b1a 0%, #ff2d87 100%);
+  
+  background: linear-gradient(90deg, #ff6b1a, #ff2d87, #ff6b1a, #ff2d87);
+  background-size: 400% 100%; 
+  
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-style: italic;
+
+  animation: moverGradiente 6s infinite ease-in-out;
+}
+
+@keyframes moverGradiente {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* ---- Subtext ---- */

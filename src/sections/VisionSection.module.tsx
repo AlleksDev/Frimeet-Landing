@@ -11,15 +11,15 @@ const VisionSection = () => {
 
   return (
     <section className={styles.visionSection} id='vision'>
-      <span className={`${styles.dot} ${styles.dotOrangeTL}`} />
-      <span className={`${styles.dot} ${styles.dotGreenBL}`} />
-      <span className={`${styles.dot} ${styles.dotGreenMid}`} />
-      <span className={`${styles.dot} ${styles.dotOrangeBR}`} />
-      <span className={styles.dash} />
-
       <div className={styles.visionContainer}>
 
         <div className={styles.visionLeft}>
+          <div className={styles.dotsWrapper}>
+            <span className={`${styles.dot} ${styles.dotOrangeTL}`} />
+            <span className={`${styles.dot} ${styles.dotGreenBL}`} />
+            <span className={`${styles.dot} ${styles.dotGreenMid}`} />
+            <span className={`${styles.dot} ${styles.dotOrangeBR}`} />
+          </div>
           <Reveal animation="fadeRight" delay={0} duration={800} className={styles.heroCard}>
             <div className={styles.heroIconWrap}>
               <Heart size={32} />

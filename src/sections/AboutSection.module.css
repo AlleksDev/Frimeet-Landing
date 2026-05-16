@@ -59,16 +59,11 @@
   padding: 32px;
   border: 1px solid #f0f0f0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   gap: 16px;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* ---- Decorative Circle ---- */
@@ -81,6 +76,21 @@
   top: -30px;
   right: -30px;
   pointer-events: none;
+}
+
+.card:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s !important;
+}
+
+.card:hover .decorativeCircle {
+  transform: scale(1.5) rotate(3deg);
+  transition: transform 0.5s cubic-bezier(0.175, 0.685, 0.32, 1.275);
+}
+
+.card:hover .iconWrapper {
+  transform: scale(1.1) rotate(3deg);
 }
 
 .card:nth-child(1) .decorativeCircle {
@@ -119,37 +129,33 @@
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.card:hover .iconWrapper {
-  transform: scale(1.1) rotate(3deg);
-}
-
 .card:nth-child(1) .iconWrapper {
-  background: #FF4444;
+  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
   color: white;
 }
 
 .card:nth-child(2) .iconWrapper {
-  background: #D4AF37;
+  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
   color: white;
 }
 
 .card:nth-child(3) .iconWrapper {
-  background: #90EE90;
+  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
   color: white;
 }
 
 .card:nth-child(4) .iconWrapper {
-  background: #FF4444;
+  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
   color: white;
 }
 
 .card:nth-child(5) .iconWrapper {
-  background: #FF8C00;
+  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
   color: white;
 }
 
 .card:nth-child(6) .iconWrapper {
-  background: #90EE90;
+  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
   color: white;
 }
 
@@ -240,6 +246,11 @@
   flex-shrink: 0;
 
   border: none;
+}
+
+.stepCircle:hover {
+  transform: scale(1.4) !important;
+  transition: transform 0.4s !important;
 }
 
 .step:nth-child(1) .stepCircle {
@@ -343,11 +354,12 @@
 
   .timelineContainer {
     flex-direction: column;
+    width: auto;
   }
 
   .timelineContainer::before {
     top: -30px;
-    left: 45px;
+    left: 58px;
     right: 40px;
     width: 3px;
     height: 100%;
@@ -357,11 +369,11 @@
   }
 
   .step {
-    width: 100%;
+    width: auto;
     padding-bottom: 30px;
     padding-left: 30px;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
   }
 

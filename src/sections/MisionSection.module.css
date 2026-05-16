@@ -90,6 +90,18 @@
   flex-shrink: 0;
 }
 
+.missionRight:hover .bigCard{
+  transform: rotate(-5deg) !important;
+  box-shadow: 0 16px 32px rgba(255, 45, 135, 0.3);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+}
+
+.missionRight:hover .smallCard{
+  transform: rotate(5deg) !important;
+  box-shadow: 0 16px 32px rgba(255, 45, 135, 0.3);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+}
+
 .bigCard {
   background: linear-gradient(135deg, #FF8C00 0%, #FF2D87 100%);
   border-radius: 24px;
@@ -180,7 +192,7 @@
 }
 
 .smallCardLabel {
-  font-size: 11px;
+  font-size: 13px;
   color: #888888;
   font-weight: 500;
 }
@@ -242,12 +254,12 @@
   }
 
   .checkList {
-    align-items: center;
+    align-items: start;
     text-align: center;
   }
 
   .checkItem {
-    justify-content: center;
+    flex-direction: row-reverse;
     text-align: center;
     flex-wrap: wrap;
   }

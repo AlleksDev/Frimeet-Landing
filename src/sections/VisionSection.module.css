@@ -14,19 +14,76 @@
   gap: 72px;
 }
 
+.visionLeft {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: auto;
+}
+
+.dotsWrapper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .dot {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
+  will-change: transform;
+  z-index: 2;
 }
-.dotOrangeTL { width: 22px; height: 22px; background: #FF5900; top: 54px; left: 320px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305);}
-.dotGreenBL  { width: 18px; height: 18px; background: #B8F02D; bottom: 122px; left: 302px;box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305); }
-.dotGreenMid { width: 12px; height: 12px; background: #B8F02D; top: 106px; left: 620px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305);}
-.dotOrangeBR { width: 20px; height: 20px; background: #FF5900; bottom: 54px; right: 830px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305); }
+.dotOrangeTL { 
+  width: 22px; height: 22px; background: #FF5900; top: -5%; left: 0%; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305);
+  animation: floatTL 12s ease-in-out infinite;
+}
+.dotGreenBL { 
+  width: 18px; height: 18px; background: #B8F02D; bottom: 10%; left: -6%; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305);
+  animation: floatBL 14s ease-in-out infinite;
+}
+.dotGreenMid { 
+  width: 12px; height: 12px; background: #B8F02D; top: 35%; right: -4%; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305);
+  animation: floatMid 10s ease-in-out infinite;
+}
+.dotOrangeBR { 
+  width: 20px; height: 20px; background: #FF5900; bottom: -6%; right: 10%; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.305);
+  animation: floatBR 16s ease-in-out infinite;
+}
+
+@keyframes floatTL {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(15px, -12px) rotate(10deg) scale(1.05); }
+  66% { transform: translate(-8px, 15px) rotate(-5deg) scale(0.95); }
+}
+
+@keyframes floatBL {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(-18px, -15px) rotate(-15deg) scale(0.95); }
+  66% { transform: translate(12px, -8px) rotate(8deg) scale(1.05); }
+}
+
+@keyframes floatMid {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(12px, 18px) rotate(20deg) scale(1.1); }
+  66% { transform: translate(-12px, -12px) rotate(-15deg) scale(0.9); }
+}
+
+@keyframes floatBR {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(-22px, 12px) rotate(-20deg) scale(1.05); }
+  66% { transform: translate(18px, -18px) rotate(15deg) scale(0.95); }
+}
 .dash {
   position: absolute;
-  top: 36px;
-  left: 50%;
+  top: 15%;
+  right: -8%;
   width: 28px;
   height: 3px;
   background: #FF2D87;
@@ -52,7 +109,7 @@
 }
 
 .heroCard:hover {
-  transform: translateY(-5px);
+  transform: scale(1.1) !important;
   box-shadow: 0 16px 36px rgba(255, 45, 135, 0.3);
 }
 
@@ -175,9 +232,9 @@
     padding: 32px;
   }
 
-  /* Hide decorative dots that may overflow on tablet */
-  .dotOrangeBR {
-    display: none;
+  .dotsWrapper {
+    max-width: 350px;
+    z-index: 10;
   }
 }
 
@@ -192,11 +249,16 @@
     gap: 40px;
   }
 
-  /* Hide all decorative elements on mobile */
-  .dot,
-  .dash {
-    display: none;
+  .dotsWrapper {
+    max-width: 360px;
+    z-index: 10;
   }
+
+  .dotOrangeTL { top: -2%; left: 2%; transform: scale(0.85); }
+  .dotGreenBL { bottom: 8%; left: -2%; transform: scale(0.85); }
+  .dotGreenMid { top: 30%; right: 2%; transform: scale(0.85); }
+  .dotOrangeBR { bottom: -2%; right: 12%; transform: scale(0.85); }
+  .dash { right: 0; transform: scale(0.85); }
 
   .visionRight {
     align-items: center;
@@ -218,7 +280,7 @@
   }
 
   .visionList {
-    align-items: center;
+    align-items: start;
   }
 
   .visionItem {
@@ -238,6 +300,8 @@
     padding: 32px 24px;
     width: 100%;
     max-width: 360px;
+    position: relative;
+    z-index: 2;
   }
 
   .heroCardTitle {
@@ -246,6 +310,9 @@
 }
 
 @media (max-width: 480px) {
+  .dotsWrapper {
+    z-index: 100;
+  }
   .visionSection {
     padding: 40px 16px;
   }

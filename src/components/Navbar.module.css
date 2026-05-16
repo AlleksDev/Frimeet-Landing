@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 48px;
+  padding: 20px 96px;
   background-color: #0a0a0a22;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.366);
@@ -49,7 +49,7 @@
 .navLinks {
   display: flex;
   list-style: none;
-  gap: 66px;
+  gap: 32px;
   align-items: center;
 }
 
@@ -84,7 +84,8 @@
 }
 
 .navLinks a.active {
-  color: var(--orange);
+  color: var(--orange) !important;
+  font-weight: 700;
   opacity: 1;
 }
 

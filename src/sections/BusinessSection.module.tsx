@@ -69,7 +69,7 @@ export default function BusinessSection() {
       </section>
       <section className={styles.ctaSection}>
         <div className={styles.ctaInner}>
-          <Reveal animation="fadeUp" delay={0} duration={800}>
+          <Reveal animation="fadeUp" className={styles.ctaInnerContainer} delay={0} duration={800}>
             <h2 className={styles.ctaTitle}>
               ¿Listo para redescubrir<br />tu ciudad?
             </h2>

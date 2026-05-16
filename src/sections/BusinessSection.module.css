@@ -60,12 +60,18 @@
 }
 
 .roleCardWhite:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+  transform: translateY(-6px) !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08) !important;
+}
+
+.roleCardWhite:hover .roleBlob,
+.roleCardPink:hover .roleBlob {
+  transform: scale(1.4) !important;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
 }
 
 .roleCardPink:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) !important;
   box-shadow: 0 16px 32px rgba(255, 45, 135, 0.2);
 }
 .roleCardWhite {
@@ -143,6 +149,17 @@
   transform: skewY(2.5deg);
   transform-origin: bottom left;
 }
+
+.ctaInnerContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
 .ctaBlobGreen {
   position: absolute;
   bottom: -40px; right: -30px;
@@ -185,10 +202,10 @@
   max-width: 18ch;
 }
 .ctaSub {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.65;
-  max-width: 440px;
+  max-width: 640px;
   margin: 0;
 }
 .ctaButtons { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; }
