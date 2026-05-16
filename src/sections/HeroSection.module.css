@@ -94,8 +94,7 @@
 .imageLeft {
   position: absolute;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -143,6 +142,7 @@
 }
 
 .headlinePink {
+  height: auto;
   font-size: clamp(4.2rem, 6.5vw, 6.5rem);
   background: linear-gradient(90deg, #ff6b1a 0%, #ff2d87 100%);
   -webkit-background-clip: text;
@@ -152,6 +152,7 @@
 }
 
 .headlineOrange {
+  height: auto;
   font-size: clamp(4.2rem, 6.5vw, 6.5rem);
   background: linear-gradient(90deg, #ff6b1a 0%, #ff2d87 100%);
   -webkit-background-clip: text;
@@ -229,8 +230,7 @@
 .imagesRight {
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -265,16 +265,10 @@
     max-width: 500px;
   }
 
-  .headlineWhite {
-    font-size: clamp(2.2rem, 4vw, 4rem);
-  }
-
-  .headlinePink {
-    font-size: clamp(2.4rem, 4.5vw, 4.5rem);
-  }
-
+  .headlineWhite,
+  .headlinePink,
   .headlineOrange {
-    font-size: clamp(2.4rem, 4.5vw, 4.5rem);
+    font-size: clamp(4.2rem, 4.5vw, 4.5rem);
   }
 }
 
@@ -309,16 +303,11 @@
     max-width: 100%;
   }
 
-  .headlineWhite {
-    font-size: clamp(2rem, 8vw, 3rem);
-  }
-
-  .headlinePink {
-    font-size: clamp(2.2rem, 9vw, 3.5rem);
-  }
-
+  .headlineWhite,
+  .headlinePink,
   .headlineOrange {
-    font-size: clamp(2.2rem, 9vw, 3.5rem);
+    font-size: clamp(3.5rem, 9vw, 3.5rem);
+    filter: drop-shadow(2px 2px 2px #000000);
   }
 
   .subtext {
@@ -336,7 +325,7 @@
     position: absolute;
     max-width: 55vw;
     right: 0;
-    top: 35%;
+    top: 10.5%;
     transform: translateY(-50%);
     z-index: 2;
   }
@@ -361,16 +350,10 @@
     max-height: 30vh;
   }
 
-  .headlineWhite {
-    font-size: clamp(1.8rem, 9vw, 2.5rem);
-  }
-
-  .headlinePink {
-    font-size: clamp(2rem, 10vw, 3rem);
-  }
-
+  .headlineWhite,
+  .headlinePink,
   .headlineOrange {
-    font-size: clamp(2rem, 10vw, 3rem);
+    font-size: clamp(3rem, 10vw, 3rem);
   }
 
   .subtext {

@@ -1,5 +1,6 @@
 import styles from './BusinessSection.module.css'
 import { User, Store, CheckCircle } from 'lucide-react'
+import { Reveal } from '../components/Reveal'
 
 const clienteFeatures = [
   'Rutas personalizadas',
@@ -18,7 +19,7 @@ export default function BusinessSection() {
     <>
       <section className={styles.businessSection} id='business'>
         <div className={styles.businessContainer}>
-          <div className={styles.businessHeader}>
+          <Reveal animation="fadeUp" delay={0} duration={800} className={styles.businessHeader}>
             <h2 className={styles.businessTitle}>
               Encuentra tu<br />
               <span className={styles.businessTitleGrad}>rol en Frimeet</span>
@@ -26,10 +27,10 @@ export default function BusinessSection() {
             <p className={styles.businessSub}>
               Frimeet no sirve solamente para encontrar nuevos lugares, también puedes registrarte como negocio
             </p>
-          </div>
+          </Reveal>
 
           <div className={styles.rolesGrid}>
-            <div className={`${styles.roleCard} ${styles.roleCardWhite}`}>
+            <Reveal animation="fadeUp" delay={200} duration={800} className={`${styles.roleCard} ${styles.roleCardWhite}`}>
               <span className={`${styles.roleBlob} ${styles.blobWhite}`} />
               <div className={`${styles.roleIcon} ${styles.iconWhite}`}>
                 <User size={20} />
@@ -45,8 +46,8 @@ export default function BusinessSection() {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className={`${styles.roleCard} ${styles.roleCardPink}`}>
+            </Reveal>
+            <Reveal animation="fadeUp" delay={400} duration={800} className={`${styles.roleCard} ${styles.roleCardPink}`}>
               <span className={`${styles.roleBlob} ${styles.blobPink}`} />
               <div className={`${styles.roleIcon} ${styles.iconPink}`}>
                 <Store size={20} />
@@ -62,33 +63,35 @@ export default function BusinessSection() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
       <section className={styles.ctaSection}>
         <div className={styles.ctaInner}>
-          <h2 className={styles.ctaTitle}>
-            ¿Listo para redescubrir<br />tu ciudad?
-          </h2>
-          <p className={styles.ctaSub}>
-            Descarga Frimeet y comienza a crear planes perfectos con tu comunidad.
-            Tu próxima aventura está a un tap de distancia.
-          </p>
+          <Reveal animation="fadeUp" delay={0} duration={800}>
+            <h2 className={styles.ctaTitle}>
+              ¿Listo para redescubrir<br />tu ciudad?
+            </h2>
+            <p className={styles.ctaSub}>
+              Descarga Frimeet y comienza a crear planes perfectos con tu comunidad.
+              Tu próxima aventura está a un tap de distancia.
+            </p>
+          </Reveal>
 
-          <div className={styles.ctaButtons}>
+          <Reveal animation="fadeUp" delay={200} duration={800} className={styles.ctaButtons}>
             <button className={styles.btnPrimary}>Descarga gratis →</button>
             <button className={styles.btnSecondary}>Saber más</button>
-          </div>
+          </Reveal>
 
-          <div className={styles.ctaStats}>
+          <Reveal animation="fadeUp" delay={400} duration={800} className={styles.ctaStats}>
             {[['50K+','Usuarios activos'],['4.9','Rating en store'],['100+','Ciudades']].map(([n,l]) => (
               <div key={l} className={styles.statItem}>
                 <span className={styles.statNum}>{n}</span>
                 <span className={styles.statLabel}>{l}</span>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

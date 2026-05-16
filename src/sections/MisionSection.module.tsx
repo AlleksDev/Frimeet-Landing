@@ -1,11 +1,12 @@
 import styles from './MisionSection.module.css';
 import { CheckCircle, Heart } from 'lucide-react'
+import { Reveal } from '../components/Reveal'
 
 const MissionSection = () => {
   return (
     <section className={styles.missionSection} id='mission'>
       <div className={styles.missionContainer}>
-        <div className={styles.missionLeft}>
+        <Reveal animation="fadeRight" delay={0} duration={800} className={styles.missionLeft}>
           <span className={styles.badge}>Nuestra misión</span>
           <h2 className={styles.missionTitle}>
             Formalizamos la<br />
@@ -29,10 +30,10 @@ const MissionSection = () => {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
 
         <div className={styles.missionRight}>
-          <div className={styles.bigCard}>
+          <Reveal animation="fadeUp" delay={200} duration={800} className={styles.bigCard}>
             <div className={styles.bigCardTop}>
               <div className={styles.bigCardIcon}>
                 <Heart size={26} strokeWidth={2.5} />
@@ -46,9 +47,9 @@ const MissionSection = () => {
               Personas han encontrado su próximo lugar favorito gracias a
               recomendaciones de la comunidad.
             </p>
-          </div>
+          </Reveal>
 
-          <div className={styles.smallCard}>
+          <Reveal animation="fadeLeft" delay={400} duration={800} className={styles.smallCard}>
             <div className={styles.smallCardIcon}>
               <Heart size={22} strokeWidth={2.5} className={styles.icPink} />
             </div>
@@ -56,7 +57,7 @@ const MissionSection = () => {
               <div className={styles.smallCardLabel}>Comercios descubiertos</div>
               <div className={styles.smallCardNum}>+15,000</div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

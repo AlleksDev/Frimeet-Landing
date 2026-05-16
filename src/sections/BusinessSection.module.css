@@ -56,6 +56,17 @@
   gap: 16px;
   position: relative;
   overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.roleCardWhite:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+}
+
+.roleCardPink:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(255, 45, 135, 0.2);
 }
 .roleCardWhite {
   background: #ffffff;
@@ -87,6 +98,11 @@
   font-size: 20px;
   position: relative;
   z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.roleCard:hover .roleIcon {
+  transform: scale(1.15) rotate(5deg);
 }
 .iconWhite { background: #FFF0F5; color: #FF2D87; }
 .iconPink  { background: rgba(255, 255, 255, 0.2); color: #B8F02D; }
@@ -188,6 +204,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.2s ease;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(139, 219, 0, 0.3);
 }
 .btnSecondary {
   background: transparent;
@@ -198,6 +220,13 @@
   border-radius: 999px;
   border: 1.5px solid rgba(255, 255, 255, 0.5);
   cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+  transform: translateY(-3px);
 }
 .ctaStats { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
 .statItem { display: flex; flex-direction: column; align-items: center; gap: 2px; }

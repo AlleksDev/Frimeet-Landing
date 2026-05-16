@@ -98,6 +98,12 @@
   padding: 28px 28px 80px 28px;
   color: white;
   position: relative;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.bigCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(255, 45, 135, 0.3);
 }
 
 .bigCardTop {
@@ -152,6 +158,12 @@
   right: -20px;
   width: 300px;
   max-width: 80%;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.smallCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
 }
 
 .smallCardIcon {

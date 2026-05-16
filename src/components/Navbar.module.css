@@ -54,12 +54,33 @@
 }
 
 .navLinks a {
+  position: relative;
   font-family: var(--font-body);
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--white);
   opacity: 0.85;
   transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.navLinks a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--orange);
+  transition: width 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.navLinks a:hover::after,
+.navLinks a.active::after {
+  width: 100%;
+}
+
+.navLinks a:hover {
+  opacity: 1;
 }
 
 .navLinks a.active {
