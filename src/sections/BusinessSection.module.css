@@ -1,0 +1,190 @@
+/* ---- Sección roles ---- */
+.businessSection {
+  background: #ffffff;
+  padding: 80px 40px 0;
+  width: 100%;
+  margin-bottom: 80px;
+}
+.businessContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+.businessHeader {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.businessTitle {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #000;
+  line-height: 1.2;
+  margin: 0;
+}
+.businessTitleGrad {
+  background: linear-gradient(90deg, #FF2D87, #FF5900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.businessSub {
+  font-size: 0.93rem;
+  color: #666;
+  max-width: 560px;
+  line-height: 1.6;
+  margin: 0;
+}
+.rolesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+.roleCard {
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.roleCardWhite {
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+.roleCardPink {
+  background: linear-gradient(125deg,#FF2D87 0%, #FF5900  100%);
+}
+.roleBlob {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  top: -40px;
+  right: -40px;
+  pointer-events: none;
+}
+.blobWhite { background: radial-gradient(circle, #FFD6E7 0%, #FFB3CC 100%); opacity: 0.55; }
+.blobPink  { background: rgba(255, 255, 255, 0.18); }
+
+.roleIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  position: relative;
+  z-index: 1;
+}
+.iconWhite { background: #FFF0F5; color: #FF2D87; }
+.iconPink  { background: rgba(255, 255, 255, 0.2); color: #B8F02D; }
+
+.roleName { font-size: 1rem; font-weight: 800; position: relative; z-index: 1; }
+.nameWhite { color: #FF2D87; }
+.namePink  { color: #B8F02D; }
+
+.roleDesc { font-size: 0.82rem; line-height: 1.55; position: relative; z-index: 1; margin: 0; }
+.descWhite { color: #666; }
+.descPink  { color: rgba(255, 255, 255, 0.88); }
+
+.roleList { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 1; }
+.roleItem { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; font-weight: 500; }
+.itemWhite { color: #333; }
+.itemPink  { color: rgba(255, 255, 255, 0.92); }
+.roleItemIcon { font-size: 15px; flex-shrink: 0; }
+.icWhite { color: #FF2D87; }
+.icPink  { color: rgba(255, 255, 255, 0.75); }
+
+/* ---- CTA ---- */
+.ctaSection {
+  width: 100%;
+  background: linear-gradient(135deg, #FF5900 0%, #FF2D87 60%);
+  padding: 80px 40px 100px;
+  position: relative;
+  overflow: hidden;
+}
+.ctaBlobGreen {
+  position: absolute;
+  bottom: -40px; right: -30px;
+  width: 220px; height: 220px;
+  background: #8BDB00;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ctaBlobDark {
+  position: absolute;
+  bottom: -60px; right: 60px;
+  width: 180px; height: 180px;
+  background: #111111;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ctaInner {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.ctaTitle {
+  font-family: 'Clash Display', sans-serif;
+font-size: clamp(3.5rem, 6vw, 3.5rem);
+font-weight: 900;
+color: #ffffff;
+line-height: 1.15;
+letter-spacing: -0.02em;
+margin: 0;
+max-width: 18ch;
+
+}
+.ctaSub {
+  font-size: 1;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.65;
+  max-width: 440px;
+  margin: 0;
+}
+.ctaButtons { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; }
+.btnPrimary {
+  background: #8BDB00;
+  color: #1a3300;
+  font-size: 0.92rem;
+  font-weight: 800;
+  padding: 13px 28px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btnSecondary {
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+.ctaStats { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+.statItem { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.statNum { font-size: 1.1rem; font-weight: 800; color: #ffffff; }
+.statLabel { font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); }
