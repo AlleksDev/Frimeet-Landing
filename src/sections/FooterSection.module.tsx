@@ -1,5 +1,5 @@
 import styles from './FooterSection.module.css';
-import { Zap, MapPin, Mail} from 'lucide-react';
+import { MapPin, Mail} from 'lucide-react';
 import logo from '../assets/icons/fynko.svg';
 
 const footerLinks = {

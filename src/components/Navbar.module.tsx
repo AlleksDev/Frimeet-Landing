@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './Navbar.module.css'
 import fynkoLogo from '../assets/icons/fynko.svg'
 
