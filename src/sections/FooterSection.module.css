@@ -143,3 +143,82 @@
 .socialBtn:hover {
   background: rgba(255, 255, 255, 0.18);
 }
+
+/* ---- Tablet ---- */
+@media (max-width: 1024px) {
+  .footerMain {
+    padding: 48px 32px 28px;
+  }
+
+  .footerGrid {
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 24px;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+  .footerMain {
+    padding: 40px 20px 24px;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .footerBrand {
+    grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footerTagline {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .footerContact {
+    align-items: center;
+  }
+
+  .footerCol {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footerBottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footerMain {
+    padding: 32px 16px 20px;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footerCol {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footerLogoName {
+    font-size: 1.15rem;
+  }
+
+  .footerTagline {
+    font-size: 0.82rem;
+  }
+
+  .footerCopy {
+    font-size: 0.72rem;
+    text-align: center;
+    width: 100%;
+  }
+}

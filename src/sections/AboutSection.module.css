@@ -46,7 +46,7 @@
 /* ---- Features Grid ---- */
 .featuresGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 32px;
   width: 100%;
 }
@@ -348,6 +348,9 @@
     padding-bottom: 30px;
     border-left: 3px solid #e0e0e0;
     padding-left: 30px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
   }
 
   .step::before {

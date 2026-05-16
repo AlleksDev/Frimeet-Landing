@@ -36,7 +36,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  overflow: visible;
+  overflow: hidden;
   display: flex;
   align-items: center;
 }
@@ -47,7 +47,7 @@
   top: 70%;
   left: 0; right: 0;
   height: 120px;
-  width: 102%;
+  width: 100%;
   background: #FF6B00;
   transform: skewY(2.5deg);
   transform-origin: bottom left;
@@ -85,7 +85,7 @@
   justify-content: center;
   align-items: center;
   padding: 0;
-  overflow: visible;
+  overflow: hidden;
   clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
   background: radial-gradient(at bottom left, #FF6B00 0%, #111111 30%);
 }
@@ -240,8 +240,6 @@
   max-width: 100%;
   height: auto;
   object-fit: contain;
-  max-height: 9;
-  object-fit: contain;
   max-height: 92vh;
 }
 
@@ -278,56 +276,66 @@
 }
 
 @media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    display: none;
+  }
+
   .container {
     position: relative;
-    padding: 60px 20px;
+    flex-direction: column;
+    padding: 100px 20px 60px;
     min-height: auto;
+    height: auto;
+    clip-path: none;
   }
 
   .imageLeft {
     position: relative;
-    width: 100%;
+    width: 60%;
     height: auto;
     transform: none;
     left: auto;
-    margin: 20px 0;
+    top: auto;
+    margin: 0 auto 20px;
+    justify-content: center;
+    align-items: center;
   }
 
   .imageLeft img {
-    max-height: 40vh;
+    max-height: 35vh;
   }
 
   .content {
-    padding: 0;
+    padding: 0 16px;
     max-width: 100%;
   }
 
   .headlineWhite {
-    font-size: clamp(2rem, 6vw, 3rem);
+    font-size: clamp(2rem, 8vw, 3rem);
   }
 
   .headlinePink {
-    font-size: clamp(2.2rem, 6.5vw, 3.5rem);
+    font-size: clamp(2.2rem, 9vw, 3.5rem);
   }
 
   .headlineOrange {
-    font-size: clamp(2.2rem, 6.5vw, 3.5rem);
+    font-size: clamp(2.2rem, 9vw, 3.5rem);
+  }
+
+  .subtext {
+    font-size: 0.9rem;
+    max-width: 100%;
+    padding: 0 8px;
   }
 
   .imagesRight {
-    position: relative;
-    width: 100%;
-    height: auto;
-    transform: none;
-    right: auto;
-    flex-direction: row;
-    margin: 20px 0;
-    gap: 16px;
-  }
-
-  .imagesRight img {
-    max-height: 30vh;
-    max-width: 45%;
+    display: none;
   }
 
   .ctas {
@@ -339,23 +347,27 @@
 
 @media (max-width: 480px) {
   .container {
-    padding: 50px 15px;
+    padding: 90px 16px 50px;
+  }
+
+  .imageLeft {
+    width: 75%;
   }
 
   .imageLeft img {
-    max-height: 35vh;
+    max-height: 30vh;
   }
 
   .headlineWhite {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
   }
 
   .headlinePink {
-    font-size: clamp(1.7rem, 5.5vw, 3rem);
+    font-size: clamp(2rem, 10vw, 3rem);
   }
 
   .headlineOrange {
-    font-size: clamp(1.7rem, 5.5vw, 3rem);
+    font-size: clamp(2rem, 10vw, 3rem);
   }
 
   .subtext {
@@ -366,10 +378,7 @@
   .btnSecondary {
     font-size: 0.9rem;
     padding: 12px 24px;
-  }
-
-  .imagesRight img {
-    max-width: 100%;
-    max-height: 25vh;
+    width: 100%;
+    text-align: center;
   }
 }

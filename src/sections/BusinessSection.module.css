@@ -122,7 +122,7 @@
   top: 62%;
   left: 0; right: 0;
   height: 120px;
-  width: 102%;
+  width: 100%;
   background: #B8F02D;
   transform: skewY(2.5deg);
   transform-origin: bottom left;
@@ -160,17 +160,16 @@
 }
 .ctaTitle {
   font-family: 'Clash Display', sans-serif;
-font-size: clamp(3.5rem, 6vw, 3.5rem);
-font-weight: 900;
-color: #ffffff;
-line-height: 1.15;
-letter-spacing: -0.02em;
-margin: 0;
-max-width: 18ch;
-
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+  max-width: 18ch;
 }
 .ctaSub {
-  font-size: 1;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.65;
   max-width: 440px;
@@ -204,3 +203,134 @@ max-width: 18ch;
 .statItem { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .statNum { font-size: 1.1rem; font-weight: 800; color: #ffffff; }
 .statLabel { font-size: 0.75rem; color: rgba(255, 255, 255, 0.65); }
+
+/* ---- Tablet ---- */
+@media (max-width: 1024px) {
+  .businessSection {
+    padding: 60px 32px 0;
+    margin-bottom: 60px;
+  }
+
+  .ctaInner {
+    padding: 60px 32px 80px;
+  }
+
+  .ctaSection {
+    height: auto;
+    min-height: 60vh;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+  .businessSection {
+    padding: 50px 20px 0;
+    margin-bottom: 40px;
+  }
+
+  .businessContainer {
+    gap: 32px;
+  }
+
+  .businessTitle {
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+  }
+
+  .businessSub {
+    font-size: 0.88rem;
+  }
+
+  .rolesGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .roleCard {
+    padding: 24px;
+  }
+
+  .ctaSection {
+    height: auto;
+    min-height: auto;
+  }
+
+  .ctaSection::after {
+    display: none;
+  }
+
+  .ctaInner {
+    padding: 60px 20px 60px;
+    clip-path: none;
+    height: auto;
+  }
+
+  .ctaTitle {
+    font-size: clamp(1.6rem, 7vw, 2.5rem);
+    max-width: 100%;
+  }
+
+  .ctaSub {
+    font-size: 0.9rem;
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  .ctaStats {
+    gap: 24px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .businessSection {
+    padding: 40px 16px 0;
+    margin-bottom: 24px;
+  }
+
+  .businessTitle {
+    font-size: clamp(1.3rem, 7vw, 1.8rem);
+  }
+
+  .roleCard {
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .roleName {
+    font-size: 0.95rem;
+  }
+
+  .roleDesc {
+    font-size: 0.8rem;
+  }
+
+  .roleItem {
+    font-size: 0.8rem;
+  }
+
+  .ctaInner {
+    padding: 50px 16px 50px;
+  }
+
+  .ctaTitle {
+    font-size: clamp(1.4rem, 8vw, 2rem);
+  }
+
+  .ctaSub {
+    font-size: 0.85rem;
+  }
+
+  .ctaStats {
+    gap: 16px;
+  }
+
+  .statNum {
+    font-size: 1rem;
+  }
+}
