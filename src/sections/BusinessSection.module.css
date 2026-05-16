@@ -188,8 +188,29 @@
   z-index: 1;
   height: 100%;
   width: 100%;
-  background: linear-gradient(135deg, #FF5900 0%, #FF2D87 60%);
   clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+
+  /* 1. Creamos un gradiente más largo duplicando los colores en secuencia */
+  background: linear-gradient(135deg, #FF5900, #FF2D87, #FF5900, #FF2D87);
+  
+  /* 2. Estiramos el fondo para que el navegador tenga espacio que recorrer */
+  background-size: 400% 400%;
+
+  /* 3. Activamos la animación fluida (ajusta los segundos a tu gusto) */
+  animation: cambiarFondoCTA 8s infinite ease-in-out;
+}
+
+/* 4. Animamos la POSICIÓN del fondo, algo que CSS sí calcula de forma suave */
+@keyframes cambiarFondoCTA {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 .ctaTitle {
   font-family: 'Clash Display', sans-serif;
@@ -228,6 +249,24 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(139, 219, 0, 0.3);
 }
+.btnPrimary svg {
+  width: 0px;
+  transition: .4s;
+}
+
+.btnPrimary:hover {
+  background: none;
+  border: solid 2px #aaff00;
+  color: #aaff00;
+  box-shadow: 0 8px 32px #aaff0065;
+}
+.btnPrimary:hover svg {
+  width: 24px;
+  color: #aaff00;
+  transition: .4s;
+}
+
+
 .btnSecondary {
   background: transparent;
   color: #ffffff;
@@ -243,7 +282,7 @@
 .btnSecondary:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: #ffffff;
-  transform: translateY(-3px);
+  transform: scale(1.1);
 }
 .ctaStats { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
 .statItem { display: flex; flex-direction: column; align-items: center; gap: 2px; }

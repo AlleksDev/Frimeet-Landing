@@ -1,5 +1,5 @@
 import styles from './BusinessSection.module.css'
-import { User, Store, CheckCircle } from 'lucide-react'
+import { User, Store, CheckCircle, ArrowUpRight } from 'lucide-react'
 import { Reveal } from '../components/Reveal'
 
 const clienteFeatures = [
@@ -80,7 +80,7 @@ export default function BusinessSection() {
           </Reveal>
 
           <Reveal animation="fadeUp" delay={200} duration={800} className={styles.ctaButtons}>
-            <button className={styles.btnPrimary}>Descarga gratis →</button>
+            <button className={styles.btnPrimary}>Descarga gratis <ArrowUpRight /></button>
             <button className={styles.btnSecondary}>Saber más</button>
           </Reveal>
 

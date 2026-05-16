@@ -202,12 +202,27 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
   text-decoration: none;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnPrimary svg {
+  width: 0px;
 }
 
 .btnPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(170, 255, 0, 0.35);
+  transform: scale(1.1);
+  background: none;
+  border: solid 2px #aaff00;
+  color: #aaff00;
+  box-shadow: 0 8px 32px #aaff0065;
+}
+
+.btnPrimary:hover svg {
+  width: 24px;
+  color: #aaff00;
+  transition: .4s;
 }
 
 .btnSecondary {
@@ -229,6 +244,8 @@
 .btnSecondary:hover {
   border-color: #ffffff;
   background: rgba(255, 255, 255, 0.06);
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
 }
 
 /* ---- Absolute ---- */

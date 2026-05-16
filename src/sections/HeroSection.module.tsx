@@ -2,6 +2,7 @@ import styles from './HeroSection.module.css'
 import foto1 from '../assets/images/foto1.png'
 import foto2 from '../assets/images/foto2.png'
 import { Reveal } from '../components/Reveal'
+import { ArrowUpRight } from 'lucide-react'
 
 const HeroSection = () => {
   return (
@@ -28,7 +29,7 @@ const HeroSection = () => {
           </Reveal>
 
           <Reveal animation="fadeUp" delay={400} duration={800} className={styles.ctas}>
-            <a href="#" className={styles.btnPrimary}>Comienza ya</a>
+            <a href="#" className={styles.btnPrimary}>Comienza ya <ArrowUpRight /></a>
             <a href="#" className={styles.btnSecondary}>Ver demo</a>
           </Reveal>
         </div>
