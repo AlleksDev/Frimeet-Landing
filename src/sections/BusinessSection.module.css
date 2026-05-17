@@ -56,6 +56,24 @@
   gap: 16px;
   position: relative;
   overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.roleCardWhite:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08) !important;
+}
+
+.roleCardWhite:hover .roleBlob,
+.roleCardPink:hover .roleBlob {
+  width: 25rem;
+  height: 25rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+}
+
+.roleCardPink:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 16px 32px rgba(255, 45, 135, 0.2);
 }
 .roleCardWhite {
   background: #ffffff;
@@ -67,11 +85,12 @@
 }
 .roleBlob {
   position: absolute;
-  width: 160px;
-  height: 160px;
+  width: 18rem;
+  height: 18rem;
   border-radius: 50%;
-  top: -40px;
-  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -120px;
   pointer-events: none;
 }
 .blobWhite { background: radial-gradient(circle, #FFD6E7 0%, #FFB3CC 100%); opacity: 0.55; }
@@ -87,6 +106,11 @@
   font-size: 20px;
   position: relative;
   z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.roleCard:hover .roleIcon {
+  transform: scale(1.15) rotate(5deg);
 }
 .iconWhite { background: #FFF0F5; color: #FF2D87; }
 .iconPink  { background: rgba(255, 255, 255, 0.2); color: #B8F02D; }
@@ -127,6 +151,17 @@
   transform: skewY(2.5deg);
   transform-origin: bottom left;
 }
+
+.ctaInnerContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
 .ctaBlobGreen {
   position: absolute;
   bottom: -40px; right: -30px;
@@ -155,8 +190,29 @@
   z-index: 1;
   height: 100%;
   width: 100%;
-  background: linear-gradient(135deg, #FF5900 0%, #FF2D87 60%);
   clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+
+  /* 1. Creamos un gradiente más largo duplicando los colores en secuencia */
+  background: linear-gradient(135deg, #FF5900, #FF2D87, #FF5900, #FF2D87);
+  
+  /* 2. Estiramos el fondo para que el navegador tenga espacio que recorrer */
+  background-size: 400% 400%;
+
+  /* 3. Activamos la animación fluida (ajusta los segundos a tu gusto) */
+  animation: cambiarFondoCTA 8s infinite ease-in-out;
+}
+
+/* 4. Animamos la POSICIÓN del fondo, algo que CSS sí calcula de forma suave */
+@keyframes cambiarFondoCTA {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 .ctaTitle {
   font-family: 'Clash Display', sans-serif;
@@ -169,10 +225,10 @@
   max-width: 18ch;
 }
 .ctaSub {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.65;
-  max-width: 440px;
+  max-width: 640px;
   margin: 0;
 }
 .ctaButtons { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; }
@@ -188,7 +244,31 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.2s ease;
 }
+
+.btnPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(139, 219, 0, 0.3);
+}
+.btnPrimary svg {
+  width: 0px;
+  transition: .4s;
+}
+
+.btnPrimary:hover {
+  background: none;
+  border: solid 2px #aaff00;
+  color: #aaff00;
+  box-shadow: 0 8px 32px #aaff0065;
+}
+.btnPrimary:hover svg {
+  width: 24px;
+  color: #aaff00;
+  transition: .4s;
+}
+
+
 .btnSecondary {
   background: transparent;
   color: #ffffff;
@@ -198,6 +278,13 @@
   border-radius: 999px;
   border: 1.5px solid rgba(255, 255, 255, 0.5);
   cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+  transform: scale(1.1);
 }
 .ctaStats { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
 .statItem { display: flex; flex-direction: column; align-items: center; gap: 2px; }

@@ -59,16 +59,11 @@
   padding: 32px;
   border: 1px solid #f0f0f0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   gap: 16px;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 /* ---- Decorative Circle ---- */
@@ -81,6 +76,21 @@
   top: -30px;
   right: -30px;
   pointer-events: none;
+}
+
+.card:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s !important;
+}
+
+.card:hover .decorativeCircle {
+  transform: scale(1.5) rotate(3deg);
+  transition: transform 0.5s cubic-bezier(0.175, 0.685, 0.32, 1.275);
+}
+
+.card:hover .iconWrapper {
+  transform: scale(1.1) rotate(3deg);
 }
 
 .card:nth-child(1) .decorativeCircle {
@@ -116,35 +126,36 @@
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .card:nth-child(1) .iconWrapper {
-  background: #FF4444;
+  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
   color: white;
 }
 
 .card:nth-child(2) .iconWrapper {
-  background: #D4AF37;
+  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
   color: white;
 }
 
 .card:nth-child(3) .iconWrapper {
-  background: #90EE90;
+  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
   color: white;
 }
 
 .card:nth-child(4) .iconWrapper {
-  background: #FF4444;
+  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
   color: white;
 }
 
 .card:nth-child(5) .iconWrapper {
-  background: #FF8C00;
+  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
   color: white;
 }
 
 .card:nth-child(6) .iconWrapper {
-  background: #90EE90;
+  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
   color: white;
 }
 
@@ -165,7 +176,7 @@
 }
 
 .stepsSection {
-    margin-top: 60px;
+  margin-top: 60px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -208,7 +219,7 @@
   right: 40px;
   height: 3px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #000000 0%, #FF2D87 38%, #FF6B1A 66%, #B8F02D 100%);
+  background: linear-gradient(90deg, #FF2D87 0%, #FF6B1A 50%, #B8F02D 100%);
   z-index: 0;
 }
 
@@ -237,10 +248,15 @@
   border: none;
 }
 
+.stepCircle:hover {
+  transform: scale(1.4) !important;
+  transition: transform 0.4s !important;
+}
+
 .step:nth-child(1) .stepCircle {
-  background: linear-gradient(135deg, #000000 0%, #FF2D87 100%);
+  background: linear-gradient(135deg, #B8F02D 0%, #FF2D87 40%);
   color: white;
-  box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 20px oklch(66.111% 0.2448 1.92 / 0.125)
 }
 
 
@@ -251,13 +267,13 @@
 }
 
 .step:nth-child(3) .stepCircle {
-  background: linear-gradient(135deg, #FF6B1A 0%, #B8F02D 100%);
+  background: linear-gradient(135deg, #FF6B1A 40%, #B8F02D 100%);
   color: white;
   box-shadow: 0 0 0 20px rgba(255, 106, 26, 0.2);
 }
 
 .step:nth-child(4) .stepCircle {
-  background: linear-gradient(135deg, #B8F02D 0%, #FF6B1A 100%);
+  background: linear-gradient(135deg, #B8F02D 20%, #FF2D87 90%);
   color: white;
   box-shadow: 0 0 0 20px rgba(185, 240, 45, 0.205);
 }
@@ -338,32 +354,47 @@
 
   .timelineContainer {
     flex-direction: column;
+    width: auto;
   }
 
   .timelineContainer::before {
-    top: -30px;
-    left: 45px;
+    top: -40px;
+    left: 59px;
     right: 40px;
     width: 3px;
-    height: 100%;
+    height: 110%;
     border-radius: 2px;
     background: linear-gradient(180deg, #000000 0%, #FF2D87 38%, #FF6B1A 66%, #B8F02D 100%);
     z-index: 0;
   }
 
   .step {
-    width: 100%;
+    width: auto;
     padding-bottom: 30px;
     padding-left: 30px;
     flex-direction: row;
-    align-items: flex-start;
-    gap: 20px;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .stepContent {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
   }
 
   .stepCircle {
     width: 60px;
     height: 60px;
     font-size: 22px;
+  }
+  .stepName {
+    text-align: left;
+  }
+  .stepDesc {
+    max-width: 100%;
+    text-align: left;
   }
 
   .stepsTitle {
@@ -395,6 +426,10 @@
 
   .cardDescription {
     font-size: 0.85rem;
+  }
+
+  .timelineContainer::before {
+    left: 43px;
   }
 
   .stepsTitle {

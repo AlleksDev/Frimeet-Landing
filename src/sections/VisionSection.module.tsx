@@ -1,5 +1,6 @@
 import styles from './VisionSection.module.css';
 import { MapPin, Star, Heart } from 'lucide-react';
+import { Reveal } from '../components/Reveal';
 
 const VisionSection = () => {
   const visionItems = [
@@ -10,16 +11,16 @@ const VisionSection = () => {
 
   return (
     <section className={styles.visionSection} id='vision'>
-      <span className={`${styles.dot} ${styles.dotOrangeTL}`} />
-      <span className={`${styles.dot} ${styles.dotGreenBL}`} />
-      <span className={`${styles.dot} ${styles.dotGreenMid}`} />
-      <span className={`${styles.dot} ${styles.dotOrangeBR}`} />
-      <span className={styles.dash} />
-
       <div className={styles.visionContainer}>
 
         <div className={styles.visionLeft}>
-          <div className={styles.heroCard}>
+          <div className={styles.dotsWrapper}>
+            <span className={`${styles.dot} ${styles.dotOrangeTL}`} />
+            <span className={`${styles.dot} ${styles.dotGreenBL}`} />
+            <span className={`${styles.dot} ${styles.dotGreenMid}`} />
+            <span className={`${styles.dot} ${styles.dotOrangeBR}`} />
+          </div>
+          <Reveal animation="fadeRight" delay={0} duration={800} className={styles.heroCard}>
             <div className={styles.heroIconWrap}>
               <Heart size={32} />
             </div>
@@ -32,10 +33,10 @@ const VisionSection = () => {
             <p className={styles.heroCardSub}>
               Cada esquina tiene una historia que descubrir
             </p>
-          </div>
+          </Reveal>
         </div>
 
-        <div className={styles.visionRight}>
+        <Reveal animation="fadeLeft" delay={200} duration={800} className={styles.visionRight}>
           <span className={styles.badge}>Nuestra visión</span>
 
           <h2 className={styles.visionTitle}>
@@ -57,7 +58,7 @@ const VisionSection = () => {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
 
       </div>
     </section>

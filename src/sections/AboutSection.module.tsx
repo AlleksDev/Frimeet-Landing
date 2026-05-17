@@ -1,5 +1,6 @@
 import styles from './AboutSection.module.css'
 import { Map, Target, MessageCircle, Users, BarChart3, CheckCircle } from 'lucide-react'
+import { Reveal } from '../components/Reveal'
 
 
 const AboutSection = () => {
@@ -67,31 +68,31 @@ const AboutSection = () => {
   return (
     <section className={styles.about} id='about'>
       <div className={styles.aboutContainer}>
-        <div className={styles.header}>
+        <Reveal animation="fadeUp" delay={0} duration={800} className={styles.header}>
           <h2 className={styles.title}>Tu ciudad, redescubierta</h2>
           <p className={styles.subtitle}>
             Tecnología de punta para transformar cómo descubres y disfrutas tu entorno local.
           </p>
-        </div>
+        </Reveal>
         <div className={styles.featuresGrid}>
           {features.map((feature, index) => (
-            <div key={index} className={styles.card}>
+            <Reveal key={index} animation="fadeUp" delay={index * 100} duration={800} className={styles.card}>
               <div className={styles.decorativeCircle}></div>
               <div className={styles.iconWrapper}>{feature.icon}</div>
               <h3 className={styles.cardTitle}>{feature.title}</h3>
               <p className={styles.cardDescription}>{feature.description}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
         <div className={styles.stepsSection}>
-          <div className={styles.stepsHeader}>
+          <Reveal animation="fadeUp" delay={0} duration={800} className={styles.stepsHeader}>
             <h3 className={styles.stepsTitle}>Tan facil como</h3>
             <h3 className={styles.stepsTitle}>1, 2, 3... ¡Listo!</h3>
-          </div>
+          </Reveal>
 
           <div className={styles.timelineContainer}>
             {steps.map((step, index) => (
-              <div key={index} className={styles.step}>
+              <Reveal key={index} animation="fadeLeft" delay={index * 150} duration={800} className={styles.step}>
                 <div className={styles.stepCircle}>{step.number}</div>
 
                 <div className={styles.stepContent}>
@@ -99,7 +100,7 @@ const AboutSection = () => {
                   <h4 className={styles.stepName}>{step.name}</h4>
                   <p className={styles.stepDesc}>{step.desc}</p>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

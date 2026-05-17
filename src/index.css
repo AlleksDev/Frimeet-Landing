@@ -9,7 +9,7 @@
   --white: #FFFFFF;
   --gray: #9ca3af;
   --font-display: 'Nunito', sans-serif;
-  --font-body: 'Nunito Sans', sans-serif;
+  --font-body: general-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-title: 'Clash Display', sans-serif;
 }
 
@@ -40,4 +40,35 @@ img {
 a {
   text-decoration: none;
   color: inherit;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+button {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+  transition: outline-offset 0.2s ease;
+}
+
+/* Base input animations */
+input, textarea, select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+}
+
+/* Card hover global utility */
+.hover-card {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
