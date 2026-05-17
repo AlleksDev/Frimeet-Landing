@@ -66,8 +66,9 @@
 
 .roleCardWhite:hover .roleBlob,
 .roleCardPink:hover .roleBlob {
-  transform: scale(1.4) !important;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+  width: 25rem;
+  height: 25rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
 }
 
 .roleCardPink:hover {
@@ -84,11 +85,12 @@
 }
 .roleBlob {
   position: absolute;
-  width: 160px;
-  height: 160px;
+  width: 18rem;
+  height: 18rem;
   border-radius: 50%;
-  top: -40px;
-  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -120px;
   pointer-events: none;
 }
 .blobWhite { background: radial-gradient(circle, #FFD6E7 0%, #FFB3CC 100%); opacity: 0.55; }

@@ -219,7 +219,7 @@
   right: 40px;
   height: 3px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #000000 0%, #FF2D87 38%, #FF6B1A 66%, #B8F02D 100%);
+  background: linear-gradient(90deg, #FF2D87 0%, #FF6B1A 50%, #B8F02D 100%);
   z-index: 0;
 }
 
@@ -254,9 +254,9 @@
 }
 
 .step:nth-child(1) .stepCircle {
-  background: linear-gradient(135deg, #000000 0%, #FF2D87 100%);
+  background: linear-gradient(135deg, #B8F02D 0%, #FF2D87 40%);
   color: white;
-  box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 20px oklch(66.111% 0.2448 1.92 / 0.125)
 }
 
 
@@ -267,13 +267,13 @@
 }
 
 .step:nth-child(3) .stepCircle {
-  background: linear-gradient(135deg, #FF6B1A 0%, #B8F02D 100%);
+  background: linear-gradient(135deg, #FF6B1A 40%, #B8F02D 100%);
   color: white;
   box-shadow: 0 0 0 20px rgba(255, 106, 26, 0.2);
 }
 
 .step:nth-child(4) .stepCircle {
-  background: linear-gradient(135deg, #B8F02D 0%, #FF6B1A 100%);
+  background: linear-gradient(135deg, #B8F02D 20%, #FF2D87 90%);
   color: white;
   box-shadow: 0 0 0 20px rgba(185, 240, 45, 0.205);
 }
