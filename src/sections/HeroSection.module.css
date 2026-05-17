@@ -80,7 +80,7 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 102vh;
+  height: 104vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,8 +94,7 @@
 .imageLeft {
   position: absolute;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -138,26 +137,38 @@
 }
 
 .headlineWhite {
+  height: 8vw;
+  filter: drop-shadow(2px 2px 2px #000000);
   font-size: clamp(4.2rem, 6.5vw, 6.5rem);
   color: #ffffff;
 }
 
-.headlinePink {
+.headlinePink, 
+.headlineOrange {
+  height: 8vw;
   font-size: clamp(4.2rem, 6.5vw, 6.5rem);
-  background: linear-gradient(90deg, #ff6b1a 0%, #ff2d87 100%);
+  
+  background: linear-gradient(90deg, #ff6b1a, #ff2d87, #ff6b1a, #ff2d87);
+  background-size: 400% 100%; 
+  
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-style: italic;
+
+  animation: moverGradiente 6s infinite ease-in-out;
 }
 
-.headlineOrange {
-  font-size: clamp(4.2rem, 6.5vw, 6.5rem);
-  background: linear-gradient(90deg, #ff6b1a 0%, #ff2d87 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-style: italic;
+@keyframes moverGradiente {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* ---- Subtext ---- */
@@ -192,12 +203,27 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
   text-decoration: none;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnPrimary svg {
+  width: 0px;
 }
 
 .btnPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(170, 255, 0, 0.35);
+  transform: scale(1.1);
+  background: none;
+  border: solid 2px #aaff00;
+  color: #aaff00;
+  box-shadow: 0 8px 32px #aaff0065;
+}
+
+.btnPrimary:hover svg {
+  width: 24px;
+  color: #aaff00;
+  transition: .4s;
 }
 
 .btnSecondary {
@@ -219,6 +245,8 @@
 .btnSecondary:hover {
   border-color: #ffffff;
   background: rgba(255, 255, 255, 0.06);
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
 }
 
 /* ---- Absolute ---- */
@@ -229,8 +257,7 @@
 .imagesRight {
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -265,16 +292,11 @@
     max-width: 500px;
   }
 
-  .headlineWhite {
-    font-size: clamp(2.2rem, 4vw, 4rem);
-  }
-
-  .headlinePink {
-    font-size: clamp(2.4rem, 4.5vw, 4.5rem);
-  }
-
+  .headlineWhite,
+  .headlinePink,
   .headlineOrange {
-    font-size: clamp(2.4rem, 4.5vw, 4.5rem);
+    font-size: clamp(4.2rem, 4.5vw, 4.5rem);
+    height: 10vw;
   }
 }
 
@@ -309,16 +331,12 @@
     max-width: 100%;
   }
 
-  .headlineWhite {
-    font-size: clamp(2rem, 8vw, 3rem);
-  }
-
-  .headlinePink {
-    font-size: clamp(2.2rem, 9vw, 3.5rem);
-  }
-
+  .headlineWhite,
+  .headlinePink,
   .headlineOrange {
-    font-size: clamp(2.2rem, 9vw, 3.5rem);
+    font-size: clamp(3.5rem, 9vw, 3.5rem);
+    height: 13vw;
+    filter: drop-shadow(2px 2px 2px #000000);
   }
 
   .subtext {
@@ -336,7 +354,7 @@
     position: absolute;
     max-width: 55vw;
     right: 0;
-    top: 35%;
+    top: 10.5%;
     transform: translateY(-50%);
     z-index: 2;
   }
@@ -349,7 +367,11 @@
 }
 
 @media (max-width: 480px) {
+  .hero {
+    min-height: 100vh;
+  }
   .container {
+    height: 95vh;
     padding: 90px 16px 50px;
   }
 
@@ -361,16 +383,11 @@
     max-height: 30vh;
   }
 
-  .headlineWhite {
-    font-size: clamp(1.8rem, 9vw, 2.5rem);
-  }
-
-  .headlinePink {
-    font-size: clamp(2rem, 10vw, 3rem);
-  }
-
+  .headlineWhite,
+  .headlinePink,
   .headlineOrange {
-    font-size: clamp(2rem, 10vw, 3rem);
+    height: 15vw;
+    font-size: clamp(3rem, 10vw, 3rem);
   }
 
   .subtext {
@@ -382,6 +399,9 @@
     font-size: 0.9rem;
     padding: 12px 24px;
     width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     text-align: center;
   }
 }

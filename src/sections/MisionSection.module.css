@@ -90,6 +90,18 @@
   flex-shrink: 0;
 }
 
+.missionRight:hover .bigCard{
+  transform: rotate(-5deg) !important;
+  box-shadow: 0 16px 32px rgba(255, 45, 135, 0.3);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+}
+
+.missionRight:hover .smallCard{
+  transform: rotate(5deg) !important;
+  box-shadow: 0 16px 32px rgba(255, 45, 135, 0.3);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+}
+
 .bigCard {
   background: linear-gradient(135deg, #FF8C00 0%, #FF2D87 100%);
   border-radius: 24px;
@@ -98,6 +110,12 @@
   padding: 28px 28px 80px 28px;
   color: white;
   position: relative;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.bigCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(255, 45, 135, 0.3);
 }
 
 .bigCardTop {
@@ -152,6 +170,12 @@
   right: -20px;
   width: 300px;
   max-width: 80%;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.smallCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
 }
 
 .smallCardIcon {
@@ -168,7 +192,7 @@
 }
 
 .smallCardLabel {
-  font-size: 11px;
+  font-size: 13px;
   color: #888888;
   font-weight: 500;
 }
@@ -230,12 +254,12 @@
   }
 
   .checkList {
-    align-items: center;
+    align-items: start;
     text-align: center;
   }
 
   .checkItem {
-    justify-content: center;
+    flex-direction: row-reverse;
     text-align: center;
     flex-wrap: wrap;
   }
@@ -256,7 +280,7 @@
 
   .smallCard {
     position: absolute;
-    bottom: 0;
+    bottom: 5vh;
     right: auto;
     left: 50%;
     transform: translateX(-50%);
@@ -280,6 +304,18 @@
 
   .checkItem {
     font-size: 0.82rem;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row-reverse !important;
+    text-align: start;
+    justify-content: start;
+  }
+
+  .checkItem span {
+    font-size: 0.82rem;
+    text-align: left;
+    justify-content: start;
+    flex-wrap: wrap;
   }
 
   .bigCard {
@@ -296,8 +332,12 @@
   }
 
   .smallCard {
+    position: absolute;
     width: 240px;
     padding: 14px 16px;
+    left: auto;
+    right: 6vw !important;
+    bottom: 4vh;
   }
 
   .smallCardNum {
