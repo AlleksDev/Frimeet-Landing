@@ -4,13 +4,6 @@ import { User, Store, Sparkles, Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../components/Reveal";
 import mapVideo from "../assets/map_bottom.webm";
 
-/* ---- Roles ---- */
-const roles = [
-  { icon: <User size={22} />, label: "Explorador" },
-  { icon: <Store size={22} />, label: "Negocio" },
-  { icon: <Sparkles size={22} />, label: "Creador" },
-];
-
 /* ---- Plans ---- */
 const plans = [
   {
@@ -46,7 +39,7 @@ const plans = [
   },
   {
     name: "Business",
-    price: "$867",
+    price: "$67",
     period: "/mes",
     description: "Para negocios que quieren crecer.",
     features: [
