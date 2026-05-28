@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./PricingSection.module.css";
-import { User, Store, Sparkles, Check, ArrowUpRight } from "lucide-react";
+import { Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../components/Reveal";
 import mapVideo from "../assets/map_bottom.webm";
 
@@ -57,7 +57,6 @@ const plans = [
 ];
 
 const PricingSection = () => {
-  const [activeRole, setActiveRole] = useState(0);
 
   return (
     <>
