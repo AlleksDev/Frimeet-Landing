@@ -1,69 +1,69 @@
-import { useState } from 'react'
-import styles from './PricingSection.module.css'
-import { User, Store, Sparkles, Check, ArrowUpRight } from 'lucide-react'
-import { Reveal } from '../components/Reveal'
+import { useState } from "react";
+import styles from "./PricingSection.module.css";
+import { User, Store, Sparkles, Check, ArrowUpRight } from "lucide-react";
+import { Reveal } from "../components/Reveal";
 
 /* ---- Roles ---- */
 const roles = [
-  { icon: <User size={22} />, label: 'Explorador' },
-  { icon: <Store size={22} />, label: 'Negocio' },
-  { icon: <Sparkles size={22} />, label: 'Creador' },
-]
+  { icon: <User size={22} />, label: "Explorador" },
+  { icon: <Store size={22} />, label: "Negocio" },
+  { icon: <Sparkles size={22} />, label: "Creador" },
+];
 
 /* ---- Plans ---- */
 const plans = [
   {
-    name: 'Free',
-    price: '$0',
-    period: '',
-    description: 'Perfecto para empezar a explorar tu ciudad.',
+    name: "Free",
+    price: "$0",
+    period: "",
+    description: "Ideal para empezar a explorar tu ciudad y armar planes base con tu grupo. ",
     features: [
-      'Explorar mapa básico',
-      'Ver comercios cercanos',
-      '3 rutas al mes',
-      'Perfil básico',
+      "Explorar mapa básico",
+      "Ver comercios cercanos",
+      "3 rutas al mes",
+      "Perfil básico",
     ],
-    cta: 'Comenzar gratis',
-    variant: 'white' as const,
+    cta: "Comenzar gratis",
+    variant: "white" as const,
   },
   {
-    name: 'Pro',
-    price: '$39',
-    period: '/mes',
-    description: 'Para exploradores serios que quieren más.',
+    name: "Pro",
+    price: "$39",
+    period: "/mes",
+    description: "La experiencia definitiva sin límites. El control total de tus salidas y personalización.",
     features: [
-      'Rutas ilimitadas',
-      'IA conversacional',
-      'Filtros avanzados',
-      'Rutas colaborativas',
-      'Sin anuncios',
-      'Soporte prioritario',
+      "Rutas ilimitadas",
+      "IA conversacional",
+      "Filtros avanzados",
+      "Rutas colaborativas",
+      "Sin anuncios",
+      "Soporte prioritario",
     ],
-    cta: 'Obtener Pro',
-    variant: 'featured' as const,
-    badge: 'Popular',
+    cta: "Obtener Pro",
+    variant: "featured" as const,
+    badge: "Popular",
   },
   {
-    name: 'Business',
-    price: '$867',
-    period: '/mes',
-    description: 'Para negocios que quieren crecer.',
+    name: "Business",
+    price: "$867",
+    period: "/mes",
+    description: "Para negocios que quieren crecer.",
     features: [
-      'Panel de analíticas',
-      'Tendencias de búsqueda',
-      'Visibilidad premium',
-      'Verificación de negocio',
-      'API de datos',
-      'Soporte dedicado',
-      'Reportes mensuales',
+      "Panel de analíticas",
+      "Tendencias de búsqueda",
+      "Visibilidad premium",
+      "Verificación de negocio",
+      "API de datos",
+      "Soporte dedicado",
+      "Reportes mensuales",
     ],
-    cta: 'Contactar ventas',
-    variant: 'white' as const,
+    cta: "Contactar ventas",
+    variant: "white" as const,
   },
-]
+];
 
 const PricingSection = () => {
-  const [activeRole, setActiveRole] = useState(0)
+  const [activeRole, setActiveRole] = useState(0);
 
   return (
     <>
@@ -71,9 +71,15 @@ const PricingSection = () => {
       <section className={styles.pricingSection} id="pricing">
         <div className={styles.pricingContainer}>
           {/* Header */}
-          <Reveal animation="fadeUp" delay={0} duration={800} className={styles.pricingHeader}>
+          <Reveal
+            animation="fadeUp"
+            delay={0}
+            duration={800}
+            className={styles.pricingHeader}
+          >
             <h2 className={styles.pricingTitle}>
-              Encuentra tu<br />
+              Encuentra tu
+              <br />
               <span className={styles.pricingTitleGrad}>rol en Frimeet</span>
             </h2>
             <p className={styles.pricingSub}>
@@ -83,11 +89,16 @@ const PricingSection = () => {
           </Reveal>
 
           {/* Role Selector */}
-          <Reveal animation="fadeUp" delay={100} duration={800} className={styles.roleSelector}>
+          <Reveal
+            animation="fadeUp"
+            delay={100}
+            duration={800}
+            className={styles.roleSelector}
+          >
             {roles.map((role, index) => (
               <button
                 key={index}
-                className={`${styles.roleTab} ${activeRole === index ? styles.roleTabActive : ''}`}
+                className={`${styles.roleTab} ${activeRole === index ? styles.roleTabActive : ""}`}
                 onClick={() => setActiveRole(index)}
                 type="button"
               >
@@ -106,61 +117,70 @@ const PricingSection = () => {
                 delay={200 + index * 150}
                 duration={800}
                 className={`${styles.planCard} ${
-                  plan.variant === 'featured'
+                  plan.variant === "featured"
                     ? styles.planCardFeatured
                     : styles.planCardWhite
                 }`}
               >
-                {/* Badge */}
-                {plan.badge && (
-                  <span className={styles.planBadge}>{plan.badge}</span>
-                )}
+                <div className={styles.planHeader}>
+                  {/* Badge */}
+                  {plan.badge && (
+                    <span className={styles.planBadge}>{plan.badge}</span>
+                  )}
 
-                {/* Plan Name */}
-                <p
-                  className={`${styles.planName} ${
-                    plan.variant === 'featured'
-                      ? styles.planNameFeatured
-                      : ''
-                  }`}
-                >
-                  {plan.name}
-                </p>
-
-                {/* Price */}
-                <div className={styles.planPriceRow}>
-                  <span
-                    className={`${styles.planPrice} ${
-                      plan.variant === 'featured'
-                        ? styles.planPriceFeatured
-                        : ''
+                  {/* Plan Name */}
+                  <p
+                    className={`${styles.planName} ${
+                      plan.variant === "featured" ? styles.planNameFeatured : ""
                     }`}
                   >
-                    {plan.price}
-                  </span>
-                  {plan.period && (
+                    {plan.name}
+                  </p>
+
+                  {/* Price */}
+                  <div className={styles.planPriceRow}>
                     <span
-                      className={`${styles.planPeriod} ${
-                        plan.variant === 'featured'
-                          ? styles.planPeriodFeatured
-                          : ''
+                      className={`${styles.planPrice} ${
+                        plan.variant === "featured"
+                          ? styles.planPriceFeatured
+                          : ""
                       }`}
                     >
-                      {plan.period}
+                      {plan.price}
                     </span>
-                  )}
-                </div>
+                    {plan.period && (
+                      <span
+                        className={`${styles.planPeriod} ${
+                          plan.variant === "featured"
+                            ? styles.planPeriodFeatured
+                            : ""
+                        }`}
+                      >
+                        {plan.period}
+                      </span>
+                    )}
+                  </div>
 
-                {/* Description */}
-                <p
-                  className={`${styles.planDesc} ${
-                    plan.variant === 'featured'
-                      ? styles.planDescFeatured
-                      : ''
-                  }`}
-                >
-                  {plan.description}
-                </p>
+                  {/* Description */}
+                  <p
+                    className={`${styles.planDesc} ${
+                      plan.variant === "featured" ? styles.planDescFeatured : ""
+                    }`}
+                  >
+                    {plan.description}
+                  </p>
+                  {/* CTA Button */}
+                  <button
+                    className={
+                      plan.variant === "featured"
+                        ? styles.btnFeatured
+                        : styles.btnOutline
+                    }
+                    type="button"
+                  >
+                    {plan.cta}
+                  </button>
+                </div>
 
                 {/* Features List */}
                 <ul className={styles.planFeatures}>
@@ -168,16 +188,16 @@ const PricingSection = () => {
                     <li
                       key={fi}
                       className={`${styles.planFeatureItem} ${
-                        plan.variant === 'featured'
+                        plan.variant === "featured"
                           ? styles.planFeatureItemFeatured
-                          : ''
+                          : ""
                       }`}
                     >
                       <Check
                         size={16}
                         strokeWidth={3}
                         className={
-                          plan.variant === 'featured'
+                          plan.variant === "featured"
                             ? styles.checkFeatured
                             : styles.checkWhite
                         }
@@ -186,18 +206,6 @@ const PricingSection = () => {
                     </li>
                   ))}
                 </ul>
-
-                {/* CTA Button */}
-                <button
-                  className={
-                    plan.variant === 'featured'
-                      ? styles.btnFeatured
-                      : styles.btnOutline
-                  }
-                  type="button"
-                >
-                  {plan.cta}
-                </button>
               </Reveal>
             ))}
           </div>
@@ -214,7 +222,9 @@ const PricingSection = () => {
             duration={800}
           >
             <h2 className={styles.ctaTitle}>
-              ¿Listo para redescubrir<br />tu ciudad?
+              ¿Listo para redescubrir
+              <br />
+              tu ciudad?
             </h2>
             <p className={styles.ctaSub}>
               Descarga Frimeet y comienza a crear planes perfectos con tu
@@ -243,9 +253,9 @@ const PricingSection = () => {
             className={styles.ctaStats}
           >
             {[
-              ['50K+', 'Usuarios activos'],
-              ['4.9', 'Rating en store'],
-              ['100+', 'Ciudades'],
+              ["50K+", "Usuarios activos"],
+              ["4.9", "Rating en store"],
+              ["100+", "Ciudades"],
             ].map(([n, l]) => (
               <div key={l} className={styles.statItem}>
                 <span className={styles.statNum}>{n}</span>
@@ -256,7 +266,7 @@ const PricingSection = () => {
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default PricingSection
+export default PricingSection;

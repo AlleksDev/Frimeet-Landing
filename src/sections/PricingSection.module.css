@@ -110,17 +110,15 @@
 .pricingGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 48px;
   width: 100%;
 }
 
 /* ---- Card Base ---- */
 .planCard {
   border-radius: 24px;
-  padding: 36px 28px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
   position: relative;
   overflow: hidden;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
@@ -133,13 +131,20 @@
 
 /* White variant */
 .planCardWhite {
-  background: #ffffff;
+  background: linear-gradient(to bottom, #efefef 0%, #b8b8b8 100%);
   border: 1px solid #eeeeee;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 .planCardWhite:hover {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+.planHeader {
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 /* Featured variant (gradient) */
@@ -156,8 +161,8 @@
 /* Badge */
 .planBadge {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 36px;
+  right: 36px;
   background: rgba(255, 255, 255, 0.22);
   color: #ffffff;
   font-size: 0.72rem;
@@ -214,7 +219,7 @@
 
 /* Description */
 .planDesc {
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: #888888;
   line-height: 1.5;
   margin: 0;
@@ -226,35 +231,33 @@
 
 /* Features List */
 .planFeatures {
+  background: rgba(255, 255, 255, 0.9);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   list-style: none;
-  padding: 0;
-  margin: 8px 0;
+  padding: 32px;
+  margin: 0;
   flex-grow: 1;
+  border-radius: 16px;
 }
 
 .planFeatureItem {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: #333333;
 }
 
 .planFeatureItemFeatured {
-  color: rgba(255, 255, 255, 0.92);
+  color: #333333;
 }
 
-.checkWhite {
-  color: #22c55e;
-  flex-shrink: 0;
-}
-
+.checkWhite,
 .checkFeatured {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--pink);
   flex-shrink: 0;
 }
 
@@ -264,8 +267,8 @@
   padding: 14px 24px;
   border-radius: 999px;
   border: none;
-  background: #ffffff;
-  color: #FF2D87;
+  background: var(--green);
+  color: var(--pink);
   font-size: 0.92rem;
   font-weight: 700;
   cursor: pointer;
