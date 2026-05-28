@@ -51,8 +51,8 @@ const OUTER_R_ORANGE = 105
 const INNER_R_ORANGE = 55
 
 // 2. Aumentamos las capas y reducimos el espaciado para un 3D sólido
-const DEPTH_LAYERS = 50 
-const LAYER_SPACING = 1 
+const DEPTH_LAYERS = 10
+const LAYER_SPACING = 4
 
 /** Base RGB colors for the two segments */
 const PINK = { r: 255, g: 45, b: 135 }  // #FF2D87
