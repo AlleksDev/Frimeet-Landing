@@ -86,6 +86,9 @@ function shade(c: { r: number; g: number; b: number }, f: number) {
 /* ========================================
    Canvas 3D Donut — single element, fast on mobile
    ======================================== */
+/* ========================================
+   Canvas 3D Donut — single element, fast on mobile
+   ======================================== */
 function drawCanvasDonut(
   ctx: CanvasRenderingContext2D,
   size: number,
@@ -93,80 +96,85 @@ function drawCanvasDonut(
 ) {
   ctx.clearRect(0, 0, size, size)
 
-  // Match the desktop proportions (scaled to canvas size)
   const scale = size / 300
   const cx = size / 2
-  const cy = size / 2 - 6 * scale   // slight upward offset so shadow shows
+  const cy = size / 2 - 15 * scale // Ajuste hacia arriba para centrar
+  
   const outerRPink = OUTER_R_PINK * scale
   const outerROrange = OUTER_R_ORANGE * scale
   const innerR = INNER_R_PINK * scale
+  
   const depth = 28 * scale
-  const STEPS = 8                   // 8 passes instead of 12 SVG layers
+  const STEPS = 12 // Aumentamos un poco para mayor solidez
 
   const pinkFrac = Math.max(0, Math.min(percent, 100)) / 100
   const pinkAngle = pinkFrac * Math.PI * 2
   const startAngle = -Math.PI / 2
 
-  // --- 1. Draw side (depth) layers bottom→top so the top face paints last ---
-  for (let i = STEPS; i >= 1; i--) {
+  // Dibujamos las capas de abajo hacia arriba (i=0 es la capa superior)
+  for (let i = STEPS; i >= 0; i--) {
     const t = i / STEPS
     const yOff = t * depth
-    const f = 0.58 + t * 0.12       // shade: darkest at bottom, lighter near top
+    const isTop = i === 0
+    // Suavizado del gradiente lateral
+    const f = isTop ? 1 : 0.65 + (1 - t) * 0.20 
 
-    // Pink side
+    ctx.save()
+    
+    // 1. Desplazamos hacia abajo para crear la pared recta
+    ctx.translate(cx, cy + yOff)
+    // 2. Achicamos en Y para simular la rotación 3D (rotateX)
+    ctx.scale(1, 0.65)
+    // 3. Rotamos para la inclinación (rotateZ)
+    ctx.rotate(-12 * Math.PI / 180)
+
+    // --- Render Sección Rosa ---
     if (pinkAngle > 0.01) {
-      ctx.fillStyle = `rgb(${Math.round(255 * f)},${Math.round(45 * f)},${Math.round(135 * f)})`
+      if (isTop) {
+        const gPink = ctx.createLinearGradient(-outerRPink, -outerRPink, outerRPink, outerRPink)
+        gPink.addColorStop(0, '#FF7EB3')
+        gPink.addColorStop(1, '#FF2D87')
+        ctx.fillStyle = gPink
+      } else {
+        ctx.fillStyle = `rgb(${Math.round(255 * f)},${Math.round(45 * f)},${Math.round(135 * f)})`
+      }
       ctx.beginPath()
-      ctx.arc(cx, cy + yOff, outerRPink, startAngle, startAngle + pinkAngle)
-      ctx.arc(cx, cy + yOff, innerR, startAngle + pinkAngle, startAngle, true)
+      ctx.arc(0, 0, outerRPink, startAngle, startAngle + pinkAngle)
+      ctx.arc(0, 0, innerR, startAngle + pinkAngle, startAngle, true)
       ctx.closePath()
       ctx.fill()
+      
+      // El borde (stroke) sella el efecto rayado entre capas
+      if (!isTop) {
+        ctx.strokeStyle = ctx.fillStyle
+        ctx.lineWidth = 1.5
+        ctx.stroke()
+      }
     }
 
-    // Orange side
+    // --- Render Sección Naranja ---
     if (pinkAngle < Math.PI * 2 - 0.01) {
-      ctx.fillStyle = `rgb(${Math.round(255 * f)},${Math.round(Math.round(140 * f))},0)`
+      if (isTop) {
+        const gOrange = ctx.createLinearGradient(-outerROrange, -outerROrange, outerROrange, outerROrange)
+        gOrange.addColorStop(0, '#FFB347')
+        gOrange.addColorStop(1, '#FF8C00')
+        ctx.fillStyle = gOrange
+      } else {
+        ctx.fillStyle = `rgb(${Math.round(255 * f)},${Math.round(140 * f)},0)`
+      }
       ctx.beginPath()
-      ctx.arc(cx, cy + yOff, outerROrange, startAngle + pinkAngle, startAngle + Math.PI * 2)
-      ctx.arc(cx, cy + yOff, innerR, startAngle + Math.PI * 2, startAngle + pinkAngle, true)
+      ctx.arc(0, 0, outerROrange, startAngle + pinkAngle, startAngle + Math.PI * 2)
+      ctx.arc(0, 0, innerR, startAngle + Math.PI * 2, startAngle + pinkAngle, true)
       ctx.closePath()
       ctx.fill()
+      
+      if (!isTop) {
+        ctx.strokeStyle = ctx.fillStyle
+        ctx.lineWidth = 1.5
+        ctx.stroke()
+      }
     }
-  }
-
-  // --- 2. Top face with a radial gradient (light source top-left) ---
-  if (pinkAngle > 0.01) {
-    const gPink = ctx.createRadialGradient(
-      cx - outerRPink * 0.3,
-      cy - outerRPink * 0.3,
-      innerR * 0.3,
-      cx, cy, outerRPink
-    )
-    gPink.addColorStop(0, '#FF7EB3')
-    gPink.addColorStop(1, '#FF2D87')
-    ctx.fillStyle = gPink
-    ctx.beginPath()
-    ctx.arc(cx, cy, outerRPink, startAngle, startAngle + pinkAngle)
-    ctx.arc(cx, cy, innerR, startAngle + pinkAngle, startAngle, true)
-    ctx.closePath()
-    ctx.fill()
-  }
-
-  if (pinkAngle < Math.PI * 2 - 0.01) {
-    const gOrange = ctx.createRadialGradient(
-      cx + outerROrange * 0.25,
-      cy - outerROrange * 0.25,
-      innerR * 0.3,
-      cx, cy, outerROrange
-    )
-    gOrange.addColorStop(0, '#FFB347')
-    gOrange.addColorStop(1, '#FF8C00')
-    ctx.fillStyle = gOrange
-    ctx.beginPath()
-    ctx.arc(cx, cy, outerROrange, startAngle + pinkAngle, startAngle + Math.PI * 2)
-    ctx.arc(cx, cy, innerR, startAngle + Math.PI * 2, startAngle + pinkAngle, true)
-    ctx.closePath()
-    ctx.fill()
+    ctx.restore()
   }
 }
 
@@ -342,7 +350,7 @@ const ProblemSection = () => {
             <div className={styles.donut3dContainer}>
               {/* ---- MOBILE: single Canvas element ---- */}
               {isMobile ? (
-                <div ref={chartRef} className={styles.donut3d}>
+                <div ref={chartRef} style={{ position: 'relative', display: 'flex', justifyContent: 'center', width: '100%' }}>
                   <CanvasDonut
                     animPercent={animPercent}
                     chartCenterClass={styles.chartCenter}
