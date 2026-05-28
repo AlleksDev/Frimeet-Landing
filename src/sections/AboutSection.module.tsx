@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import styles from './AboutSection.module.css'
 import {
   Sparkles,
@@ -7,25 +7,13 @@ import {
   ShieldCheck,
   Radio,
   Coins,
-  ChevronLeft,
-  MapPin,
-  Clock,
+  ArrowRight,
   Globe,
   Cpu,
   Brain,
-  ArrowRight,
+  MapPin,
 } from 'lucide-react'
 import { Reveal } from '../components/Reveal'
-
-/* ================================================================
-   Phone screen – itinerary data
-   ================================================================ */
-const itinerary = [
-  { num: 1, name: 'Café La Estación', type: 'Cafetería', time: '10:00 AM', color: '#FF2D87' },
-  { num: 2, name: 'Parque Fundidora', type: 'Parque', time: '11:30 AM', color: '#FF8C00' },
-  { num: 3, name: 'Tacos Don Mario', type: 'Comida', time: '1:00 PM', color: '#B8F02D' },
-  { num: 4, name: 'Galería MARCO', type: 'Museo', time: '3:00 PM', color: '#FF5900' },
-]
 
 /* ================================================================
    Card steps – sequence definition
@@ -69,21 +57,18 @@ const cardSteps: Step[] = [
       'Resolvemos el debate del grupo. Nuestro Algoritmo Genético cruza el presupuesto, las preferencias de la tribu y las distancias (fórmula Haversine) para trazar la ruta de paradas perfecta.',
   },
   {
-    layout: 'dual',
-    cards: [
-      {
-        icon: <Store size={20} />,
-        title: 'Comercios "Invisibles"',
-        description:
-          'Rescatamos a la economía de barrio. Formalizamos en el mapa digital a ese 55% de comercios locales que las grandes plataformas ignoran.',
-      },
-      {
-        icon: <ShieldCheck size={20} />,
-        title: 'Sistema antifraude',
-        description:
-          'Cero lugares falsos. Validación cruzada, cruce geoespacial GPS y escaneo documental OCR para asegurar que cada pin exista en la vida real.',
-      },
-    ],
+    layout: 'single',
+    icon: <Store size={20} />,
+    title: 'Comercios "Invisibles"',
+    description:
+      'Rescatamos a la economía de barrio. Formalizamos en el mapa digital a ese 55% de comercios locales que las grandes plataformas ignoran.',
+  },
+  {
+    layout: 'single',
+    icon: <ShieldCheck size={20} />,
+    title: 'Sistema antifraude',
+    description:
+      'Cero lugares falsos. Validación cruzada, cruce geoespacial GPS y escaneo documental OCR para asegurar que cada pin exista en la vida real.',
   },
   {
     layout: 'single',
@@ -102,6 +87,17 @@ const cardSteps: Step[] = [
     gradient: true,
     cta: 'Empieza a ganar',
   },
+]
+
+/* ================================================================
+   Video sources per card – replace paths with actual .webm files
+   ================================================================ */
+const cardVideos: string[] = [
+  '/videos/about-card-1.webm', // Recomendaciones con IA
+  '/videos/about-card-2.webm', // Rutas optimizadas
+  '/videos/about-card-3.webm', // Comercios + Antifraude (dual)
+  '/videos/about-card-4.webm', // Radar de Aforo
+  '/videos/about-card-5.webm', // Fricoins
 ]
 
 /* ================================================================
@@ -128,209 +124,184 @@ const steps = [
    Component
    ================================================================ */
 const AboutSection = () => {
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([])
-  const [visibleSet, setVisibleSet] = useState<Set<number>>(new Set())
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const [activeCard, setActiveCard] = useState(0)
+  const totalCards = cardSteps.length
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
 
-  /* ---- IntersectionObserver for scroll-linked cards ---- */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        setVisibleSet((prev) => {
-          const next = new Set(prev)
-          entries.forEach((e) => {
-            const idx = Number(e.target.getAttribute('data-step'))
-            if (e.isIntersecting) next.add(idx)
-            else next.delete(idx)
-          })
-          return next
-        })
-      },
-      { threshold: 0.35, rootMargin: '-8% 0px -8% 0px' }
+  /* ---- Scroll-linked card index calculation ---- */
+  const handleScroll = useCallback(() => {
+    if (!sectionRef.current) return
+
+    const rect = sectionRef.current.getBoundingClientRect()
+    const sectionTop = -rect.top
+    const sectionHeight = sectionRef.current.offsetHeight - window.innerHeight
+
+    if (sectionHeight <= 0) return
+
+    // Calculate scroll progress within the section (0 to 1)
+    const progress = Math.max(0, Math.min(1, sectionTop / sectionHeight))
+
+    // Map progress to card index
+    const cardIndex = Math.min(
+      totalCards - 1,
+      Math.floor(progress * totalCards)
     )
 
-    stepRefs.current.forEach((el) => el && observer.observe(el))
-    return () => observer.disconnect()
-  }, [])
+    setActiveCard(cardIndex)
+  }, [totalCards])
 
-  const setRef = (i: number) => (el: HTMLDivElement | null) => {
-    stepRefs.current[i] = el
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // initial calc
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
+
+  /* ---- Play/pause videos on card change ---- */
+  useEffect(() => {
+    videoRefs.current.forEach((video, i) => {
+      if (!video) return
+      if (i === activeCard) {
+        video.currentTime = 0
+        video.play().catch(() => {})
+      } else {
+        video.pause()
+      }
+    })
+  }, [activeCard])
+
+  /* ---- Render a single card ---- */
+  const renderCard = (step: Step) => {
+    if (step.layout === 'single') {
+      return (
+        <div
+          className={`
+            ${styles.card}
+            ${step.gradient ? styles.cardGradient : ''}
+          `}
+        >
+          {step.tag && (
+            <span className={step.gradient ? styles.tagGrad : styles.tag}>
+              {step.tag}
+            </span>
+          )}
+          <div className={step.gradient ? styles.iconWrapGrad : styles.iconWrap}>
+            {step.icon}
+          </div>
+          <h3 className={step.gradient ? styles.cardTitleGrad : styles.cardTitle}>
+            {step.title}
+          </h3>
+          <p className={step.gradient ? styles.cardDescGrad : styles.cardDesc}>
+            {step.description}
+          </p>
+          {step.cta && (
+            <button className={styles.ctaBtn} type="button">
+              {step.cta} <ArrowRight size={16} />
+            </button>
+          )}
+        </div>
+      )
+    }
+
+    return (
+      <div className={styles.dualRow}>
+        {step.cards.map((c, ci) => (
+          <div key={ci} className={styles.cardSmall}>
+            <div className={styles.iconWrap}>{c.icon}</div>
+            <h3 className={styles.cardTitle}>{c.title}</h3>
+            <p className={styles.cardDesc}>{c.description}</p>
+          </div>
+        ))}
+      </div>
+    )
   }
 
   return (
     <section className={styles.section} id="about">
-      <div className={styles.sectionInner}>
-        {/* ---- Header ---- */}
-        <Reveal animation="fadeUp" delay={0} duration={800} className={styles.header}>
-          <h2 className={styles.title}>Tu ciudad, redescubierta</h2>
-          <p className={styles.subtitle}>
-            Tecnología de punta para transformar cómo descubres y disfrutas tu
-            entorno local.
-          </p>
-        </Reveal>
+      {/* Scroll-pin area: tall spacer that drives the card scroll */}
+      <div className={styles.scrollPinArea} ref={sectionRef}>
+        {/* Sticky viewport – pinned to screen */}
+        <div className={styles.stickyViewport}>
+          <div className={styles.stickyInner}>
+            {/* ============================================
+                Two-column layout: Left (text+cards) | Right (video)
+                ============================================ */}
+            <div className={styles.twoColumns}>
+              {/* ---- Left column ---- */}
+              <div className={styles.leftCol}>
+                {/* Header: title + subtitle (static) */}
+                <Reveal animation="fadeUp" delay={0} duration={800} className={styles.header}>
+                  <h2 className={styles.title}>Tu ciudad, redescubierta</h2>
+                  <p className={styles.subtitle}>
+                    Tecnología de punta para transformar cómo descubres y disfrutas tu
+                    entorno local.
+                  </p>
+                </Reveal>
 
-        {/* ============================================================
-            Scrollytelling: cards track + sticky phone
-            ============================================================ */}
-        <div className={styles.scrolly}>
-          {/* ---- Left: card steps ---- */}
-          <div className={styles.cardsTrack}>
-            {cardSteps.map((step, i) => (
-              <div
-                key={i}
-                ref={setRef(i)}
-                data-step={i}
-                className={styles.stepSlot}
-              >
-                {step.layout === 'single' ? (
-                  <div
-                    className={`
-                      ${styles.card}
-                      ${step.gradient ? styles.cardGradient : ''}
-                      ${visibleSet.has(i) ? styles.cardVisible : ''}
-                    `}
-                  >
-                    {step.tag && (
-                      <span className={step.gradient ? styles.tagGrad : styles.tag}>
-                        {step.tag}
-                      </span>
-                    )}
-                    <div className={step.gradient ? styles.iconWrapGrad : styles.iconWrap}>
-                      {step.icon}
+                {/* Cards area (scroll-driven, one at a time) */}
+                <div className={styles.cardContainer}>
+                  {cardSteps.map((step, i) => (
+                    <div
+                      key={i}
+                      className={`${styles.cardSlide} ${
+                        i === activeCard ? styles.cardSlideActive : ''
+                      } ${
+                        i < activeCard ? styles.cardSlideExit : ''
+                      }`}
+                    >
+                      {renderCard(step)}
                     </div>
-                    <h3 className={step.gradient ? styles.cardTitleGrad : styles.cardTitle}>
-                      {step.title}
-                    </h3>
-                    <p className={step.gradient ? styles.cardDescGrad : styles.cardDesc}>
-                      {step.description}
-                    </p>
-                    {step.cta && (
-                      <button className={styles.ctaBtn} type="button">
-                        {step.cta} <ArrowRight size={16} />
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  <div
-                    className={`${styles.dualRow} ${visibleSet.has(i) ? styles.dualRowVisible : ''}`}
-                  >
-                    {step.cards.map((c, ci) => (
-                      <div key={ci} className={styles.cardSmall}>
-                        <div className={styles.iconWrap}>{c.icon}</div>
-                        <h3 className={styles.cardTitle}>{c.title}</h3>
-                        <p className={styles.cardDesc}>{c.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+                  ))}
 
-          {/* ---- Right: sticky phone ---- */}
-          <div className={styles.phoneCol}>
-            <div className={styles.phoneSticky}>
-              <div className={styles.phone}>
-                {/* Notch */}
-                <div className={styles.phoneNotch} />
-
-                {/* ---- Screen content ---- */}
-                <div className={styles.screen}>
-                  {/* Status bar */}
-                  <div className={styles.statusBar}>
-                    <span>9:41</span>
-                    <div className={styles.statusIcons}>
-                      <span className={styles.signalDot} />
-                      <span className={styles.signalDot} />
-                      <span className={styles.signalDot} />
-                    </div>
-                  </div>
-
-                  {/* App bar */}
-                  <div className={styles.appBar}>
-                    <ChevronLeft size={18} color="#333" />
-                    <span className={styles.appBarTitle}>Mi plan</span>
-                    <div style={{ width: 18 }} />
-                  </div>
-
-                  {/* Plan header */}
-                  <div className={styles.planHeader}>
-                    <h4 className={styles.planName}>Salida de sábado</h4>
-                    <p className={styles.planMeta}>
-                      Sáb, 15 jun · 4 paradas · 3.2 km
-                    </p>
-                  </div>
-
-                  {/* Map area */}
-                  <div className={styles.mapArea}>
-                    {/* Simulated streets */}
-                    <div className={styles.mapStreetH} style={{ top: '35%' }} />
-                    <div className={styles.mapStreetH} style={{ top: '65%' }} />
-                    <div className={styles.mapStreetV} style={{ left: '30%' }} />
-                    <div className={styles.mapStreetV} style={{ left: '70%' }} />
-
-                    {/* Route line (SVG) */}
-                    <svg className={styles.routeLine} viewBox="0 0 200 120" preserveAspectRatio="none">
-                      <polyline
-                        points="40,20 100,45 60,75 140,95"
-                        fill="none"
-                        stroke="#FF2D87"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeDasharray="4 4"
-                      />
-                    </svg>
-
-                    {/* Pins */}
-                    {[
-                      { top: '14%', left: '18%' },
-                      { top: '34%', left: '48%' },
-                      { top: '58%', left: '28%' },
-                      { top: '76%', left: '68%' },
-                    ].map((pos, pi) => (
+                  {/* Card progress indicator */}
+                  <div className={styles.cardIndicators}>
+                    {cardSteps.map((_, i) => (
                       <span
-                        key={pi}
-                        className={styles.mapPin}
-                        style={{
-                          top: pos.top,
-                          left: pos.left,
-                          background: itinerary[pi].color,
-                        }}
-                      >
-                        {pi + 1}
-                      </span>
+                        key={i}
+                        className={`${styles.indicator} ${
+                          i === activeCard ? styles.indicatorActive : ''
+                        }`}
+                      />
                     ))}
                   </div>
+                </div>
+              </div>
 
-                  {/* Location list */}
-                  <div className={styles.locList}>
-                    {itinerary.map((loc) => (
-                      <div key={loc.num} className={styles.locItem}>
-                        <span
-                          className={styles.locNum}
-                          style={{ background: loc.color }}
-                        >
-                          {loc.num}
-                        </span>
-                        <div className={styles.locInfo}>
-                          <span className={styles.locName}>{loc.name}</span>
-                          <span className={styles.locMeta}>
-                            {loc.type} · {loc.time}
-                          </span>
-                        </div>
-                        <Clock size={12} color="#bbb" />
-                      </div>
-                    ))}
+              {/* ---- Right column: Video (static, content swaps) ---- */}
+              <div className={styles.rightCol}>
+                <div className={styles.videoWrapper}>
+                  {cardVideos.map((src, i) => (
+                    <video
+                      key={i}
+                      ref={(el) => { videoRefs.current[i] = el }}
+                      className={`${styles.videoPlayer} ${
+                        i === activeCard ? styles.videoActive : ''
+                      }`}
+                      src={src}
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                    />
+                  ))}
+                  {/* Fallback when video not loaded */}
+                  <div className={styles.videoPlaceholder}>
+                    <span className={styles.videoPlaceholderIcon}>▶</span>
+                    <span className={styles.videoPlaceholderText}>Video demo</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* ============================================================
-            Alcance Tecnológico y Geográfico
-            ============================================================ */}
+      {/* ============================================================
+          Below the scroll-pinned area: Tech Reach + Steps
+          (outside scrollPinArea so it only appears after cards finish)
+          ============================================================ */}
+      <div className={styles.belowStickyContent}>
+        {/* Alcance Tecnológico y Geográfico */}
         <Reveal animation="fadeUp" delay={0} duration={800} className={styles.techReach}>
           <h3 className={styles.techTitle}>Alcance Tecnológico y Geográfico</h3>
           <div className={styles.techBadges}>
@@ -343,9 +314,7 @@ const AboutSection = () => {
           </div>
         </Reveal>
 
-        {/* ============================================================
-            Steps: "Tan fácil como 1, 2, 3... ¡Listo!"
-            ============================================================ */}
+        {/* Steps: "Tan fácil como 1, 2, 3... ¡Listo!" */}
         <div className={styles.stepsSection}>
           <Reveal animation="fadeUp" delay={0} duration={800} className={styles.stepsHeader}>
             <h3 className={styles.stepsTitle}>Tan facil como</h3>

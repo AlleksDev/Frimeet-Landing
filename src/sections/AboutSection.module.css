@@ -1,78 +1,161 @@
 /* ========================================
    AboutSection – "Tu ciudad, redescubierta"
-   Scrollytelling: cards + sticky phone
+   Scroll-pinned cards + dynamic video
+   Layout: Left (title + cards) | Right (video)
    ======================================== */
 
-/* ---- Section ---- */
+/* ---- Section: outer wrapper ---- */
 .section {
   position: relative;
   width: 100%;
   background-color: #f5f5f5;
-  overflow: visible;
 }
 
-.sectionInner {
-  max-width: 1200px;
-  margin: 0 auto;
+/* ---- Scroll-pin area: tall spacer that drives the card scroll ---- */
+.scrollPinArea {
+  position: relative;
+  width: 100%;
+  /* Height = 100vh (sticky viewport) + N cards * 100vh (scroll room) */
+  height: calc(100vh + 500vh);
+}
+
+/* ---- Sticky viewport: stays pinned to screen ---- */
+.stickyViewport {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0;
-  padding: 80px 40px;
+  overflow: hidden;
+  z-index: 2;
 }
 
-/* ---- Header ---- */
+.stickyInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+/* ========================================
+   Two-column master layout
+   Left: title/subtitle + cards
+   Right: video (full height)
+   ======================================== */
+.twoColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: stretch;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+/* ---- Left column ---- */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 0;
+  min-height: 0;
+}
+
+/* ---- Header (static, left-aligned) ---- */
 .header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  text-align: center;
-  margin-bottom: 64px;
+  gap: 12px;
+  text-align: left;
+  margin-top: 56px;
+  flex-shrink: 0;
 }
 
 .title {
   font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-size: clamp(2.2rem, 3.5vw, 3.5rem);
   font-weight: 900;
   color: #000000;
   margin: 0;
   letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .subtitle {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 1.05rem;
   color: #888888;
-  max-width: 560px;
+  max-width: 480px;
   line-height: 1.6;
   margin: 0;
 }
 
 /* ========================================
-   Scrollytelling Layout
+   Cards: stacked, one visible at a time
    ======================================== */
-.scrolly {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: start;
-}
-
-/* ---- Left: cards track ---- */
-.cardsTrack {
+.cardContainer {
+  position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  justify-content: center;
+  min-height: 260px;
 }
 
-/* Each step slot occupies most of the viewport height */
-.stepSlot {
-  min-height: 80vh;
+/* Each card slide is absolutely positioned and crossfades */
+.cardSlide {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(calc(-50% + 30px));
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cardSlideActive {
+  opacity: 1;
+  transform: translateY(-50%);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.cardSlideExit {
+  opacity: 0;
+  transform: translateY(calc(-50% - 30px));
+}
+
+/* ---- Card progress indicators ---- */
+.cardIndicators {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
   display: flex;
-  align-items: center;
-  padding: 32px 0;
+  gap: 8px;
+  z-index: 5;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d1d1;
+  transition: background 0.35s ease, transform 0.35s ease, width 0.35s ease;
+}
+
+.indicatorActive {
+  background: linear-gradient(135deg, #FF5900, #FF2D87);
+  transform: scale(1.15);
+  width: 24px;
+  border-radius: 4px;
 }
 
 /* ---- Cards ---- */
@@ -80,22 +163,12 @@
   width: 100%;
   background: #ffffff;
   border-radius: 20px;
-  padding: 32px 28px;
+  padding: 28px 24px;
   border: 1px solid #ebebeb;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  /* initial hidden state */
-  opacity: 0;
-  transform: translateY(40px) scale(0.96);
-  transition: opacity 0.65s cubic-bezier(0.25, 0.1, 0.25, 1),
-              transform 0.65s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.cardVisible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+  gap: 12px;
 }
 
 /* Gradient variant (Fricoins CTA) */
@@ -134,9 +207,9 @@
 
 /* ---- Icon wrappers ---- */
 .iconWrap {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   background: linear-gradient(135deg, #FF5900, #FF2D87);
   color: #ffffff;
   display: flex;
@@ -146,9 +219,9 @@
 }
 
 .iconWrapGrad {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.22);
   color: #ffffff;
   display: flex;
@@ -161,7 +234,7 @@
 /* ---- Card text ---- */
 .cardTitle {
   font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 800;
   color: #000;
   margin: 0;
@@ -169,23 +242,23 @@
 
 .cardTitleGrad {
   font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 800;
   color: #ffffff;
   margin: 0;
 }
 
 .cardDesc {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #666;
-  line-height: 1.65;
+  line-height: 1.6;
   margin: 0;
 }
 
 .cardDescGrad {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.85);
-  line-height: 1.65;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -196,9 +269,9 @@
   gap: 8px;
   background: #ffffff;
   color: #FF2D87;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  padding: 12px 24px;
+  padding: 10px 22px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
@@ -216,249 +289,117 @@
 .dualRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
-  /* initial hidden state */
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.65s cubic-bezier(0.25, 0.1, 0.25, 1),
-              transform 0.65s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.dualRowVisible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .cardSmall {
   background: #ffffff;
-  border-radius: 18px;
-  padding: 24px 20px;
+  border-radius: 16px;
+  padding: 20px 16px;
   border: 1px solid #ebebeb;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 /* ========================================
-   Right: Sticky Phone
+   Right column: Video Player
    ======================================== */
-.phoneCol {
+.rightCol {
   display: flex;
+  align-items: center;
   justify-content: center;
+  padding: 40px 0;
+  min-height: 0;
 }
 
-.phoneSticky {
-  position: sticky;
-  top: 12vh;
-  display: flex;
-  justify-content: center;
-}
-
-.phone {
+.videoWrapper {
   position: relative;
-  width: 272px;
-  aspect-ratio: 9 / 19.5;
-  border-radius: 38px;
-  overflow: hidden;
-  background: #0a0a0a;
-  border: 5px solid #1a1a1a;
-  box-shadow:
-    0 32px 72px rgba(0, 0, 0, 0.28),
-    0 0 0 1px rgba(255, 255, 255, 0.04),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-}
-
-.phoneNotch {
-  position: absolute;
-  top: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90px;
-  height: 26px;
-  background: #0a0a0a;
-  border-radius: 0 0 16px 16px;
-  z-index: 5;
-}
-
-/* ---- Screen content ---- */
-.screen {
   width: 100%;
   height: 100%;
-  background: #fafafa;
-  display: flex;
-  flex-direction: column;
+  max-height: calc(100vh - 80px);
+  border-radius: 24px;
   overflow: hidden;
+  background: #0a0a0a;
+  box-shadow:
+    0 32px 72px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
-/* Status bar */
-.statusBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 18px 4px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #333;
-}
-
-.statusIcons {
-  display: flex;
-  gap: 3px;
-  align-items: center;
-}
-
-.signalDot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #333;
-}
-
-/* App bar */
-.appBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 14px 8px;
-}
-
-.appBarTitle {
-  font-family: 'Clash Display', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: #222;
-}
-
-/* Plan header */
-.planHeader {
-  padding: 4px 16px 10px;
-}
-
-.planName {
-  font-family: 'Clash Display', sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  color: #111;
-  margin: 0;
-}
-
-.planMeta {
-  font-size: 10px;
-  color: #999;
-  margin: 2px 0 0;
-}
-
-/* Map area */
-.mapArea {
-  position: relative;
-  margin: 0 12px;
-  height: 130px;
-  border-radius: 14px;
-  background: linear-gradient(
-    145deg,
-    #e8f5e9 0%,
-    #e0f2f1 40%,
-    #e3f2fd 100%
-  );
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.mapStreetH {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1.5px;
-  background: rgba(0, 0, 0, 0.07);
-}
-
-.mapStreetV {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1.5px;
-  background: rgba(0, 0, 0, 0.07);
-}
-
-.routeLine {
+/* Videos swap abruptly – no fade transition */
+.videoPlayer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  object-fit: contain;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1;
 }
 
-.mapPin {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+.videoActive {
+  opacity: 1;
+  visibility: visible;
   z-index: 2;
 }
 
-/* Location list */
-.locList {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 14px;
+/* Fallback placeholder (visible when no video is loaded) */
+.videoPlaceholder {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.locItem {
-  display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(
+    160deg,
+    #1a1a2e 0%,
+    #16213e 50%,
+    #0f3460 100%
+  );
+  z-index: 0;
 }
 
-.locNum {
-  width: 22px;
-  height: 22px;
+.videoPlaceholderIcon {
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
 }
 
-.locInfo {
+.videoPlaceholderText {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ========================================
+   Below Sticky Content
+   ======================================== */
+.belowStickyContent {
+  position: relative;
+  z-index: 2;
+  background-color: #f5f5f5;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  flex: 1;
-  min-width: 0;
-}
-
-.locName {
-  font-size: 11px;
-  font-weight: 700;
-  color: #222;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.locMeta {
-  font-size: 9px;
-  color: #aaa;
+  align-items: center;
+  padding: 80px 40px;
 }
 
 /* ========================================
@@ -660,30 +601,53 @@
    Responsive
    ======================================== */
 @media (max-width: 1024px) {
-  .sectionInner {
-    padding: 60px 32px;
+  .stickyInner {
+    padding: 0 32px;
   }
 
-  .scrolly {
+  .twoColumns {
     gap: 36px;
   }
 
-  .phone {
-    width: 240px;
+  .leftCol {
+    padding: 48px 0;
   }
 
-  .stepSlot {
-    min-height: 70vh;
+  .title {
+    font-size: clamp(2rem, 3vw, 2.8rem);
   }
 }
 
 @media (max-width: 768px) {
-  .sectionInner {
+  /* Disable scroll-pinning on mobile */
+  .scrollPinArea {
+    height: auto;
+  }
+
+  .stickyViewport {
+    position: relative;
+    height: auto;
+  }
+
+  .stickyInner {
     padding: 60px 24px;
+    height: auto;
+  }
+
+  /* Stack to single column */
+  .twoColumns {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .leftCol {
+    padding: 0;
   }
 
   .header {
-    margin-bottom: 40px;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 32px;
   }
 
   .title {
@@ -692,43 +656,56 @@
 
   .subtitle {
     font-size: 0.95rem;
+    text-align: center;
   }
 
-  /* Stack columns */
-  .scrolly {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  /* Phone goes on top, smaller, no sticky */
-  .phoneCol {
+  /* Video on top on mobile */
+  .rightCol {
     order: -1;
+    padding: 0;
   }
 
-  .phoneSticky {
-    position: relative;
-    top: 0;
+  .videoWrapper {
+    max-height: 320px;
+    border-radius: 18px;
   }
 
-  .phone {
-    width: 200px;
-  }
-
-  /* Cards take normal flow, smaller height */
-  .stepSlot {
+  /* Show all cards stacked, not absolutely positioned */
+  .cardContainer {
     min-height: auto;
-    padding: 16px 0;
   }
 
-  .card,
-  .dualRow {
-    opacity: 1;
+  .cardSlide {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
     transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    margin-bottom: 16px;
+  }
+
+  .cardSlideActive {
+    transform: none;
+  }
+
+  .cardSlideExit {
+    transform: none;
+    opacity: 1;
+  }
+
+  .cardIndicators {
+    display: none;
   }
 
   .dualRow {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+
+  .belowStickyContent {
+    padding: 60px 24px;
   }
 
   /* Steps responsive */
@@ -776,7 +753,7 @@
 }
 
 @media (max-width: 480px) {
-  .sectionInner {
+  .stickyInner {
     padding: 40px 16px;
   }
 
@@ -788,22 +765,16 @@
     font-size: 0.9rem;
   }
 
-  .phone {
-    width: 180px;
-    border-radius: 30px;
-  }
-
-  .phoneNotch {
-    width: 70px;
-    height: 22px;
+  .videoWrapper {
+    max-height: 260px;
   }
 
   .card {
-    padding: 24px 20px;
+    padding: 20px 16px;
   }
 
   .cardSmall {
-    padding: 20px 16px;
+    padding: 16px 14px;
   }
 
   .cardTitle,
@@ -819,6 +790,10 @@
   .techBadge {
     padding: 8px 14px;
     font-size: 0.78rem;
+  }
+
+  .belowStickyContent {
+    padding: 40px 16px;
   }
 
   .timelineContainer::before {
