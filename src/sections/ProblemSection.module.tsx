@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import styles from './ProblemSection.module.css'
 import {
   LayoutGrid,
@@ -39,42 +39,37 @@ const cards = [
 ]
 
 /* ========================================
-   3D Donut – SVG arc helpers
+   Desktop SVG helpers (unchanged logic)
    ======================================== */
 const CX = 150
 const CY = 150
-
-// 1. Definimos radios separados para cada color para hacer el rosa más ancho
 const OUTER_R_PINK = 125
 const INNER_R_PINK = 55
 const OUTER_R_ORANGE = 105
 const INNER_R_ORANGE = 55
-
-// 2. Aumentamos las capas y reducimos el espaciado para un 3D sólido
 const DEPTH_LAYERS = 10
 const LAYER_SPACING = 4
+const PINK = { r: 255, g: 45, b: 135 }
+const ORANGE = { r: 255, g: 140, b: 0 }
 
-/** Base RGB colors for the two segments */
-const PINK = { r: 255, g: 45, b: 135 }  // #FF2D87
-const ORANGE = { r: 255, g: 140, b: 0 }  // #FF8C00
-
-/** Convert degrees (0 = top) to cartesian on a circle */
 function toXY(cx: number, cy: number, r: number, deg: number) {
   const rad = ((deg - 90) * Math.PI) / 180
   return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) }
 }
 
-/** 3. Modificamos arcPath para recibir innerR y outerR dinámicamente */
-function arcPath(startDeg: number, endDeg: number, innerR: number, outerR: number): string {
+function arcPath(
+  startDeg: number,
+  endDeg: number,
+  innerR: number,
+  outerR: number
+): string {
   const span = endDeg - startDeg
   if (span <= 0.1) return ''
-
   const oS = toXY(CX, CY, outerR, startDeg)
   const oE = toXY(CX, CY, outerR, endDeg)
   const iS = toXY(CX, CY, innerR, startDeg)
   const iE = toXY(CX, CY, innerR, endDeg)
   const lg = span > 180 ? 1 : 0
-
   return [
     `M${oS.x},${oS.y}`,
     `A${outerR},${outerR} 0 ${lg} 1 ${oE.x},${oE.y}`,
@@ -84,9 +79,143 @@ function arcPath(startDeg: number, endDeg: number, innerR: number, outerR: numbe
   ].join(' ')
 }
 
-/** Darken an RGB colour by a factor (0‑1) */
 function shade(c: { r: number; g: number; b: number }, f: number) {
   return `rgb(${Math.round(c.r * f)},${Math.round(c.g * f)},${Math.round(c.b * f)})`
+}
+
+/* ========================================
+   Canvas 3D Donut — single element, fast on mobile
+   ======================================== */
+function drawCanvasDonut(
+  ctx: CanvasRenderingContext2D,
+  size: number,
+  percent: number
+) {
+  ctx.clearRect(0, 0, size, size)
+
+  // Match the desktop proportions (scaled to canvas size)
+  const scale = size / 300
+  const cx = size / 2
+  const cy = size / 2 - 6 * scale   // slight upward offset so shadow shows
+  const outerRPink = OUTER_R_PINK * scale
+  const outerROrange = OUTER_R_ORANGE * scale
+  const innerR = INNER_R_PINK * scale
+  const depth = 28 * scale
+  const STEPS = 8                   // 8 passes instead of 12 SVG layers
+
+  const pinkFrac = Math.max(0, Math.min(percent, 100)) / 100
+  const pinkAngle = pinkFrac * Math.PI * 2
+  const startAngle = -Math.PI / 2
+
+  // --- 1. Draw side (depth) layers bottom→top so the top face paints last ---
+  for (let i = STEPS; i >= 1; i--) {
+    const t = i / STEPS
+    const yOff = t * depth
+    const f = 0.58 + t * 0.12       // shade: darkest at bottom, lighter near top
+
+    // Pink side
+    if (pinkAngle > 0.01) {
+      ctx.fillStyle = `rgb(${Math.round(255 * f)},${Math.round(45 * f)},${Math.round(135 * f)})`
+      ctx.beginPath()
+      ctx.arc(cx, cy + yOff, outerRPink, startAngle, startAngle + pinkAngle)
+      ctx.arc(cx, cy + yOff, innerR, startAngle + pinkAngle, startAngle, true)
+      ctx.closePath()
+      ctx.fill()
+    }
+
+    // Orange side
+    if (pinkAngle < Math.PI * 2 - 0.01) {
+      ctx.fillStyle = `rgb(${Math.round(255 * f)},${Math.round(Math.round(140 * f))},0)`
+      ctx.beginPath()
+      ctx.arc(cx, cy + yOff, outerROrange, startAngle + pinkAngle, startAngle + Math.PI * 2)
+      ctx.arc(cx, cy + yOff, innerR, startAngle + Math.PI * 2, startAngle + pinkAngle, true)
+      ctx.closePath()
+      ctx.fill()
+    }
+  }
+
+  // --- 2. Top face with a radial gradient (light source top-left) ---
+  if (pinkAngle > 0.01) {
+    const gPink = ctx.createRadialGradient(
+      cx - outerRPink * 0.3,
+      cy - outerRPink * 0.3,
+      innerR * 0.3,
+      cx, cy, outerRPink
+    )
+    gPink.addColorStop(0, '#FF7EB3')
+    gPink.addColorStop(1, '#FF2D87')
+    ctx.fillStyle = gPink
+    ctx.beginPath()
+    ctx.arc(cx, cy, outerRPink, startAngle, startAngle + pinkAngle)
+    ctx.arc(cx, cy, innerR, startAngle + pinkAngle, startAngle, true)
+    ctx.closePath()
+    ctx.fill()
+  }
+
+  if (pinkAngle < Math.PI * 2 - 0.01) {
+    const gOrange = ctx.createRadialGradient(
+      cx + outerROrange * 0.25,
+      cy - outerROrange * 0.25,
+      innerR * 0.3,
+      cx, cy, outerROrange
+    )
+    gOrange.addColorStop(0, '#FFB347')
+    gOrange.addColorStop(1, '#FF8C00')
+    ctx.fillStyle = gOrange
+    ctx.beginPath()
+    ctx.arc(cx, cy, outerROrange, startAngle + pinkAngle, startAngle + Math.PI * 2)
+    ctx.arc(cx, cy, innerR, startAngle + Math.PI * 2, startAngle + pinkAngle, true)
+    ctx.closePath()
+    ctx.fill()
+  }
+}
+
+/* ---- Canvas wrapper component ---- */
+interface CanvasDonutProps {
+  animPercent: number
+  chartCenterClass: string
+  chartPercentClass: string
+}
+
+const CanvasDonut = ({
+  animPercent,
+  chartCenterClass,
+  chartPercentClass,
+}: CanvasDonutProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    // Use devicePixelRatio capped at 2 — retina without overdoing it
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const LOGICAL_SIZE = 300
+
+    if (canvas.width !== LOGICAL_SIZE * dpr) {
+      canvas.width = LOGICAL_SIZE * dpr
+      canvas.height = LOGICAL_SIZE * dpr
+      canvas.style.width = `${LOGICAL_SIZE}px`
+      canvas.style.height = `${LOGICAL_SIZE}px`
+      ctx.scale(dpr, dpr)
+    }
+
+    drawCanvasDonut(ctx, LOGICAL_SIZE, animPercent)
+  }, [animPercent])
+
+  return (
+    <div style={{ position: 'relative', width: 300, height: 300 }}>
+      <canvas ref={canvasRef} style={{ display: 'block' }} />
+      {/* Reuse the same CSS classes as the SVG version */}
+      <div className={chartCenterClass}>
+        <span className={chartPercentClass}>
+          {Math.round(animPercent)}%
+        </span>
+      </div>
+    </div>
+  )
 }
 
 /* ======================================== */
@@ -100,7 +229,8 @@ const ProblemSection = () => {
 
   /* ---- Mobile detection ---- */
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+    typeof window !== 'undefined' &&
+    window.matchMedia('(max-width: 768px)').matches
   )
 
   useEffect(() => {
@@ -109,11 +239,6 @@ const ProblemSection = () => {
     mql.addEventListener('change', handler)
     return () => mql.removeEventListener('change', handler)
   }, [])
-
-  /* ---- Dynamic 3D parameters ---- */
-  const depthLayers = isMobile ? 12 : DEPTH_LAYERS
-  const layerSpacing = isMobile ? 4 : LAYER_SPACING
-  const sideStrokeWidth = isMobile ? '3' : '1'
 
   const activeCard = cards[activeIndex]
 
@@ -142,7 +267,6 @@ const ProblemSection = () => {
   /* ---- Animate counter & donut ---- */
   useEffect(() => {
     if (!isVisible) return
-
     const target = activeCard.percent
     const from = animRef.current
     let frame: number
@@ -162,111 +286,160 @@ const ProblemSection = () => {
     return () => cancelAnimationFrame(frame)
   }, [isVisible, activeIndex])
 
-  /* ---- 4. Compute SVG arcs pasando los nuevos radios ---- */
-  const pinkEnd = (animPercent / 100) * 360
-  const pinkD = arcPath(0, pinkEnd, INNER_R_PINK, OUTER_R_PINK)
-  const orangeD = arcPath(pinkEnd, 360, INNER_R_ORANGE, OUTER_R_ORANGE)
+  /* ---- Desktop: memoize SVG arc paths (only recalculate when animPercent changes) ---- */
+  const { pinkD, orangeD } = useMemo(() => {
+    const pinkEnd = (animPercent / 100) * 360
+    return {
+      pinkD: arcPath(0, pinkEnd, INNER_R_PINK, OUTER_R_PINK),
+      orangeD: arcPath(pinkEnd, 360, INNER_R_ORANGE, OUTER_R_ORANGE),
+    }
+  }, [animPercent])
+
+  /* ---- Desktop: memoize layer array (only depends on pinkD/orangeD) ---- */
+  const desktopLayers = useMemo(
+    () =>
+      Array.from({ length: DEPTH_LAYERS }, (_, i) => {
+        const z = -i * LAYER_SPACING
+        const isTop = i === 0
+        const f = isTop ? 1 : 0.85 - (i / DEPTH_LAYERS) * 0.15
+        const pinkFill = isTop ? 'url(#pinkLight)' : shade(PINK, f)
+        const orangeFill = isTop ? 'url(#orangeLight)' : shade(ORANGE, f)
+        return { i, z, isTop, pinkFill, orangeFill }
+      }),
+    // Re-memoize only when the paths change (i.e. on each animation frame)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pinkD, orangeD]
+  )
 
   return (
     <section className={styles.section} id="problem">
       <div className={styles.container}>
         {/* ---- Header ---- */}
-        <Reveal animation="fadeUp" delay={0} duration={800} className={styles.header}>
+        <Reveal
+          animation="fadeUp"
+          delay={0}
+          duration={800}
+          className={styles.header}
+        >
           <h2 className={styles.title}>
             ¿Por qué salir se ha vuelto tan complicado?
           </h2>
           <p className={styles.subtitle}>
-            No es falta de lugares, es un colapso en la toma de decisiones y una
-            economía local oculta.
+            No es falta de lugares, es un colapso en la toma de decisiones y
+            una economía local oculta.
           </p>
         </Reveal>
 
         {/* ---- Content ---- */}
         <div className={styles.content}>
-          {/* ======== 3-D Donut Chart ======== */}
-          {/* ======== 3-D Donut Chart ======== */}
-          <Reveal animation="fadeRight" delay={200} duration={800} className={styles.chartArea}>
+          {/* ======== Chart area ======== */}
+          <Reveal
+            animation="fadeRight"
+            delay={200}
+            duration={800}
+            className={styles.chartArea}
+          >
             <div className={styles.donut3dContainer}>
-              
-              {/* Definición de los degradados para la iluminación superior */}
-              <svg width="0" height="0" style={{ position: 'absolute' }}>
-                <defs>
-                  <linearGradient id="pinkLight" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FF7EB3" /> {/* Luz alta */}
-                    <stop offset="100%" stopColor="#FF2D87" /> {/* Color base */}
-                  </linearGradient>
-                  <linearGradient id="orangeLight" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FFB347" /> {/* Luz alta */}
-                    <stop offset="100%" stopColor="#FF8C00" /> {/* Color base */}
-                  </linearGradient>
-                </defs>
-              </svg>
-
-              <div ref={chartRef} className={styles.donut3d}>
-                {Array.from({ length: depthLayers }, (_, i) => {
-                  const z = -i * layerSpacing
-                  
-                  // Identificamos si es la tapa superior
-                  const isTop = i === 0
-                  
-                  // Tonos mucho más suaves: en lugar de bajar a 0.35, bajamos de 0.85 a 0.70
-                  // El salto brusco de 1 (top) a 0.85 (sides) crea la "esquina dura"
-                  const f = isTop ? 1 : 0.85 - (i / depthLayers) * 0.15
-                  
-                  // Colores: La capa superior usa el degradado, las demás usan el color sólido suavizado
-                  const pinkFill = isTop ? "url(#pinkLight)" : shade(PINK, f)
-                  const orangeFill = isTop ? "url(#orangeLight)" : shade(ORANGE, f)
-
-                  return (
-                    <svg
-                      key={i}
-                      viewBox="0 0 300 300"
-                      className={styles.donutLayer}
-                      style={{ transform: `translateZ(${z}px)` }}
-                    >
-                      {pinkD && (
-                        <path 
-                          d={pinkD} 
-                          fill={pinkFill} 
-                          // El stroke elimina el borde suave (anti-aliasing) entre capas
-                          stroke={isTop ? "none" : pinkFill} 
-                          strokeWidth={isTop ? "0" : sideStrokeWidth} 
-                          strokeLinejoin="round"
-                        />
-                      )}
-                      {orangeD && (
-                        <path 
-                          d={orangeD} 
-                          fill={orangeFill} 
-                          stroke={isTop ? "none" : orangeFill} 
-                          strokeWidth={isTop ? "0" : sideStrokeWidth} 
-                          strokeLinejoin="round"
-                        />
-                      )}
-                    </svg>
-                  )
-                })}
-
-                {/* Center label */}
-                <div className={styles.chartCenter}>
-                  <span className={styles.chartPercent}>
-                    {Math.round(animPercent)}%
-                  </span>
+              {/* ---- MOBILE: single Canvas element ---- */}
+              {isMobile ? (
+                <div ref={chartRef} className={styles.donut3d}>
+                  <CanvasDonut
+                    animPercent={animPercent}
+                    chartCenterClass={styles.chartCenter}
+                    chartPercentClass={styles.chartPercent}
+                  />
                 </div>
-              </div>
+              ) : (
+                /* ---- DESKTOP: original CSS 3D SVG stack ---- */
+                <>
+                  <svg width="0" height="0" style={{ position: 'absolute' }}>
+                    <defs>
+                      <linearGradient
+                        id="pinkLight"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                      >
+                        <stop offset="0%" stopColor="#FF7EB3" />
+                        <stop offset="100%" stopColor="#FF2D87" />
+                      </linearGradient>
+                      <linearGradient
+                        id="orangeLight"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                      >
+                        <stop offset="0%" stopColor="#FFB347" />
+                        <stop offset="100%" stopColor="#FF8C00" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
 
-              {/* Ground shadow - También suavicé un poco la sombra proyectada si lo deseas */}
+                  <div
+                    ref={chartRef}
+                    className={styles.donut3d}
+                    style={{ willChange: 'transform' }}
+                  >
+                    {desktopLayers.map(
+                      ({ i, z, isTop, pinkFill, orangeFill }) => (
+                        <svg
+                          key={i}
+                          viewBox="0 0 300 300"
+                          className={styles.donutLayer}
+                          style={{
+                            transform: `translate3d(0,0,${z}px)`,
+                            backfaceVisibility: 'hidden',
+                            willChange: 'transform',
+                          }}
+                        >
+                          {pinkD && (
+                            <path
+                              d={pinkD}
+                              fill={pinkFill}
+                              stroke={isTop ? 'none' : pinkFill}
+                              strokeWidth={isTop ? '0' : '1'}
+                              strokeLinejoin="round"
+                            />
+                          )}
+                          {orangeD && (
+                            <path
+                              d={orangeD}
+                              fill={orangeFill}
+                              stroke={isTop ? 'none' : orangeFill}
+                              strokeWidth={isTop ? '0' : '1'}
+                              strokeLinejoin="round"
+                            />
+                          )}
+                        </svg>
+                      )
+                    )}
+
+                    {/* Center label */}
+                    <div className={styles.chartCenter}>
+                      <span className={styles.chartPercent}>
+                        {Math.round(animPercent)}%
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
+
               <div className={styles.donutShadow} style={{ opacity: 0.6 }} />
             </div>
           </Reveal>
 
           {/* ======== Carousel Card ======== */}
-          <Reveal animation="fadeLeft" delay={300} duration={800} className={styles.carouselArea}>
-            {/* Decorative blob */}
+          <Reveal
+            animation="fadeLeft"
+            delay={300}
+            duration={800}
+            className={styles.carouselArea}
+          >
             <div className={styles.decorBlob} />
 
             <div className={styles.carouselContainer}>
-              {/* Prev */}
               <button
                 className={styles.navBtn}
                 onClick={() => goTo(activeIndex - 1)}
@@ -276,21 +449,23 @@ const ProblemSection = () => {
                 <ChevronLeft size={20} />
               </button>
 
-              {/* Card */}
               <div className={styles.card} key={activeIndex}>
-                <div className={styles.cardIconWrapper}>{activeCard.icon}</div>
+                <div className={styles.cardIconWrapper}>
+                  {activeCard.icon}
+                </div>
                 <h3 className={styles.cardTitle}>{activeCard.title}</h3>
                 <span className={styles.cardPercent}>
                   {Math.round(animPercent)}%
                 </span>
-                <p className={styles.cardDescription}>{activeCard.description}</p>
+                <p className={styles.cardDescription}>
+                  {activeCard.description}
+                </p>
                 <div className={styles.cardSource}>
                   <Link2 size={24} />
                   <span>Fuente: {activeCard.source}</span>
                 </div>
               </div>
 
-              {/* Next */}
               <button
                 className={styles.navBtn}
                 onClick={() => goTo(activeIndex + 1)}
@@ -301,12 +476,13 @@ const ProblemSection = () => {
               </button>
             </div>
 
-            {/* Indicator dots */}
             <div className={styles.indicators}>
               {cards.map((_, i) => (
                 <button
                   key={i}
-                  className={`${styles.dot} ${activeIndex === i ? styles.dotActive : ''}`}
+                  className={`${styles.dot} ${
+                    activeIndex === i ? styles.dotActive : ''
+                  }`}
                   onClick={() => goTo(i)}
                   aria-label={`Card ${i + 1}`}
                   type="button"
