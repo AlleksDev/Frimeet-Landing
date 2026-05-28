@@ -9,43 +9,43 @@ const features = [
     icon: <Map size={24} strokeWidth={2.5} />,
     title: 'Rutas optimizadas',
     description:
-      'Algoritmos genéticos calculan itinerarios perfectos evaluando distancia, presupuesto y variedad.',
+      'Resolvemos el debate del grupo. Nuestro Algoritmo Genético cruza el presupuesto, las preferencias de la tribu y las distancias (fórmula Haversine) para trazar la ruta de paradas perfecta.',
     video: 'video-card-1.mp4',
   },
   {
     icon: <Target size={24} strokeWidth={2.5} />,
     title: 'Comercios Invisibles',
     description:
-      'Descubre negocios locales que no aparecen en mapas oficiales, validados por la comunidad.',
+      'Rescatamos a la economía de barrio. Formalizamos en el mapa digital a ese 55% de comercios locales emergentes o informales que las grandes plataformas ignoran.',
     video: 'video-card-2.mp4',
   },
   {
     icon: <MessageCircle size={24} strokeWidth={2.5} />,
     title: 'IA Conversacional',
     description:
-      'Busca por intención natural: "lugar tranquilo para platicar con amigos bajo 500 pesos".',
+      'Olvídate de buscar por categorías aburridas. Pídele a nuestra IA en lenguaje natural: "Lugar relajado para hablar de negocios por menos de 500 pesos" y el algoritmo lo traducirá en tu itinerario ideal.',
     video: 'video-card-3.mp4',
+  },
+  {
+    icon: <BarChart3 size={24} strokeWidth={2.5} />,
+    title: 'Radar de aforo en tiempo real',
+    description:
+      '¿Odias llegar y no encontrar mesa? El ecosistema te muestra un semáforo de afluencia antes de salir de casa, optimizando tu tiempo y evitando las multitudes.',
+    video: 'video-card-5.mp4',
+  },
+  {
+    icon: <CheckCircle size={24} strokeWidth={2.5} />,
+    title: 'Sistema antifraude',
+    description:
+      'Cero lugares falsos. Implementamos validación cruzada, cruce geoespacial GPS estricto y escaneo documental OCR para asegurar que cada pin en el mapa exista en la vida real.',
+    video: 'video-card-6.mp4',
   },
   {
     icon: <Users size={24} strokeWidth={2.5} />,
     title: 'Comunidad activa',
     description:
-      'Exploradores, validadores y consumidores colaboran para mapear la economía local.',
+      'Gana recompensas por explorar. Nuestro sistema gamificado otorga Fricoins a los usuarios que validan la existencia de nuevos comercios, canjeables por meses de Premium y beneficios exclusivos.',
     video: 'video-card-4.mp4',
-  },
-  {
-    icon: <BarChart3 size={24} strokeWidth={2.5} />,
-    title: 'Analíticas para Negocios',
-    description:
-      'Panel de tendencias de búsqueda para comercios locales que quieren crecer.',
-    video: 'video-card-5.mp4',
-  },
-  {
-    icon: <CheckCircle size={24} strokeWidth={2.5} />,
-    title: 'Validación Real',
-    description:
-      'Sistema de geolocalización y clustering para detectar y filtrar lugares falsos.',
-    video: 'video-card-6.mp4',
   },
 ]
 

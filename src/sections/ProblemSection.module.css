@@ -1,23 +1,26 @@
 /* ========================================
-   ProblemSection – "¿Por qué salir se ha 
+   ProblemSection – "¿Por qué salir se ha
    vuelto tan complicado?"
+   3D donut (stacked layers) + carousel
    ======================================== */
 
+/* ---- Section ---- */
 .section {
   position: relative;
   width: 100%;
-  background-color: #ffffff;
-  padding: 100px 40px;
+  background-color: #fafafa;
+  padding: 100px 0;
   overflow: hidden;
 }
 
 .container {
-  max-width: 1280px;
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 64px;
+  gap: 72px;
+  padding: 0 40px;
 }
 
 /* ---- Header ---- */
@@ -39,18 +42,11 @@
   line-height: 1.15;
 }
 
-.titleAccent {
-  background: linear-gradient(90deg, #FF2D87, #FF5900);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .subtitle {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 1.05rem;
-  color: #666666;
-  max-width: 600px;
+  color: #888888;
+  max-width: 580px;
   line-height: 1.6;
   margin: 0;
 }
@@ -59,162 +55,302 @@
 .content {
   width: 100%;
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 64px;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
   align-items: center;
 }
 
-/* ---- Donut Chart ---- */
-.chartWrapper {
+/* ========================================
+   3-D Donut Chart
+   ======================================== */
+.chartArea {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.chart {
+/* Container provides perspective */
+.donut3dContainer {
+  perspective: 700px;
   position: relative;
-  width: 280px;
-  height: 280px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
-.donutSvg {
+/* Rotated parent – children preserve 3d */
+.donut3d {
+  width: 540px;
+  height: 540px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(45deg) rotateZ(-12deg);
+  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.donut3d:hover {
+  transform: rotateX(20deg) rotateZ(-0deg) scale(1.03);
+}
+
+/* Each stacked SVG layer */
+.donutLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 8px 24px rgba(255, 45, 135, 0.15));
+  backface-visibility: hidden;
 }
 
-.donutForeground {
-  transition: stroke-dashoffset 1.6s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
+/* Center text (top-most element in 3d stack) */
 .chartCenter {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  transform: translateZ(2px); /* above all layers */
 }
 
 .chartPercent {
   font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 3.2rem;
+  font-size: 2.8rem;
   font-weight: 900;
+  color: #333;
+  line-height: 1;
+}
+
+/* Soft shadow on the ground beneath donut */
+.donutShadow {
+  width: 260px;
+  height: 24px;
+  margin-top: -30px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.12) 0%,
+    transparent 70%
+  );
+  transform: rotateX(55deg);
+  pointer-events: none;
+}
+
+/* ========================================
+   Carousel
+   ======================================== */
+.carouselArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+
+/* Decorative gradient blob */
+.decorBlob {
+  position: absolute;
+  top: -20px;
+  right: -40px;
+  width: 220px;
+  height: 140px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 89, 0, 0.12),
+    rgba(255, 45, 135, 0.06)
+  );
+  border-radius: 60px;
+  transform: rotate(-12deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.carouselContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* ---- Nav buttons ---- */
+.navBtn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+  background: #ffffff;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.navBtn:hover {
+  border-color: #FF5900;
+  color: #FF5900;
+  box-shadow: 0 4px 16px rgba(255, 89, 0, 0.15);
+  transform: scale(1.08);
+}
+
+/* ---- Card ---- */
+.card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: cardFadeIn 0.4s ease-out;
+  min-height: 300px;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Icon */
+.cardIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #FF5900, #FF8C00);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Title */
+.cardTitle {
+  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #000000;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Percentage – large accent */
+.cardPercent {
+  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
   background: linear-gradient(135deg, #FF5900, #FF2D87);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
-.chartLabel {
-  font-size: 0.85rem;
-  color: #999999;
-  font-weight: 600;
-  margin-top: 4px;
-}
-
-/* ---- Info Cards ---- */
-.cardsColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.card {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  background: #ffffff;
-  border: 1px solid #f0f0f0;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-              box-shadow 0.35s ease !important;
-}
-
-.card:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-}
-
-.cardIcon {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-}
-
-.card:nth-child(1) .cardIcon {
-  background: linear-gradient(135deg, #FF5900, #FF2D87);
-}
-
-.card:nth-child(2) .cardIcon {
-  background: linear-gradient(135deg, #FF2D87, #B8F02D);
-}
-
-.card:nth-child(3) .cardIcon {
-  background: linear-gradient(135deg, #B8F02D, #FF5900);
-}
-
-.cardBody {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.cardTitle {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #000000;
-  margin: 0;
-}
-
+/* Description */
 .cardDescription {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 0.9rem;
-  color: #666666;
-  line-height: 1.55;
+  color: #555555;
+  line-height: 1.65;
   margin: 0;
 }
 
-/* ---- Responsive ---- */
+/* Source */
+.cardSource {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #aaaaaa;
+  font-weight: 500;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.cardSource svg {
+  flex-shrink: 0;
+  color: #cccccc;
+}
+
+/* ---- Indicator dots ---- */
+.indicators {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #e0e0e0;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.35s ease;
+}
+
+.dot:hover {
+  background: #ccc;
+  transform: scale(1.2);
+}
+
+.dotActive {
+  background: linear-gradient(135deg, #FF5900, #FF2D87);
+  width: 28px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(255, 89, 0, 0.3);
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
 @media (max-width: 1024px) {
-  .section {
-    padding: 80px 32px;
+  .container {
+    padding: 0 32px;
   }
 
   .content {
-    gap: 48px;
+    gap: 36px;
   }
 
-  .chart {
-    width: 240px;
-    height: 240px;
+  .donut3d {
+    width: 340px;
+    height: 340px;
   }
 
   .chartPercent {
-    font-size: 2.6rem;
+    font-size: 2.4rem;
+  }
+
+  .cardPercent {
+    font-size: 3rem;
   }
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 60px 24px;
+    padding: 70px 0;
   }
 
   .container {
     gap: 48px;
+    padding: 0 24px;
   }
 
   .content {
@@ -223,13 +359,18 @@
     justify-items: center;
   }
 
-  .chart {
-    width: 220px;
-    height: 220px;
+  .donut3d {
+    width: 340px;
+    height: 340px;
+    transform: rotateX(50deg) rotateZ(-10deg);
+  }
+
+  .donut3d:hover {
+    transform: rotateX(44deg) rotateZ(-6deg) scale(1.03);
   }
 
   .chartPercent {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
   }
 
   .title {
@@ -239,46 +380,66 @@
   .subtitle {
     font-size: 0.95rem;
   }
+
+  .decorBlob {
+    width: 160px;
+    height: 100px;
+    right: -20px;
+    top: -10px;
+  }
+
+  .card {
+    min-height: 260px;
+  }
 }
 
 @media (max-width: 480px) {
   .section {
-    padding: 48px 16px;
+    padding: 56px 0;
   }
 
   .container {
     gap: 36px;
+    padding: 0 16px;
   }
 
-  .chart {
-    width: 200px;
-    height: 200px;
+  .donut3d {
+    width: 340px;
+    height: 340px;
   }
 
   .chartPercent {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .card {
-    padding: 18px;
-    gap: 14px;
-  }
-
-  .cardIcon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+    padding: 24px 20px;
+    gap: 10px;
+    min-height: 240px;
   }
 
   .cardTitle {
-    font-size: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .cardPercent {
+    font-size: 2.5rem;
   }
 
   .cardDescription {
     font-size: 0.85rem;
   }
 
+  .navBtn {
+    width: 34px;
+    height: 34px;
+  }
+
   .title {
     font-size: clamp(1.4rem, 6vw, 2rem);
+  }
+
+  .decorBlob {
+    display: none;
   }
 }
