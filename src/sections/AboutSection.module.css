@@ -1,4 +1,9 @@
-/* ---- About Section ---- */
+/* ========================================
+   AboutSection – "Tu ciudad, redescubierta"
+   Scroll-linked animation + sticky video
+   ======================================== */
+
+/* ---- Section ---- */
 .about {
   position: relative;
   width: 100%;
@@ -43,138 +48,183 @@
   margin: 0;
 }
 
-/* ---- Features Grid ---- */
-.featuresGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: 32px;
+/* ========================================
+   Scroll-linked Layout
+   ======================================== */
+.scrollContent {
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
 }
 
-/* ---- Feature Card ---- */
-.card {
-  position: relative;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+/* ---- Left: Scrollable Cards ---- */
+.cardsColumn {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  gap: 16px;
+  gap: 24px;
+  padding: 40px 0;
 }
 
-/* ---- Decorative Circle ---- */
-.decorativeCircle {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  opacity: 0.3;
-  top: -30px;
-  right: -30px;
-  pointer-events: none;
+.featureCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 28px;
+  border-radius: 18px;
+  border: 2px solid transparent;
+  background: #fafafa;
+  opacity: 0.45;
+  transform: scale(0.97);
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  cursor: default;
 }
 
-.card:hover {
-  transform: scale(1.1) !important;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-  transition: transform 0.4s !important;
+.featureCardActive {
+  opacity: 1;
+  transform: scale(1);
+  background: #ffffff;
+  border-color: #FF2D8730;
+  box-shadow: 0 8px 32px rgba(255, 45, 135, 0.1);
 }
 
-.card:hover .decorativeCircle {
-  transform: scale(1.5) rotate(3deg);
-  transition: transform 0.5s cubic-bezier(0.175, 0.685, 0.32, 1.275);
+.featureCard:hover {
+  opacity: 0.85;
 }
 
-.card:hover .iconWrapper {
-  transform: scale(1.1) rotate(3deg);
+.featureCardActive:hover {
+  opacity: 1;
 }
 
-.card:nth-child(1) .decorativeCircle {
-  background: linear-gradient(135deg, #FF2D87 0%, #ff5900 100%);
-}
-
-.card:nth-child(2) .decorativeCircle {
-  background: linear-gradient(135deg, #FF2D87 0%, #FFD700 100%);
-}
-
-.card:nth-child(3) .decorativeCircle {
-  background: linear-gradient(135deg, #ff2d889f 0%, #ffd90099 100%) ;
-}
-
-.card:nth-child(4) .decorativeCircle {
-  background: linear-gradient(135deg, #FF2D87 0%, #ff5900 100%);
-}
-
-.card:nth-child(5) .decorativeCircle {
-  background: linear-gradient(135deg, #FF2D87 0%, #FFD700 100%);
-}
-
-.card:nth-child(6) .decorativeCircle {
-  background: linear-gradient(135deg, #ff2d889f 0%, #ffd90099 100%) ;
-}
-
-/* ---- Card Icon ---- */
-.iconWrapper {
+.featureIcon {
+  flex-shrink: 0;
   width: 48px;
   height: 48px;
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  color: #ffffff;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.card:nth-child(1) .iconWrapper {
-  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
-  color: white;
+.featureCardActive .featureIcon {
+  transform: scale(1.1) rotate(3deg);
 }
 
-.card:nth-child(2) .iconWrapper {
-  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
-  color: white;
+.featureCard:nth-child(odd) .featureIcon {
+  background: linear-gradient(135deg, #FF2D87, #FF5900);
 }
 
-.card:nth-child(3) .iconWrapper {
-  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
-  color: white;
+.featureCard:nth-child(even) .featureIcon {
+  background: linear-gradient(135deg, #B8F02D, #FF2D87);
 }
 
-.card:nth-child(4) .iconWrapper {
-  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
-  color: white;
+.featureBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.card:nth-child(5) .iconWrapper {
-  background: linear-gradient(to bottom, #FF2D87 0%, #ff6b1a 100%);
-  color: white;
-}
-
-.card:nth-child(6) .iconWrapper {
-  background: linear-gradient(to bottom, #B8F02D 0%, #FF2D87 100%);
-  color: white;
-}
-
-.cardTitle {
+.featureTitle {
   font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #000000;
   margin: 0;
 }
 
-.cardDescription {
+.featureDesc {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: #666666;
   line-height: 1.6;
   margin: 0;
 }
 
+/* ---- Right: Sticky Video ---- */
+.stickyColumn {
+  display: flex;
+  justify-content: center;
+  /* Don't add sticky here, it goes on the wrapper */
+}
+
+.stickyWrapper {
+  position: sticky;
+  top: 15vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.phoneMockup {
+  position: relative;
+  width: 280px;
+  aspect-ratio: 9 / 19.5;
+  border-radius: 40px;
+  overflow: hidden;
+  background: #0a0a0a;
+  border: 5px solid #1a1a1a;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.phoneNotch {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 28px;
+  background: #0a0a0a;
+  border-radius: 0 0 18px 18px;
+  z-index: 2;
+}
+
+.phoneVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Label debajo del teléfono */
+.videoLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: #fafafa;
+  border-radius: 999px;
+  border: 1px solid #f0f0f0;
+}
+
+.videoLabelDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF2D87, #FF5900);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.videoLabelText {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ========================================
+   Steps Section (preserved from original)
+   ======================================== */
 .stepsSection {
   margin-top: 60px;
   width: 100%;
@@ -188,7 +238,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  
   text-align: center;
 }
 
@@ -244,7 +293,6 @@
   padding: 8px;
   background-clip: padding-box;
   flex-shrink: 0;
-
   border: none;
 }
 
@@ -256,9 +304,8 @@
 .step:nth-child(1) .stepCircle {
   background: linear-gradient(135deg, #B8F02D 0%, #FF2D87 40%);
   color: white;
-  box-shadow: 0 0 0 20px oklch(66.111% 0.2448 1.92 / 0.125)
+  box-shadow: 0 0 0 20px oklch(66.111% 0.2448 1.92 / 0.125);
 }
-
 
 .step:nth-child(2) .stepCircle {
   background: linear-gradient(135deg, #FF2D87 0%, #FF6B1A 100%);
@@ -293,21 +340,10 @@
   letter-spacing: 0.05em;
 }
 
-.step:nth-child(1) .stepLabel {
-  color: #8B4B7D;
-}
-
-.step:nth-child(2) .stepLabel {
-  color: #FF4D6D;
-}
-
-.step:nth-child(3) .stepLabel {
-  color: #FF8C42;
-}
-
-.step:nth-child(4) .stepLabel {
-  color: #76DD76;
-}
+.step:nth-child(1) .stepLabel { color: #8B4B7D; }
+.step:nth-child(2) .stepLabel { color: #FF4D6D; }
+.step:nth-child(3) .stepLabel { color: #FF8C42; }
+.step:nth-child(4) .stepLabel { color: #76DD76; }
 
 .stepName {
   font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -324,6 +360,23 @@
   line-height: 1.5;
   margin: 0;
   max-width: 200px;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 1024px) {
+  .about {
+    padding: 60px 32px;
+  }
+
+  .scrollContent {
+    gap: 40px;
+  }
+
+  .phoneMockup {
+    width: 240px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -343,15 +396,42 @@
     font-size: 0.95rem;
   }
 
-  .featuresGrid {
+  /* Stack columns on mobile */
+  .scrollContent {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 32px;
   }
 
-  .card {
-    padding: 24px;
+  /* Make sticky become relative on mobile */
+  .stickyWrapper {
+    position: relative;
+    top: 0;
   }
 
+  .stickyColumn {
+    order: -1; /* Phone on top */
+  }
+
+  .phoneMockup {
+    width: 200px;
+  }
+
+  .cardsColumn {
+    padding: 0;
+  }
+
+  /* All cards fully visible on mobile */
+  .featureCard {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .featureCardActive {
+    border-color: #FF2D8730;
+    box-shadow: 0 4px 16px rgba(255, 45, 135, 0.08);
+  }
+
+  /* Steps responsive */
   .timelineContainer {
     flex-direction: column;
     width: auto;
@@ -389,9 +469,11 @@
     height: 60px;
     font-size: 22px;
   }
+
   .stepName {
     text-align: left;
   }
+
   .stepDesc {
     max-width: 100%;
     text-align: left;
@@ -415,17 +497,33 @@
     font-size: 0.9rem;
   }
 
-  .card {
+  .featureCard {
     padding: 20px;
-    gap: 12px;
+    gap: 14px;
   }
 
-  .cardTitle {
-    font-size: 1.1rem;
+  .featureIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
   }
 
-  .cardDescription {
+  .featureTitle {
+    font-size: 1.05rem;
+  }
+
+  .featureDesc {
     font-size: 0.85rem;
+  }
+
+  .phoneMockup {
+    width: 180px;
+    border-radius: 32px;
+  }
+
+  .phoneNotch {
+    width: 80px;
+    height: 22px;
   }
 
   .timelineContainer::before {

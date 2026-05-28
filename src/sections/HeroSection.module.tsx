@@ -16,9 +16,9 @@ const HeroSection = () => {
         <div className={styles.content}>
           <Reveal animation="fadeUp" delay={0} duration={800}>
             <h1 className={styles.headline}>
-              <span className={styles.headlineWhite}>Plans that</span>
-              <span className={styles.headlinePink}>actually</span>
-              <span className={styles.headlineOrange}>happen.</span>
+              <span className={styles.headlineWhite}>Planes con</span>
+              <span className={styles.headlinePink}>amigos</span>
+              <span className={styles.headlineOrange}>que sí pasan.</span>
             </h1>
           </Reveal>
 
