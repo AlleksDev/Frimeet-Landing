@@ -268,7 +268,7 @@ const ProblemSection = () => {
                 </span>
                 <p className={styles.cardDescription}>{activeCard.description}</p>
                 <div className={styles.cardSource}>
-                  <Link2 size={14} />
+                  <Link2 size={24} />
                   <span>Fuente: {activeCard.source}</span>
                 </div>
               </div>
