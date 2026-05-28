@@ -98,6 +98,23 @@ const ProblemSection = () => {
   const [animPercent, setAnimPercent] = useState(0)
   const animRef = useRef(0)
 
+  /* ---- Mobile detection ---- */
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+  )
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 768px)')
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mql.addEventListener('change', handler)
+    return () => mql.removeEventListener('change', handler)
+  }, [])
+
+  /* ---- Dynamic 3D parameters ---- */
+  const depthLayers = isMobile ? 12 : DEPTH_LAYERS
+  const layerSpacing = isMobile ? 4 : LAYER_SPACING
+  const sideStrokeWidth = isMobile ? '3' : '1'
+
   const activeCard = cards[activeIndex]
 
   /* ---- Navigate carousel ---- */
@@ -186,15 +203,15 @@ const ProblemSection = () => {
               </svg>
 
               <div ref={chartRef} className={styles.donut3d}>
-                {Array.from({ length: DEPTH_LAYERS }, (_, i) => {
-                  const z = -i * LAYER_SPACING
+                {Array.from({ length: depthLayers }, (_, i) => {
+                  const z = -i * layerSpacing
                   
                   // Identificamos si es la tapa superior
                   const isTop = i === 0
                   
                   // Tonos mucho más suaves: en lugar de bajar a 0.35, bajamos de 0.85 a 0.70
                   // El salto brusco de 1 (top) a 0.85 (sides) crea la "esquina dura"
-                  const f = isTop ? 1 : 0.85 - (i / DEPTH_LAYERS) * 0.15
+                  const f = isTop ? 1 : 0.85 - (i / depthLayers) * 0.15
                   
                   // Colores: La capa superior usa el degradado, las demás usan el color sólido suavizado
                   const pinkFill = isTop ? "url(#pinkLight)" : shade(PINK, f)
@@ -213,7 +230,7 @@ const ProblemSection = () => {
                           fill={pinkFill} 
                           // El stroke elimina el borde suave (anti-aliasing) entre capas
                           stroke={isTop ? "none" : pinkFill} 
-                          strokeWidth={isTop ? "0" : "1"} 
+                          strokeWidth={isTop ? "0" : sideStrokeWidth} 
                           strokeLinejoin="round"
                         />
                       )}
@@ -222,7 +239,7 @@ const ProblemSection = () => {
                           d={orangeD} 
                           fill={orangeFill} 
                           stroke={isTop ? "none" : orangeFill} 
-                          strokeWidth={isTop ? "0" : "1"} 
+                          strokeWidth={isTop ? "0" : sideStrokeWidth} 
                           strokeLinejoin="round"
                         />
                       )}
