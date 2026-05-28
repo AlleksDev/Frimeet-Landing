@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./PricingSection.module.css";
 import { User, Store, Sparkles, Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../components/Reveal";
+import mapVideo from "../assets/map_bottom.webm";
 
 /* ---- Roles ---- */
 const roles = [
@@ -86,26 +87,6 @@ const PricingSection = () => {
               Frimeet no sirve solamente para encontrar nuevos lugares, también
               puedes registrarte como negocio
             </p>
-          </Reveal>
-
-          {/* Role Selector */}
-          <Reveal
-            animation="fadeUp"
-            delay={100}
-            duration={800}
-            className={styles.roleSelector}
-          >
-            {roles.map((role, index) => (
-              <button
-                key={index}
-                className={`${styles.roleTab} ${activeRole === index ? styles.roleTabActive : ""}`}
-                onClick={() => setActiveRole(index)}
-                type="button"
-              >
-                <span className={styles.roleTabIcon}>{role.icon}</span>
-                <span className={styles.roleTabLabel}>{role.label}</span>
-              </button>
-            ))}
           </Reveal>
 
           {/* Pricing Cards */}
@@ -246,23 +227,14 @@ const PricingSection = () => {
             </button>
           </Reveal>
 
-          <Reveal
-            animation="fadeUp"
-            delay={400}
-            duration={800}
-            className={styles.ctaStats}
-          >
-            {[
-              ["50K+", "Usuarios activos"],
-              ["4.9", "Rating en store"],
-              ["100+", "Ciudades"],
-            ].map(([n, l]) => (
-              <div key={l} className={styles.statItem}>
-                <span className={styles.statNum}>{n}</span>
-                <span className={styles.statLabel}>{l}</span>
-              </div>
-            ))}
-          </Reveal>
+          {/* Map video – autoplays and freezes on last frame */}
+          <video
+            className={styles.ctaVideo}
+            src={mapVideo}
+            autoPlay
+            muted
+            playsInline
+          />
         </div>
       </section>
     </>
