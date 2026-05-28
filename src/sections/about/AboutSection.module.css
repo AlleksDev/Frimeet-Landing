@@ -1,7 +1,11 @@
 /* ========================================
    AboutSection – "Tu ciudad, redescubierta"
-   Scroll-pinned cards + dynamic video
-   Layout: Left (title + cards) | Right (video)
+   Scroll-pinned cards + video state machine
+   Layout: Left (title + cards) | Right (video stage)
+
+   Animation classes are driven by the FSM, not
+   by simple index comparison. This guarantees
+   perfect 1:1 sync between cards and videos.
    ======================================== */
 
 /* ---- Section: outer wrapper ---- */
@@ -11,15 +15,15 @@
   background-color: #f5f5f5;
 }
 
-/* ---- Scroll-pin area: tall spacer that drives the card scroll ---- */
+/* ---- Scroll-pin area ---- */
 .scrollPinArea {
   position: relative;
   width: 100%;
-  /* Height = 100vh (sticky viewport) + N cards * 100vh (scroll room) */
-  height: calc(100vh + 500vh);
+  /* 6 cards × 100vh scroll room + 100vh for the sticky viewport */
+  height: calc(100vh + 600vh);
 }
 
-/* ---- Sticky viewport: stays pinned to screen ---- */
+/* ---- Sticky viewport ---- */
 .stickyViewport {
   position: sticky;
   top: 0;
@@ -43,9 +47,7 @@
 }
 
 /* ========================================
-   Two-column master layout
-   Left: title/subtitle + cards
-   Right: video (full height)
+   Two-column layout
    ======================================== */
 .twoColumns {
   display: grid;
@@ -72,7 +74,7 @@
   flex-direction: column;
   gap: 12px;
   text-align: left;
-  margin-top: 56px;
+  margin-bottom: 40px;
   flex-shrink: 0;
 }
 
@@ -97,6 +99,7 @@
 
 /* ========================================
    Cards: stacked, one visible at a time
+   Animation classes driven by FSM phase.
    ======================================== */
 .cardContainer {
   position: relative;
@@ -107,20 +110,27 @@
   min-height: 260px;
 }
 
-/* Each card slide is absolutely positioned and crossfades */
+/* Base: all cards hidden and positioned absolutely */
 .cardSlide {
   position: absolute;
   top: 50%;
   left: 0;
   right: 0;
-  transform: translateY(calc(-50% + 30px));
+  transform: translateY(calc(-50% + 40px));
   opacity: 0;
-  transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
-              transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
   pointer-events: none;
   z-index: 0;
+  /* No CSS transition — animations are explicit keyframes */
 }
 
+/* ---- ENTERING: card sliding in (plays with entrance video) ---- */
+.cardSlideEntering {
+  animation: cardEnter 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* ---- ACTIVE/IDLE: card fully visible and static ---- */
 .cardSlideActive {
   opacity: 1;
   transform: translateY(-50%);
@@ -128,12 +138,45 @@
   z-index: 2;
 }
 
-.cardSlideExit {
-  opacity: 0;
-  transform: translateY(calc(-50% - 30px));
+/* ---- EXITING: card sliding out (plays with outing video) ---- */
+.cardSlideExiting {
+  animation: cardExit 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* ---- Card progress indicators ---- */
+/* ---- PAST: cards that have already scrolled away ---- */
+.cardSlidePast {
+  opacity: 0;
+  transform: translateY(calc(-50% - 40px));
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- Keyframe animations ---- */
+@keyframes cardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(-50% + 40px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes cardExit {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-50% - 40px));
+  }
+}
+
+/* ---- Progress indicators ---- */
 .cardIndicators {
   position: absolute;
   bottom: 8px;
@@ -158,7 +201,7 @@
   border-radius: 4px;
 }
 
-/* ---- Cards ---- */
+/* ---- Card base ---- */
 .card {
   width: 100%;
   background: #ffffff;
@@ -171,14 +214,13 @@
   gap: 12px;
 }
 
-/* Gradient variant (Fricoins CTA) */
 .cardGradient {
   background: linear-gradient(135deg, #FF2D87 0%, #FF5900 100%);
   border: none;
   box-shadow: 0 8px 32px rgba(255, 45, 135, 0.25);
 }
 
-/* ---- Tag / badge ---- */
+/* ---- Tag ---- */
 .tag {
   display: inline-block;
   background: #FF590018;
@@ -205,7 +247,7 @@
   letter-spacing: 0.04em;
 }
 
-/* ---- Icon wrappers ---- */
+/* ---- Icons ---- */
 .iconWrap {
   width: 42px;
   height: 42px;
@@ -231,10 +273,10 @@
   backdrop-filter: blur(4px);
 }
 
-/* ---- Card text ---- */
+/* ---- Text ---- */
 .cardTitle {
   font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: #000;
   margin: 0;
@@ -242,7 +284,7 @@
 
 .cardTitleGrad {
   font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: #ffffff;
   margin: 0;
@@ -256,13 +298,13 @@
 }
 
 .cardDescGrad {
-  font-size: 1rem;
+  font-size: 0.88rem;
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
   margin: 0;
 }
 
-/* ---- CTA button (Fricoins) ---- */
+/* ---- CTA ---- */
 .ctaBtn {
   display: inline-flex;
   align-items: center;
@@ -285,106 +327,54 @@
   box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
 }
 
-/* ---- Dual-card row ---- */
-.dualRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  width: 100%;
-}
-
-.cardSmall {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px 16px;
-  border: 1px solid #ebebeb;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 /* ========================================
-   Right column: Video Player
+   Right column: Video Stage
+   Two GPU-accelerated layers stacked for
+   seamless entrance/outing cuts.
+   Opacity is controlled imperatively via JS
+   (ref.style.opacity) — NOT React classes.
    ======================================== */
 .rightCol {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 0;
+  padding: 0;
   min-height: 0;
+  overflow: hidden;
 }
 
-.videoWrapper {
+.videoStage {
   position: relative;
   width: 100%;
-  height: 100%;
-  max-height: calc(100vh - 80px);
-  border-radius: 24px;
-  overflow: hidden;
-  background: #0a0a0a;
-  box-shadow:
-    0 32px 72px rgba(0, 0, 0, 0.22),
-    0 0 0 1px rgba(255, 255, 255, 0.04);
+  height: 80vh;
 }
 
-/* Videos swap abruptly – no fade transition */
-.videoPlayer {
+/* Shared base for both video layers
+   KEY FIX: background is TRANSPARENT, not #000.
+   The black background was a major flickering source. */
+.videoLayer {
+  background: transparent;
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 57%;
+  left: 50%;
+  height: 90vh;
   object-fit: contain;
+  /* Hidden by default — opacity managed by JS imperative code */
   opacity: 0;
-  visibility: hidden;
+  pointer-events: none;
+  /* GPU acceleration — prevents decode-flicker */
+  transform: translate(-50%, -50%) translateZ(0);
+  will-change: opacity;
+}
+
+/* Entrance layer — sits behind the outing layer */
+.videoEntrance {
   z-index: 1;
 }
 
-.videoActive {
-  opacity: 1;
-  visibility: visible;
+/* Outing layer — always on top so the swap is invisible */
+.videoOuting {
   z-index: 2;
-}
-
-/* Fallback placeholder (visible when no video is loaded) */
-.videoPlaceholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: linear-gradient(
-    160deg,
-    #1a1a2e 0%,
-    #16213e 50%,
-    #0f3460 100%
-  );
-  z-index: 0;
-}
-
-.videoPlaceholderIcon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(8px);
-}
-
-.videoPlaceholderText {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.35);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 /* ========================================
@@ -458,7 +448,7 @@
 }
 
 /* ========================================
-   Steps Section (preserved)
+   Steps Section
    ======================================== */
 .stepsSection {
   margin-top: 60px;
@@ -634,7 +624,6 @@
     height: auto;
   }
 
-  /* Stack to single column */
   .twoColumns {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -659,18 +648,20 @@
     text-align: center;
   }
 
-  /* Video on top on mobile */
   .rightCol {
     order: -1;
     padding: 0;
   }
 
-  .videoWrapper {
-    max-height: 320px;
-    border-radius: 18px;
+  .videoStage {
+    height: 40vh;
   }
 
-  /* Show all cards stacked, not absolutely positioned */
+  .videoLayer {
+    height: 40vh;
+  }
+
+  /* Show all cards stacked on mobile — disable animations */
   .cardContainer {
     min-height: auto;
   }
@@ -684,31 +675,26 @@
     opacity: 1;
     pointer-events: auto;
     margin-bottom: 16px;
+    animation: none;
   }
 
-  .cardSlideActive {
-    transform: none;
-  }
-
-  .cardSlideExit {
+  .cardSlideActive,
+  .cardSlideEntering,
+  .cardSlideExiting,
+  .cardSlidePast {
     transform: none;
     opacity: 1;
+    animation: none;
   }
 
   .cardIndicators {
     display: none;
   }
 
-  .dualRow {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
   .belowStickyContent {
     padding: 60px 24px;
   }
 
-  /* Steps responsive */
   .timelineContainer {
     flex-direction: column;
     width: auto;
@@ -765,16 +751,16 @@
     font-size: 0.9rem;
   }
 
-  .videoWrapper {
-    max-height: 260px;
+  .videoStage {
+    height: 30vh;
+  }
+
+  .videoLayer {
+    height: 30vh;
   }
 
   .card {
     padding: 20px 16px;
-  }
-
-  .cardSmall {
-    padding: 16px 14px;
   }
 
   .cardTitle,
