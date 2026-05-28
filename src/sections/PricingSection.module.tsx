@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./PricingSection.module.css";
 import { Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../components/Reveal";
