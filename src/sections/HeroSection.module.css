@@ -335,7 +335,7 @@
   .headlinePink,
   .headlineOrange {
     font-size: clamp(3.5rem, 9vw, 3.5rem);
-    height: 13vw;
+    height: auto;
     filter: drop-shadow(2px 2px 2px #000000);
   }
 
@@ -352,9 +352,9 @@
   .imagesRightInside {
     display: block;
     position: absolute;
-    max-width: 55vw;
+    max-width: 45vw;
     right: 0;
-    top: 10.5%;
+    top: 5%;
     transform: translateY(-50%);
     z-index: 2;
   }
@@ -371,22 +371,15 @@
     min-height: 100vh;
   }
   .container {
-    height: 95vh;
+    min-height: 95vh;
+    height: auto;
     padding: 90px 16px 50px;
-  }
-
-  .imageLeft {
-    width: 75%;
-  }
-
-  .imageLeft img {
-    max-height: 30vh;
   }
 
   .headlineWhite,
   .headlinePink,
   .headlineOrange {
-    height: 15vw;
+    height: auto;
     font-size: clamp(3rem, 10vw, 3rem);
   }
 

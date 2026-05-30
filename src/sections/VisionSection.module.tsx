@@ -37,7 +37,6 @@ const VisionSection = () => {
         </div>
 
         <Reveal animation="fadeLeft" delay={200} duration={800} className={styles.visionRight}>
-          <span className={styles.badge}>Nuestra visión</span>
 
           <h2 className={styles.visionTitle}>
             Más que una app,<br />

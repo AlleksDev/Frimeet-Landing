@@ -254,14 +254,14 @@
   }
 
   .checkList {
-    align-items: start;
+    align-items: center;
     text-align: center;
   }
 
   .checkItem {
-    flex-direction: row-reverse;
-    text-align: center;
-    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: left;
+    flex-wrap: nowrap;
   }
 
   .missionRight {
@@ -283,7 +283,7 @@
     bottom: 5vh;
     right: auto;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) !important;
     width: 260px;
     max-width: 85%;
   }
@@ -335,12 +335,18 @@
     position: absolute;
     width: 240px;
     padding: 14px 16px;
-    left: auto;
-    right: 6vw !important;
+    left: 50%;
+    right: auto !important;
+    transform: translateX(-50%) !important;
     bottom: 4vh;
   }
 
   .smallCardNum {
     font-size: 18px;
   }
+
+  .missionRight:hover .smallCard{
+    transform: translateX(-50%) rotate(5deg) !important;
+  }
+
 }

@@ -1,0 +1,702 @@
+/* ========================================
+   TargetUserSection – "¿Quién usa Frimeet?"
+   Switch de Perspectiva + Bento Grid
+   Two-Sided Marketplace showcase
+   ======================================== */
+
+/* ---- Section ---- */
+.section {
+  position: relative;
+  width: 100%;
+  background: #0a0a0a;
+  padding: 100px 40px;
+  overflow: hidden;
+  transition: background 0.6s ease;
+}
+
+/* Ambient glow behind the section */
+.ambientGlow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(180px);
+  opacity: 0.2;
+  pointer-events: none;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.glowExplorer {
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(circle, #AAFF00, #FF2D87);
+}
+
+.glowBusiness {
+  top: -10%;
+  right: -10%;
+  left: auto;
+  background: radial-gradient(circle, #FF6B00, #FF8C00);
+}
+
+/* ---- Container ---- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Header ---- */
+.header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(170, 255, 0, 0.1);
+  color: #AAFF00;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(170, 255, 0, 0.15);
+  transition: all 0.5s ease;
+}
+
+.badgeBusiness {
+  background: rgba(255, 107, 0, 0.1);
+  color: #FF8C00;
+  border-color: rgba(255, 107, 0, 0.15);
+}
+
+.title {
+  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.titleGrad {
+  background: linear-gradient(90deg, #AAFF00, #FF2D87);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.5s ease;
+}
+
+.titleGradBusiness {
+  background: linear-gradient(90deg, #FF6B00, #FF8C00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 560px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ========================================
+   Switch Toggle
+   ======================================== */
+.switchContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.switchOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.switchOption:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.switchOptionActive {
+  color: #0a0a0a;
+  background: #AAFF00;
+  box-shadow: 0 4px 20px rgba(170, 255, 0, 0.3);
+}
+
+.switchOptionActiveBusiness {
+  color: #0a0a0a;
+  background: linear-gradient(135deg, #FF6B00, #FF8C00);
+  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
+}
+
+.switchIcon {
+  display: flex;
+  align-items: center;
+}
+
+/* ========================================
+   Bento Grid
+   ======================================== */
+.bentoGrid {
+  display: grid;
+  width: 100%;
+  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  animation: bentoFadeIn 0.5s ease-out;
+}
+
+@keyframes bentoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Bento Card Base ---- */
+.bentoCard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(8px);
+}
+
+.bentoCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(170, 255, 0, 0.15), transparent 60%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.bentoCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(170, 255, 0, 0.15);
+  box-shadow: 0 8px 32px rgba(170, 255, 0, 0.08);
+}
+
+/* Business theme card hover */
+.bentoCardBusiness:hover {
+  border-color: rgba(255, 107, 0, 0.15);
+  box-shadow: 0 8px 32px rgba(255, 107, 0, 0.08);
+}
+
+.bentoCardBusiness::before {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.15), transparent 60%);
+}
+
+/* ---- Card sizes ---- */
+.bentoLarge {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.bentoTall {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+/* ---- Card Icon ---- */
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.4s ease;
+}
+
+.cardIconExplorer {
+  background: linear-gradient(135deg, rgba(170, 255, 0, 0.2), rgba(255, 45, 135, 0.15));
+  color: #AAFF00;
+}
+
+.cardIconBusiness {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.2), rgba(255, 140, 0, 0.15));
+  color: #FF8C00;
+}
+
+/* ---- Card Text ---- */
+.cardTag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #AAFF00;
+  opacity: 0.8;
+  transition: color 0.4s ease;
+}
+
+.cardTagBusiness {
+  color: #FF8C00;
+}
+
+.cardTitle {
+  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.cardDesc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ---- Pain Point Highlight ---- */
+.painPoint {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(255, 45, 135, 0.06);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 45, 135, 0.1);
+  margin-top: 4px;
+  transition: all 0.4s ease;
+}
+
+.painPointBusiness {
+  background: rgba(255, 107, 0, 0.06);
+  border-color: rgba(255, 107, 0, 0.1);
+}
+
+.painIcon {
+  flex-shrink: 0;
+  color: #FF2D87;
+  margin-top: 2px;
+  transition: color 0.4s ease;
+}
+
+.painIconBusiness {
+  color: #FF8C00;
+}
+
+.painText {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.painLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #FF2D87;
+  margin-bottom: 4px;
+  transition: color 0.4s ease;
+}
+
+.painLabelBusiness {
+  color: #FF8C00;
+}
+
+/* ---- Aha Moment (CTA-like highlight) ---- */
+.ahaBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, rgba(170, 255, 0, 0.08), rgba(170, 255, 0, 0.03));
+  border-radius: 12px;
+  border: 1px solid rgba(170, 255, 0, 0.12);
+  margin-top: auto;
+  transition: all 0.4s ease;
+}
+
+.ahaBoxBusiness {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(255, 107, 0, 0.03));
+  border-color: rgba(255, 107, 0, 0.12);
+}
+
+.ahaIcon {
+  flex-shrink: 0;
+  color: #AAFF00;
+  transition: color 0.4s ease;
+}
+
+.ahaIconBusiness {
+  color: #FF8C00;
+}
+
+.ahaText {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.ahaLabel {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #AAFF00;
+  transition: color 0.4s ease;
+}
+
+.ahaLabelBusiness {
+  color: #FF8C00;
+}
+
+/* ---- Stat inside card ---- */
+.statHighlight {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.statNumber {
+  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #AAFF00, #FF2D87);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+  transition: all 0.4s ease;
+}
+
+.statNumberBusiness {
+  background: linear-gradient(135deg, #FF6B00, #FF8C00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statLabel {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 500;
+}
+
+/* ---- Visual Mockup Element ---- */
+.mockupElement {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: auto;
+}
+
+.mockupBar {
+  height: 8px;
+  border-radius: 4px;
+  transition: all 0.4s ease;
+}
+
+.mockupBar:nth-child(1) {
+  width: 80%;
+  background: linear-gradient(90deg, #AAFF00, rgba(170, 255, 0, 0.3));
+}
+
+.mockupBar:nth-child(2) {
+  width: 60%;
+  background: linear-gradient(90deg, #FF2D87, rgba(255, 45, 135, 0.3));
+}
+
+.mockupBar:nth-child(3) {
+  width: 45%;
+  background: linear-gradient(90deg, #FF6B00, rgba(255, 107, 0, 0.3));
+}
+
+.mockupBarBusiness .mockupBar:nth-child(1) {
+  background: linear-gradient(90deg, #FF6B00, rgba(255, 107, 0, 0.3));
+}
+
+.mockupBarBusiness .mockupBar:nth-child(2) {
+  background: linear-gradient(90deg, #FF8C00, rgba(255, 140, 0, 0.3));
+}
+
+.mockupBarBusiness .mockupBar:nth-child(3) {
+  background: linear-gradient(90deg, #AAFF00, rgba(170, 255, 0, 0.3));
+}
+
+/* ---- Aforo Indicator (Business card visual) ---- */
+.aforoIndicator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.aforoDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: aforoPulse 2s ease-in-out infinite;
+}
+
+.aforoGreen {
+  background: #AAFF00;
+  box-shadow: 0 0 12px rgba(170, 255, 0, 0.4);
+}
+
+.aforoRed {
+  background: #FF2D87;
+  box-shadow: 0 0 12px rgba(255, 45, 135, 0.4);
+}
+
+@keyframes aforoPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+.aforoLabel {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.aforoStatus {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #AAFF00;
+  margin-left: auto;
+}
+
+.aforoStatusFull {
+  color: #FF2D87;
+}
+
+/* ---- Bottom CTA ---- */
+.bottomCta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.ctaText {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
+  max-width: 400px;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 1024px) {
+  .section {
+    padding: 80px 32px;
+  }
+
+  .container {
+    gap: 44px;
+  }
+
+  .bentoGrid {
+    gap: 14px;
+  }
+
+  .bentoCard {
+    padding: 28px 24px;
+  }
+
+  .statNumber {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 20px;
+  }
+
+  .container {
+    gap: 36px;
+  }
+
+  .title {
+    font-size: clamp(1.6rem, 6vw, 2.5rem);
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .switchContainer {
+    gap: 8px;
+    padding: 4px;
+  }
+
+  .switchOption {
+    padding: 10px 18px;
+    font-size: 0.82rem;
+  }
+
+  .bentoGrid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .bentoLarge {
+    grid-column: span 1;
+  }
+
+  .bentoTall {
+    grid-row: span 1;
+  }
+
+  .bentoCard {
+    padding: 24px 20px;
+  }
+
+  .cardTitle {
+    font-size: 1.2rem;
+  }
+
+  .statNumber {
+    font-size: 2rem;
+  }
+
+  .ambientGlow {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 48px 16px;
+  }
+
+  .container {
+    gap: 28px;
+  }
+
+  .title {
+    font-size: clamp(1.3rem, 7vw, 2rem);
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .switchContainer {
+    flex-direction: row;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .switchOption {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 0.78rem;
+  }
+
+  .bentoCard {
+    padding: 20px 16px;
+    gap: 12px;
+  }
+
+  .cardIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .cardTitle {
+    font-size: 1.1rem;
+  }
+
+  .cardDesc {
+    font-size: 0.82rem;
+  }
+
+  .statNumber {
+    font-size: 1.8rem;
+  }
+
+  .painPoint {
+    padding: 12px;
+  }
+
+  .painText {
+    font-size: 0.78rem;
+  }
+
+  .ahaText {
+    font-size: 0.76rem;
+  }
+
+  .ambientGlow {
+    width: 250px;
+    height: 250px;
+    filter: blur(120px);
+  }
+}

@@ -7,7 +7,6 @@ const MissionSection = () => {
     <section className={styles.missionSection} id='mission'>
       <div className={styles.missionContainer}>
         <Reveal animation="fadeRight" delay={0} duration={800} className={styles.missionLeft}>
-          <span className={styles.badge}>Nuestra misión</span>
           <h2 className={styles.missionTitle}>
             Formalizamos la<br />
             <span className={styles.missionTitleGradient}>economía invisible</span>
