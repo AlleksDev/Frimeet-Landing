@@ -339,87 +339,121 @@ const SlideCarousel = ({ slides, accent }: SlideCarouselProps) => {
 
   return (
     <div className={styles.carousel}>
-      {/* Nav + Header */}
-      <div className={styles.carouselTop}>
+      <div className={styles.carouselContainer}>
+        {/* Left Nav Button */}
         <button
-          className={`${styles.navBtn} ${accent === 'pink' ? styles.navBtnPink : styles.navBtnOrange}`}
+          className={`${styles.navBtn} ${styles.navBtnLeft} ${accent === 'pink' ? styles.navBtnPink : styles.navBtnOrange}`}
           onClick={() => go(-1)}
           aria-label="Anterior"
           type="button"
         >
-          <ChevronLeft size={18} />
+          <ChevronLeft size={20} />
         </button>
 
+        {/* Slide Content */}
+        <div
+          className={`${styles.slideBody} ${isMot ? (accent === 'pink' ? styles.slideMotPink : styles.slideMotOrange) : styles.slideBodyWhite}`}
+          key={slide.key}
+        >
+          {/* Top Tag/Badge */}
+          {!isMot && (
+            <div className={styles.slideHeader}>
+              <span className={`${styles.slideTag} ${accent === 'pink' ? styles.slideTagPink : styles.slideTagOrange}`}>
+                {slide.key === 'occupation' ? 'ESTILO DE VIDA' :
+                 slide.key === 'interests' ? 'GUSTOS E INTERESES' :
+                 slide.key === 'digital' ? 'PERFIL DIGITAL' : 'MOTIVACIÓN'}
+              </span>
+            </div>
+          )}
 
+          {/* Icon Block */}
+          <div className={`${styles.slideIconBlock} ${isMot ? styles.slideIconBlockTranslucent : (accent === 'pink' ? styles.slideIconBlockPink : styles.slideIconBlockOrange)}`}>
+            <SlideIcon size={22} />
+          </div>
 
+          {/* Title */}
+          <h4 className={`${styles.slideTitle} ${isMot ? styles.slideTitleLight : ''}`}>{slide.label}</h4>
+
+          {/* Content */}
+          <div className={styles.slideContent}>
+            {slide.type === 'rows' && (
+              <div className={styles.slideRows}>
+                {(slide.data as InfoItem[]).map((item, i) => (
+                  <div key={i} className={styles.slideRow}>
+                    <item.icon
+                      size={18}
+                      className={`${styles.slideRowIcon} ${accent === 'pink' ? styles.slideRowIconPink : styles.slideRowIconOrange}`}
+                    />
+                    <div className={styles.slideRowText}>
+                      <span className={`${styles.slideRowLabel} ${isMot ? styles.slideRowLabelLight : ''}`}>{item.label}:</span>
+                      <span className={`${styles.slideRowValue} ${isMot ? styles.slideRowValueLight : ''}`}>{item.value}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {slide.type === 'chips' && (
+              <div className={styles.slideChips}>
+                {(slide.data as string[]).map((chip, i) => (
+                  <span
+                    key={i}
+                    className={`${styles.chip} ${accent === 'pink' ? styles.chipPink : styles.chipOrange}`}
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {slide.type === 'bullets' && (
+              <ul className={styles.slideBullets}>
+                {(slide.data as string[]).map((b, i) => (
+                  <li key={i} className={styles.slideBullet}>
+                    <span className={`${styles.bDot} ${accent === 'pink' ? styles.bDotPink : styles.bDotOrange}`} />
+                    <span className={styles.slideBulletText}>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {slide.type === 'motivations' && (
+              <div className={styles.slideMotivationsContainer}>
+                <ul className={styles.slideBullets}>
+                  {(slide.data as string[]).map((m, i) => (
+                    <li key={i} className={styles.slideBulletLight}>
+                      <ArrowRight size={14} className={styles.arrowLight} />
+                      <span className={styles.slideBulletTextLight}>{m}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA Button for motivations card */}
+                <div className={styles.slideCtaWrapper}>
+                  {accent === 'pink' ? (
+                    <a href="#hero" className={styles.slideCtaBtnPink}>
+                      Empieza a ganar <ArrowRight size={16} />
+                    </a>
+                  ) : (
+                    <a href="#business" className={styles.slideCtaBtnOrange}>
+                      Empieza a crecer <ArrowRight size={16} />
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Nav Button */}
         <button
-          className={`${styles.navBtn} ${accent === 'pink' ? styles.navBtnPink : styles.navBtnOrange}`}
+          className={`${styles.navBtn} ${styles.navBtnRight} ${accent === 'pink' ? styles.navBtnPink : styles.navBtnOrange}`}
           onClick={() => go(1)}
           aria-label="Siguiente"
           type="button"
         >
-          <ChevronRight size={18} />
+          <ChevronRight size={20} />
         </button>
-      </div>
-
-      {/* Slide Content */}
-      <div
-        className={`${styles.slideBody} ${isMot ? (accent === 'pink' ? styles.slideMotPink : styles.slideMotOrange) : ''}`}
-        key={slide.key}
-      >
-        <div className={`${styles.slideLabel} ${accent === 'pink' ? styles.slideLabelPink : styles.slideLabelOrange}`}>
-          <SlideIcon size={15} />
-          <span>{slide.label}</span>
-        </div>
-        {slide.type === 'rows' && (
-          <div className={styles.slideRows}>
-            {(slide.data as InfoItem[]).map((item, i) => (
-              <div key={i} className={styles.slideRow}>
-                <item.icon
-                  size={16}
-                  className={`${styles.slideRowIcon} ${accent === 'pink' ? styles.slideRowIconPink : styles.slideRowIconOrange}`}
-                />
-                <span className={`${styles.slideRowLabel} ${isMot ? styles.slideRowLabelLight : ''}`}>{item.label}</span>
-                <span className={`${styles.slideRowValue} ${isMot ? styles.slideRowValueLight : ''}`}>{item.value}</span>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {slide.type === 'chips' && (
-          <div className={styles.slideChips}>
-            {(slide.data as string[]).map((chip, i) => (
-              <span
-                key={i}
-                className={`${styles.chip} ${accent === 'pink' ? styles.chipPink : styles.chipOrange}`}
-              >
-                {chip}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {slide.type === 'bullets' && (
-          <ul className={styles.slideBullets}>
-            {(slide.data as string[]).map((b, i) => (
-              <li key={i} className={styles.slideBullet}>
-                <span className={`${styles.bDot} ${accent === 'pink' ? styles.bDotPink : styles.bDotOrange}`} />
-                {b}
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {slide.type === 'motivations' && (
-          <ul className={styles.slideBullets}>
-            {(slide.data as string[]).map((m, i) => (
-              <li key={i} className={styles.slideBulletLight}>
-                <ArrowRight size={14} className={styles.arrowLight} />
-                {m}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
       {/* Dots */}
