@@ -21,6 +21,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowRight,
+  CheckCircle,
 } from 'lucide-react';
 
 /* ───────────────────────────────────────────
@@ -355,16 +356,6 @@ const SlideCarousel = ({ slides, accent }: SlideCarouselProps) => {
           className={`${styles.slideBody} ${isMot ? (accent === 'pink' ? styles.slideMotPink : styles.slideMotOrange) : styles.slideBodyWhite}`}
           key={slide.key}
         >
-          {/* Top Tag/Badge */}
-          {!isMot && (
-            <div className={styles.slideHeader}>
-              <span className={`${styles.slideTag} ${accent === 'pink' ? styles.slideTagPink : styles.slideTagOrange}`}>
-                {slide.key === 'occupation' ? 'ESTILO DE VIDA' :
-                 slide.key === 'interests' ? 'GUSTOS E INTERESES' :
-                 slide.key === 'digital' ? 'PERFIL DIGITAL' : 'MOTIVACIÓN'}
-              </span>
-            </div>
-          )}
 
           {/* Icon Block */}
           <div className={`${styles.slideIconBlock} ${isMot ? styles.slideIconBlockTranslucent : (accent === 'pink' ? styles.slideIconBlockPink : styles.slideIconBlockOrange)}`}>
@@ -483,9 +474,6 @@ const TargetUserSection = () => {
 
   return (
     <section className={styles.section} id="target-users">
-      <div className={`${styles.decorBlob} ${styles.decorBlobA} ${isExplorer ? styles.decorBlobPink : styles.decorBlobOrange}`} />
-      <div className={`${styles.decorBlob} ${styles.decorBlobB} ${isExplorer ? styles.decorBlobPink : styles.decorBlobOrange}`} />
-
       <div className={styles.container}>
         {/* Header */}
         <Reveal animation="fadeUp" delay={0} duration={800} className={styles.header}>
@@ -531,7 +519,6 @@ const TargetUserSection = () => {
               duration={700}
               className={`${styles.card} ${accent === 'pink' ? styles.cardPink : styles.cardOrange}`}
             >
-              <div className={`${styles.cardStrip} ${accent === 'pink' ? styles.stripPink : styles.stripOrange}`} />
 
               {/* Card layout: left info + right carousel */}
               <div className={styles.cardInner}>
@@ -539,9 +526,6 @@ const TargetUserSection = () => {
                 <div className={styles.cardLeft}>
                   {/* Avatar + header */}
                   <div className={styles.cardHeader}>
-                    <div className={`${styles.avatarWrap} ${accent === 'pink' ? styles.avatarPink : styles.avatarOrange}`}>
-                      <profile.avatarIcon size={28} strokeWidth={2.2} />
-                    </div>
                     <div className={styles.headerText}>
                       <span className={`${styles.tagline} ${accent === 'pink' ? styles.taglinePink : styles.taglineOrange}`}>
                         {profile.tagline}
@@ -556,11 +540,8 @@ const TargetUserSection = () => {
                   <div className={styles.demoGrid}>
                     {profile.demographics.map((d, i) => (
                       <div key={i} className={`${styles.demoItem} ${accent === 'pink' ? styles.demoItemPink : styles.demoItemOrange}`}>
-                        <d.icon size={16} className={styles.demoIcon} />
-                        <div className={styles.demoText}>
-                          <span className={styles.demoLabel}>{d.label}</span>
-                          <span className={styles.demoValue}>{d.value}</span>
-                        </div>
+                        <CheckCircle size={15} className={styles.demoIcon} />
+                        <span className={styles.demoValue}>{d.value}</span>
                       </div>
                     ))}
                   </div>

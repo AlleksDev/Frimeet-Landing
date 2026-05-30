@@ -8,7 +8,7 @@
 .section {
   position: relative;
   width: 100%;
-  background: #fafafa;
+  background: #f5f5f5;
   padding: 100px 40px;
   overflow: hidden;
 }
@@ -187,13 +187,11 @@
    Card — outer shell
    ======================================== */
 .card {
-  background: #fff;
   border-radius: 24px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
   border: 1px solid #f0f0f0;
   transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275),
               box-shadow 0.45s ease;
@@ -201,28 +199,11 @@
 
 .card:hover { transform: translateY(-6px); }
 
-.cardPink:hover {
-  box-shadow: 0 20px 60px rgba(255, 62, 127, 0.10), 0 4px 20px rgba(0,0,0,0.05);
-}
-
-.cardOrange:hover {
-  box-shadow: 0 20px 60px rgba(255, 107, 0, 0.10), 0 4px 20px rgba(0,0,0,0.05);
-}
-
-/* Gradient strip */
-.cardStrip {
-  height: 5px;
-  width: 100%;
-  flex-shrink: 0;
-}
-
-.stripPink  { background: linear-gradient(90deg, var(--pink), var(--orange)); }
-.stripOrange { background: linear-gradient(90deg, var(--orange), var(--orange-light)); }
-
 /* ── Card Inner — 2-column split ── */
 .cardInner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
   min-height: 420px;
 }
 
@@ -230,9 +211,9 @@
 .cardLeft {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 20px;
   padding: 32px 28px 32px 32px;
-  border-right: 1px solid #f0f0f0;
 }
 
 .cardHeader {
@@ -258,7 +239,7 @@
 }
 
 .avatarPink {
-  background: linear-gradient(135deg, var(--pink), #e0245e);
+  background: linear-gradient(135deg, var(--pink), var(--pink-light));
   color: #fff;
   box-shadow: 0 4px 16px rgba(255, 62, 127, 0.25);
 }
@@ -308,48 +289,33 @@
   font-size: 1.05rem;
   color: #666;
   line-height: 1.65;
+  max-width: 420px;
   margin: 0;
 }
 
 /* ── Demographics 2×2 grid ── */
 .demoGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  margin-top: auto;
 }
 
 .demoItem {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 14px;
   border-radius: 14px;
   transition: all 0.3s ease;
 }
-
-.demoItemPink {
-  background: rgba(255, 62, 127, 0.04);
-  border: 1px solid rgba(255, 62, 127, 0.08);
+.demoItemPink .demoIcon {
+  color: var(--pink);
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
-.demoItemPink:hover {
-  background: rgba(255, 62, 127, 0.08);
-  border-color: rgba(255, 62, 127, 0.18);
-}
-
-.demoItemOrange {
-  background: rgba(255, 107, 0, 0.04);
-  border: 1px solid rgba(255, 107, 0, 0.08);
-}
-
-.demoItemOrange:hover {
-  background: rgba(255, 107, 0, 0.08);
-  border-color: rgba(255, 107, 0, 0.18);
-}
-
-.demoIcon {
-  color: #bbb;
+.demoItemOrange .demoIcon {
+  color: var(--orange);
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -362,17 +328,17 @@
 }
 
 .demoLabel {
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #bbb;
+  letter-spacing: 0.01em;
+  color: var(--gray);
 }
 
 .demoValue {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #222;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--black);
   line-height: 1.35;
 }
 
@@ -389,6 +355,8 @@
 .carousel {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   padding: 24px 12px;
   gap: 20px;
@@ -454,6 +422,7 @@
 
 /* ── Slide Body ── */
 .slideBody {
+  position: relative;
   flex: 1;
   width: 100%;
   border-radius: 24px;
@@ -464,7 +433,34 @@
   justify-content: flex-start;
   animation: slideFade 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   min-height: 310px;
+  width: 480px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.slideBody::after {
+  content: '';
+  position: absolute;
+  top: -96px;
+  right: -96px;
+  width: 256px;
+  height: 256px;
+  border-radius: 50%;
+  opacity: 0.12;
+  background: linear-gradient(135deg, var(--pink), var(--orange))
+}
+
+.slideBody:hover::after {
+  opacity: 0.2;
+  top: -64px;
+  right: -64px;
+  transition: all 0.4s ease;
+}
+
+.slideBody:hover .slideIconBlock {
+  transform: rotate(-5deg) scale(1.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes slideFade {
@@ -530,14 +526,12 @@
 
 .slideIconBlockPink {
   background: linear-gradient(135deg, var(--pink), var(--orange));
-  color: #ffffff;
-  box-shadow: 0 6px 14px rgba(255, 62, 127, 0.2);
+  color: var(--white);
 }
 
 .slideIconBlockOrange {
-  background: linear-gradient(135deg, var(--orange), var(--orange-light));
-  color: #ffffff;
-  box-shadow: 0 6px 14px rgba(255, 107, 0, 0.2);
+  background: linear-gradient(135deg, var(--orange), var(--pink));
+  color: var(--white);
 }
 
 .slideIconBlockTranslucent {
@@ -588,8 +582,8 @@
   margin-top: 2px;
 }
 
-.slideRowIconPink  { color: var(--pink); }
-.slideRowIconOrange { color: var(--orange); }
+.slideRowIconPink  { color: var(--gray); }
+.slideRowIconOrange { color: var(--gray); }
 
 .slideRowText {
   display: flex;
@@ -598,17 +592,17 @@
 }
 
 .slideRowLabel {
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #999999;
+  letter-spacing: 0.03em;
+  color: var(--gray);
 }
 
 .slideRowValue {
-  font-size: 0.98rem;
-  font-weight: 600;
-  color: #222222;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--black);
   line-height: 1.4;
 }
 
