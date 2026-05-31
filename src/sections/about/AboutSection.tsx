@@ -7,7 +7,6 @@ import { cardSteps, stepsData } from './data/cardSteps'
 
 /* ---- Hooks ---- */
 import { useScrollIndex } from './hooks/useScrollIndex'
-import { useCardTransitionMachine } from './hooks/useCardTransitionMachine'
 import { useVideoPlayer } from './hooks/useVideoPlayer'
 import { useVideoPreloader } from './hooks/useVideoPreloader'
 
@@ -19,29 +18,25 @@ import VideoStage from './components/VideoStage'
    AboutSection
    ════════════
    Thin orchestrator that composes hooks and renders the UI.
-   No business logic lives here — it's all delegated to hooks.
+   Scroll position drives card transitions and video scrubbing
+   directly — no state machine needed.
    ================================================================ */
 const AboutSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
 
-  /* ---- 1. Scroll → index ---- */
-  const scrollIndex = useScrollIndex(sectionRef, cardSteps.length)
+  /* ---- 1. Scroll → index + phase + local progress ---- */
+  const { scrollIndex, phase, localProgress } = useScrollIndex(sectionRef, cardSteps.length)
 
-  /* ---- 2. FSM: index → transition state ---- */
-  const { visualIndex, phase, exitingIndex, dispatch } =
-    useCardTransitionMachine(scrollIndex)
-
-  /* ---- 3. Video playback (driven by FSM) ---- */
+  /* ---- 2. Video playback (driven by scroll phase) ---- */
   const { entranceRef, outingRef } = useVideoPlayer(
+    scrollIndex,
     phase,
-    visualIndex,
-    exitingIndex,
+    localProgress,
     cardSteps,
-    dispatch,
   )
 
-  /* ---- 4. Preload adjacent videos during IDLE ---- */
-  useVideoPreloader(phase, visualIndex, cardSteps)
+  /* ---- 3. Preload adjacent videos ---- */
+  useVideoPreloader(scrollIndex, cardSteps)
 
   /* ================================================================
      JSX
@@ -64,11 +59,10 @@ const AboutSection = () => {
                   </p>
                 </Reveal>
 
-                {/* Cards: one at a time, driven by the state machine */}
+                {/* Cards: driven by scroll position */}
                 <CardStack
                   cardSteps={cardSteps}
-                  visualIndex={visualIndex}
-                  exitingIndex={exitingIndex}
+                  scrollIndex={scrollIndex}
                   phase={phase}
                 />
               </div>

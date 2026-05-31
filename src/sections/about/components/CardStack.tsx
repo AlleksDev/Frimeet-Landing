@@ -1,69 +1,57 @@
 import type { Step } from '../data/cardSteps'
-import type { Phase } from '../hooks/useCardTransitionMachine'
+import type { Phase } from '../hooks/useScrollIndex'
 import FeatureCard from './FeatureCard'
 import styles from '../AboutSection.module.css'
 
 /**
- * CardStack
- * ─────────
- * Renders the stack of feature cards with animation classes
- * driven by the transition state machine.
+ * CardStack (Snap-Based)
+ * ──────────────────────
+ * Renders the stack of feature cards with CSS animation classes
+ * driven by discrete phases (entering/active/exiting) — NOT
+ * continuous inline styles. This guarantees cards always snap
+ * fully in/out and are never partially visible.
  *
- * Animation class mapping:
- *   - FIRST_ENTER / ENTER_IN → entering card gets `.cardSlideEntering`
- *   - IDLE                   → active card gets `.cardSlideActive`
- *   - EXIT_OUT               → exiting card gets `.cardSlideExiting`
- *   - All others             → hidden (opacity 0, no pointer events)
+ * Phase mapping:
+ *   - 'entering': card uses cardSlideEntering class (animates in)
+ *   - 'active':   card uses cardSlideActive class (fully visible)
+ *   - 'exiting':  card uses cardSlideExiting class (animates out)
+ *   - Past cards:  cardSlidePast (hidden above)
+ *   - Future cards: default cardSlide (hidden below)
  */
 interface CardStackProps {
   cardSteps: Step[]
-  visualIndex: number
-  exitingIndex: number
+  scrollIndex: number
   phase: Phase
 }
 
-const CardStack = ({ cardSteps, visualIndex, exitingIndex, phase }: CardStackProps) => {
+const CardStack = ({ cardSteps, scrollIndex, phase }: CardStackProps) => {
   const getCardClass = (index: number): string => {
-    const classes = [styles.cardSlide]
-
-    // The card that is currently entering
-    if (index === visualIndex) {
-      if (phase === 'FIRST_ENTER' || phase === 'ENTER_IN') {
-        classes.push(styles.cardSlideEntering)
-      } else if (phase === 'IDLE') {
-        classes.push(styles.cardSlideActive)
-      } else if (phase === 'EXIT_OUT' || phase === 'SWAPPING') {
-        // During exit, the visual index card is the one exiting
-        classes.push(styles.cardSlideExiting)
+    if (index === scrollIndex) {
+      switch (phase) {
+        case 'entering':
+          return styles.cardSlideEntering
+        case 'active':
+          return styles.cardSlideActive
+        case 'exiting':
+          return styles.cardSlideExiting
       }
     }
 
-    // The card that is exiting (only during EXIT_OUT / SWAPPING)
-    if (
-      index === exitingIndex &&
-      exitingIndex !== visualIndex &&
-      (phase === 'EXIT_OUT' || phase === 'SWAPPING')
-    ) {
-      classes.push(styles.cardSlideExiting)
+    if (index < scrollIndex) {
+      return styles.cardSlidePast
     }
 
-    // Cards that have already scrolled past
-    if (
-      index < visualIndex &&
-      index !== exitingIndex &&
-      phase !== 'EXIT_OUT' &&
-      phase !== 'SWAPPING'
-    ) {
-      classes.push(styles.cardSlidePast)
-    }
-
-    return classes.join(' ')
+    // Future cards: use default cardSlide (hidden below)
+    return ''
   }
 
   return (
     <div className={styles.cardContainer}>
       {cardSteps.map((step, i) => (
-        <div key={i} className={getCardClass(i)}>
+        <div
+          key={i}
+          className={`${styles.cardSlide} ${getCardClass(i)}`}
+        >
           <FeatureCard step={step} />
         </div>
       ))}
@@ -74,7 +62,7 @@ const CardStack = ({ cardSteps, visualIndex, exitingIndex, phase }: CardStackPro
           <span
             key={i}
             className={`${styles.indicator} ${
-              i === visualIndex ? styles.indicatorActive : ''
+              i === scrollIndex ? styles.indicatorActive : ''
             }`}
           />
         ))}

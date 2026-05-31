@@ -1,44 +1,34 @@
 import { useEffect } from 'react'
-import type { Phase } from './useCardTransitionMachine'
 import type { Step } from '../data/cardSteps'
 
 /**
  * useVideoPreloader
  * ─────────────────
- * Single Responsibility: Proactively warm the browser's media cache
- * during IDLE phase so the next transition starts instantly.
+ * Proactively warms the browser's media cache by preloading
+ * entrance and outing videos for the adjacent cards (±1).
  *
- * Creates detached \<video\> elements with preload="auto" for:
- *   - Current card's outing video (most likely next action)
- *   - Next card's entrance video (forward scroll)
- *   - Previous card's entrance video (backward scroll)
- *
- * Cleanup releases all element references when phase changes or
- * the component unmounts.
+ * Creates detached <video> elements with preload="auto".
+ * Cleanup releases all element references when the index changes.
  */
 export function useVideoPreloader(
-  phase: Phase,
-  visualIndex: number,
+  scrollIndex: number,
   cardSteps: Step[],
 ) {
   const totalCards = cardSteps.length
 
   useEffect(() => {
-    if (phase !== 'IDLE') return
+    const toPreload: string[] = []
 
-    const toPreload: string[] = [
-      // Current card's outing — next scroll will trigger it
-      cardSteps[visualIndex].videos.outing,
-    ]
-
-    // Next card's entrance (forward scroll)
-    if (visualIndex + 1 < totalCards) {
-      toPreload.push(cardSteps[visualIndex + 1].videos.entrance)
+    // Next card's videos (forward scroll)
+    if (scrollIndex + 1 < totalCards) {
+      toPreload.push(cardSteps[scrollIndex + 1].videos.entrance)
+      toPreload.push(cardSteps[scrollIndex + 1].videos.outing)
     }
 
-    // Previous card's entrance (backward scroll)
-    if (visualIndex - 1 >= 0) {
-      toPreload.push(cardSteps[visualIndex - 1].videos.entrance)
+    // Previous card's videos (backward scroll)
+    if (scrollIndex - 1 >= 0) {
+      toPreload.push(cardSteps[scrollIndex - 1].videos.entrance)
+      toPreload.push(cardSteps[scrollIndex - 1].videos.outing)
     }
 
     // Create detached <video> elements to warm browser cache
@@ -57,5 +47,5 @@ export function useVideoPreloader(
         v.load() // abort any in-flight network requests
       })
     }
-  }, [phase, visualIndex, cardSteps, totalCards])
+  }, [scrollIndex, cardSteps, totalCards])
 }

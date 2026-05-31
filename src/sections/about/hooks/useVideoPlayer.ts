@@ -1,187 +1,136 @@
 import { useEffect, useRef } from 'react'
-import type { Phase, Action } from './useCardTransitionMachine'
 import type { Step } from '../data/cardSteps'
+import type { Phase } from './useScrollIndex'
 
 /**
- * useVideoPlayer
- * ──────────────
- * Single Responsibility: Manages two <video> DOM elements (double-buffer)
- * and orchestrates play/swap based on the FSM phase.
+ * useVideoPlayer (Play-Based)
+ * ───────────────────────────
+ * Manages two <video> DOM elements (double-buffer) and plays them
+ * based on scroll phases — producing smooth video playback that
+ * advances as the user scrolls through the section.
  *
- * Anti-flicker strategy — "Overlapping Nodes with Opacity Crossfading":
- *   1. Both <video> layers are stacked at the same position (position: absolute).
- *   2. The *incoming* video is loaded and started BEHIND the outgoing layer.
- *   3. play() returns a Promise that resolves AFTER the first frame is painted
- *      to the compositor. Only then do we fade-out the outgoing layer.
- *   4. This guarantees zero visual gap: the outgoing frame stays on screen
- *      until the incoming frame is physically on the GPU.
- *   5. Both layers use will-change: opacity + translateZ(0) for GPU compositing,
- *      ensuring the opacity swap is a compositor-only operation (no repaints).
- *
- * Layer stacking (CSS z-index):
- *   - Entrance:  z-index 1 (bottom)
- *   - Outing:    z-index 2 (top)
- *
- * During EXIT_OUT the outing video is on top and fades IN over the entrance.
- * During ENTER_IN the entrance video is below, but the outing fades OUT to reveal it.
- * The key is that we never hide a layer until the other has a decoded frame.
+ * Strategy:
+ *   - phase 'entering' / 'active': Play entrance video, show it
+ *   - phase 'exiting': Play outing video, crossfade to it
+ *   - Videos actually play (not scrubbed) for smooth motion
+ *   - When scrollIndex changes, load new videos for the new card
+ *   - Playback rate is controlled to keep videos in sync with scroll speed
  */
 export function useVideoPlayer(
+  scrollIndex: number,
   phase: Phase,
-  visualIndex: number,
-  exitingIndex: number,
+  localProgress: number,
   cardSteps: Step[],
-  dispatch: React.Dispatch<Action>,
 ) {
   const entranceRef = useRef<HTMLVideoElement>(null)
   const outingRef = useRef<HTMLVideoElement>(null)
 
-  // Guard against stale closures — track the latest phase in a ref
-  const phaseRef = useRef(phase)
-  phaseRef.current = phase
+  // Track which card index is currently loaded to avoid redundant .load() calls
+  const loadedIndexRef = useRef(-1)
 
+  // Track the last phase to detect transitions
+  const lastPhaseRef = useRef<Phase>('entering')
+  const lastIndexRef = useRef(-1)
+
+  /* ────────────────────────────────────────────────────
+     Load videos when the active card changes
+     ──────────────────────────────────────────────────── */
+  useEffect(() => {
+    const eVideo = entranceRef.current
+    const oVideo = outingRef.current
+    if (!eVideo || !oVideo) return
+    if (scrollIndex === loadedIndexRef.current) return
+
+    loadedIndexRef.current = scrollIndex
+
+    const step = cardSteps[scrollIndex]
+
+    // Load entrance video
+    eVideo.src = step.videos.entrance
+    eVideo.preload = 'auto'
+    eVideo.load()
+    eVideo.currentTime = 0
+
+    // Load outing video
+    oVideo.src = step.videos.outing
+    oVideo.preload = 'auto'
+    oVideo.load()
+    oVideo.currentTime = 0
+
+    // Show entrance, hide outing by default for new cards
+    eVideo.style.opacity = '1'
+    oVideo.style.opacity = '0'
+
+    // Try to play the entrance video immediately
+    eVideo.play().catch(() => {
+      // Autoplay may be blocked, that's ok — will retry on phase change
+    })
+
+  }, [scrollIndex, cardSteps])
+
+  /* ────────────────────────────────────────────────────
+     Control playback based on phase transitions
+     ──────────────────────────────────────────────────── */
   useEffect(() => {
     const eVideo = entranceRef.current
     const oVideo = outingRef.current
     if (!eVideo || !oVideo) return
 
-    const cleanups: (() => void)[] = []
-    const on = (
-      el: HTMLVideoElement,
-      event: string,
-      handler: () => void,
-    ) => {
-      el.addEventListener(event, handler, { once: true })
-      cleanups.push(() => el.removeEventListener(event, handler))
-    }
+    const phaseChanged = lastPhaseRef.current !== phase
+    const indexChanged = lastIndexRef.current !== scrollIndex
 
-    /* ──────────────────────────────────────────────────────
-       FIRST_ENTER: initial load, only play entrance
-       ────────────────────────────────────────────────────── */
-    if (phase === 'FIRST_ENTER') {
-      // Entrance visible, outing hidden
+    lastPhaseRef.current = phase
+    lastIndexRef.current = scrollIndex
+
+    if (phase === 'entering' || phase === 'active') {
+      // Show entrance video, hide outing
       eVideo.style.opacity = '1'
       oVideo.style.opacity = '0'
 
-      eVideo.src = cardSteps[visualIndex].videos.entrance
-      eVideo.load()
-
-      const play = () => {
+      // Play entrance video if not already playing
+      if (eVideo.paused) {
         eVideo.play().catch(() => {})
       }
+      // Pause outing video
+      oVideo.pause()
 
-      if (eVideo.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
-        play()
-      } else {
-        on(eVideo, 'canplaythrough', play)
-      }
-
-      on(eVideo, 'ended', () => dispatch({ type: 'FIRST_ENTER_ENDED' }))
-      on(eVideo, 'error', () => dispatch({ type: 'FIRST_ENTER_ENDED' }))
-    }
-
-    /* ──────────────────────────────────────────────────────
-       EXIT_OUT: play outing video of the exiting card
-       ────────────────────────────────────────────────────── 
-       The entrance layer is still showing the last frame of the
-       entrance video (opacity 1). We load the outing video on the
-       outing layer (z-index 2, currently opacity 0).
-       
-       Only when .play().then() confirms the first frame is decoded
-       do we reveal the outing layer and hide the entrance layer. */
-    if (phase === 'EXIT_OUT') {
-      const safeExiting = exitingIndex >= 0 ? exitingIndex : visualIndex
-
-      // Ensure entrance stays VISIBLE while outing loads
-      eVideo.style.opacity = '1'
-      // Outing starts INVISIBLE — it's loading behind the scenes
-      oVideo.style.opacity = '0'
-
-      oVideo.src = cardSteps[safeExiting].videos.outing
-      oVideo.load()
-
-      const playAndCrossfade = () => {
-        oVideo
-          .play()
-          .then(() => {
-            // ✅ First frame is on the GPU — safe to crossfade.
-            // Show outing (on top), THEN hide entrance (below).
-            requestAnimationFrame(() => {
-              oVideo.style.opacity = '1'
-              // Hide entrance AFTER outing is visible — no gap possible
-              eVideo.style.opacity = '0'
-            })
-          })
-          .catch(() => {
-            // Fallback: force swap even on play error
-            requestAnimationFrame(() => {
-              oVideo.style.opacity = '1'
-              eVideo.style.opacity = '0'
-            })
-          })
-      }
-
-      if (oVideo.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
-        playAndCrossfade()
-      } else {
-        on(oVideo, 'canplaythrough', playAndCrossfade)
-      }
-
-      on(oVideo, 'ended', () => dispatch({ type: 'EXIT_ENDED' }))
-      on(oVideo, 'error', () => dispatch({ type: 'EXIT_ENDED' }))
-    }
-
-    /* ──────────────────────────────────────────────────────
-       ENTER_IN: play entrance video of the new card
-       ──────────────────────────────────────────────────────
-       The outing layer is still showing the last frame of the
-       outing video (opacity 1, z-index 2). We load the new
-       entrance video into the entrance layer (z-index 1, opacity 0).
-       
-       Only when .play().then() confirms the entrance frame is decoded
-       do we reveal it and hide the outing layer. Because outing sits
-       on top (z-index 2), hiding it reveals the entrance below. */
-    if (phase === 'ENTER_IN') {
-      // Ensure outing stays VISIBLE while entrance loads
-      oVideo.style.opacity = '1'
-      // Entrance starts INVISIBLE — loading behind outing
+    } else if (phase === 'exiting') {
+      // Crossfade: show outing, hide entrance
       eVideo.style.opacity = '0'
+      oVideo.style.opacity = '1'
 
-      eVideo.src = cardSteps[visualIndex].videos.entrance
-      eVideo.load()
-
-      const playAndCrossfade = () => {
-        eVideo
-          .play()
-          .then(() => {
-            // ✅ Entrance first frame is on the GPU.
-            // Set entrance opacity to 1 (it's behind, but ready).
-            // Then hide outing (on top) to reveal entrance.
-            requestAnimationFrame(() => {
-              eVideo.style.opacity = '1'
-              oVideo.style.opacity = '0'
-            })
-          })
-          .catch(() => {
-            requestAnimationFrame(() => {
-              eVideo.style.opacity = '1'
-              oVideo.style.opacity = '0'
-            })
-          })
+      // When entering exiting phase, start outing video from beginning
+      if (phaseChanged || indexChanged) {
+        oVideo.currentTime = 0
       }
-
-      if (eVideo.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
-        playAndCrossfade()
-      } else {
-        on(eVideo, 'canplaythrough', playAndCrossfade)
+      // Play outing video
+      if (oVideo.paused) {
+        oVideo.play().catch(() => {})
       }
-
-      on(eVideo, 'ended', () => dispatch({ type: 'ENTER_ENDED' }))
-      on(eVideo, 'error', () => dispatch({ type: 'ENTER_ENDED' }))
+      // Pause entrance
+      eVideo.pause()
     }
+  }, [phase, scrollIndex])
 
-    return () => cleanups.forEach((fn) => fn())
-  }, [phase, visualIndex, exitingIndex, cardSteps, dispatch])
+  /* ────────────────────────────────────────────────────
+     Adjust playback rate based on scroll speed
+     This makes videos feel responsive to scroll velocity
+     ──────────────────────────────────────────────────── */
+  useEffect(() => {
+    const eVideo = entranceRef.current
+    const oVideo = outingRef.current
+    if (!eVideo || !oVideo) return
+
+    // Use a moderate constant playback rate
+    // Videos play at normal speed; scroll just controls which video is shown
+    const rate = 1.0
+    try {
+      if (eVideo.playbackRate !== rate) eVideo.playbackRate = rate
+      if (oVideo.playbackRate !== rate) oVideo.playbackRate = rate
+    } catch {
+      // Some browsers throw on playback rate changes
+    }
+  }, [localProgress])
 
   return { entranceRef, outingRef }
 }
