@@ -64,7 +64,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 60px 0;
+  padding: 128px 0 96px;
   min-height: 0;
 }
 
@@ -74,7 +74,6 @@
   flex-direction: column;
   gap: 12px;
   text-align: left;
-  margin-bottom: 40px;
   flex-shrink: 0;
 }
 
@@ -106,7 +105,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   min-height: 260px;
 }
 
@@ -116,7 +115,7 @@
   top: 50%;
   left: 0;
   right: 0;
-  transform: translateY(calc(-50% + 40px));
+  transform: translateY(calc(-50%));
   opacity: 0;
   pointer-events: none;
   z-index: 0;
@@ -180,7 +179,8 @@
 .cardIndicators {
   position: absolute;
   bottom: 8px;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 8px;
   z-index: 5;

@@ -481,6 +481,27 @@
   box-shadow: 0 12px 36px rgba(255, 62, 127, 0.22);
 }
 
+.slideMotPink::after,
+.slideMotOrange::after {
+  content: '';
+  position: absolute;
+  top: -96px;
+  right: -96px;
+  width: 256px;
+  height: 256px;
+  border-radius: 50%;
+  opacity: 0.2;
+  background: linear-gradient(135deg, var(--white), var(--pink));
+}
+
+.slideMotPink:hover::after,
+.slideMotOrange:hover::after {
+  opacity: 0.3;
+  top: -64px;
+  right: -64px;
+  transition: all 0.4s ease;
+}
+
 .slideMotOrange {
   background: linear-gradient(135deg, var(--orange), var(--orange-light));
   border: none;
