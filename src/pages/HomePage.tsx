@@ -6,6 +6,7 @@ import MissionSection from '../sections/MisionSection.module'
 import VisionSection from '../sections/VisionSection.module'
 import AboutSection from '../sections/about/AboutSection'
 import PricingSection from '../sections/PricingSection.module'
+import ScopeSection from '../sections/ScopeSection.module'
 import Footer from '../sections/FooterSection.module'
 
 const HomePage = () => {
@@ -17,6 +18,7 @@ const HomePage = () => {
       <MissionSection />
       <VisionSection />
       <AboutSection />
+      <ScopeSection />
       <PricingSection />
       <Footer />
     </MainLayout>

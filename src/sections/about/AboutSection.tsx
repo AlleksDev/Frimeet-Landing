@@ -3,7 +3,7 @@ import styles from './AboutSection.module.css'
 import { Reveal } from '../../components/Reveal'
 
 /* ---- Data ---- */
-import { cardSteps, techBadges, stepsData } from './data/cardSteps'
+import { cardSteps, stepsData } from './data/cardSteps'
 
 /* ---- Hooks ---- */
 import { useScrollIndex } from './hooks/useScrollIndex'
@@ -89,17 +89,6 @@ const AboutSection = () => {
           Below scroll-pinned area (only visible after cards finish)
           ============================================================ */}
       <div className={styles.belowStickyContent}>
-        <Reveal animation="fadeUp" delay={0} duration={800} className={styles.techReach}>
-          <h3 className={styles.techTitle}>Alcance Tecnológico y Geográfico</h3>
-          <div className={styles.techBadges}>
-            {techBadges.map((b, i) => (
-              <div key={i} className={styles.techBadge}>
-                <span className={styles.techBadgeIcon}>{b.icon}</span>
-                <span>{b.label}</span>
-              </div>
-            ))}
-          </div>
-        </Reveal>
 
         <div className={styles.stepsSection}>
           <Reveal animation="fadeUp" delay={0} duration={800} className={styles.stepsHeader}>
