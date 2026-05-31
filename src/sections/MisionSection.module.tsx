@@ -1,6 +1,7 @@
 import styles from './MisionSection.module.css';
 import { CheckCircle, Heart } from 'lucide-react'
 import { Reveal } from '../components/Reveal'
+import localBusiness from '../assets/images/sections/local_business.png';
 
 const MissionSection = () => {
   return (
@@ -33,19 +34,22 @@ const MissionSection = () => {
 
         <div className={styles.missionRight}>
           <Reveal animation="fadeUp" delay={200} duration={800} className={styles.bigCard}>
-            <div className={styles.bigCardTop}>
-              <div className={styles.bigCardIcon}>
-                <Heart size={26} strokeWidth={2.5} />
+            <img src={localBusiness} alt="Comercio local" className={styles.bigCardBg} />
+            <div className={styles.bigCardContent}>
+              <div className={styles.bigCardTop}>
+                <div className={styles.bigCardIcon}>
+                  <Heart size={26} strokeWidth={2.5} />
+                </div>
+                <div>
+                  <div className={styles.bigCardLabel}>Conexiones reales</div>
+                  <div className={styles.bigCardNum}>+15,000</div>
+                </div>
               </div>
-              <div>
-                <div className={styles.bigCardLabel}>Conexiones reales</div>
-                <div className={styles.bigCardNum}>+15,000</div>
-              </div>
+              <p className={styles.bigCardDesc}>
+                Personas han encontrado su próximo lugar favorito gracias a
+                recomendaciones de la comunidad.
+              </p>
             </div>
-            <p className={styles.bigCardDesc}>
-              Personas han encontrado su próximo lugar favorito gracias a
-              recomendaciones de la comunidad.
-            </p>
           </Reveal>
 
           <Reveal animation="fadeLeft" delay={400} duration={800} className={styles.smallCard}>

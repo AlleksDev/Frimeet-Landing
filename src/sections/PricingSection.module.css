@@ -29,9 +29,9 @@
 }
 
 .pricingTitle {
-  font-family: 'Clash Display', sans-serif;
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-pricing-title);
+  font-weight: var(--fw-black);
   letter-spacing: -0.02em;
   color: #000;
   line-height: 1.2;
@@ -46,7 +46,7 @@
 }
 
 .pricingSub {
-  font-size: 0.93rem;
+  font-size: var(--fs-pricing-sub);
   color: #666;
   max-width: 560px;
   line-height: 1.6;
@@ -96,8 +96,8 @@
 }
 
 .roleTabLabel {
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: var(--fs-pricing-role-tab);
+  font-weight: var(--fw-semibold);
   color: #999;
   transition: color 0.3s ease;
 }
@@ -165,8 +165,8 @@
   right: 36px;
   background: rgba(255, 255, 255, 0.22);
   color: #ffffff;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--fs-pricing-plan-badge);
+  font-weight: var(--fw-bold);
   padding: 5px 14px;
   border-radius: 999px;
   text-transform: uppercase;
@@ -176,9 +176,9 @@
 
 /* Plan Name */
 .planName {
-  font-family: 'Clash Display', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-family: var(--font-title);
+  font-size: var(--fs-pricing-plan-name);
+  font-weight: var(--fw-extrabold);
   color: #FF2D87;
   margin: 0;
 }
@@ -195,9 +195,9 @@
 }
 
 .planPrice {
-  font-family: 'Clash Display', sans-serif;
-  font-size: 3rem;
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-pricing-plan-price);
+  font-weight: var(--fw-black);
   color: #000000;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -208,8 +208,8 @@
 }
 
 .planPeriod {
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--fs-pricing-plan-period);
+  font-weight: var(--fw-normal);
   color: #999999;
 }
 
@@ -219,7 +219,7 @@
 
 /* Description */
 .planDesc {
-  font-size: 1rem;
+  font-size: var(--fs-pricing-plan-desc);
   color: #888888;
   line-height: 1.5;
   margin: 0;
@@ -246,8 +246,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: var(--fs-pricing-feature-item);
+  font-weight: var(--fw-medium);
   color: #333333;
 }
 
@@ -269,8 +269,8 @@
   border: none;
   background: var(--green);
   color: var(--pink);
-  font-size: 0.92rem;
-  font-weight: 700;
+  font-size: var(--fs-pricing-btn);
+  font-weight: var(--fw-bold);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -290,8 +290,8 @@
   border: 2px solid #b7b7b7;
   background: transparent;
   color: #333333;
-  font-size: 0.92rem;
-  font-weight: 700;
+  font-size: var(--fs-pricing-btn);
+  font-weight: var(--fw-bold);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -363,9 +363,9 @@
 }
 
 .ctaTitle {
-  font-family: 'Clash Display', sans-serif;
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-pricing-cta-title);
+  font-weight: var(--fw-black);
   color: #ffffff;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -374,7 +374,7 @@
 }
 
 .ctaSub {
-  font-size: 1.2rem;
+  font-size: var(--fs-pricing-cta-sub);
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.65;
   max-width: 640px;
@@ -394,8 +394,8 @@
 .btnPrimary {
   background: #8BDB00;
   color: #1a3300;
-  font-size: 0.92rem;
-  font-weight: 800;
+  font-size: var(--fs-pricing-cta-btn);
+  font-weight: var(--fw-extrabold);
   padding: 13px 28px;
   border-radius: 999px;
   border: none;
@@ -428,8 +428,8 @@
 .btnSecondary {
   background: transparent;
   color: #ffffff;
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-size: var(--fs-pricing-cta-btn);
+  font-weight: var(--fw-semibold);
   padding: 12px 24px;
   border-radius: 999px;
   border: 1.5px solid rgba(255, 255, 255, 0.5);
@@ -460,13 +460,13 @@
 }
 
 .statNum {
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: var(--fs-pricing-stat-num);
+  font-weight: var(--fw-extrabold);
   color: #ffffff;
 }
 
 .statLabel {
-  font-size: 0.75rem;
+  font-size: var(--fs-pricing-stat-label);
   color: rgba(255, 255, 255, 0.65);
 }
 
@@ -485,6 +485,29 @@
   z-index: 0;
 }
 
+/* ---- CTA Floating Image ---- */
+.ctaFloatingImg {
+  position: absolute;
+  bottom: 12%;
+  right: 8%;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 20px;
+  opacity: 0.25;
+  filter: brightness(1.1);
+  z-index: 0;
+  pointer-events: none;
+  animation: ctaImgFloat 12s ease-in-out infinite;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes ctaImgFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(2deg); }
+  66% { transform: translateY(8px) rotate(-1deg); }
+}
+
 /* ========================================
    Responsive
    ======================================== */
@@ -499,7 +522,7 @@
   }
 
   .planPrice {
-    font-size: 2.5rem;
+    font-size: var(--fs-pricing-plan-price-tablet);
   }
 
   .ctaInner {
@@ -523,11 +546,11 @@
   }
 
   .pricingTitle {
-    font-size: clamp(1.5rem, 6vw, 2.2rem);
+    font-size: var(--fs-pricing-title-mobile);
   }
 
   .pricingSub {
-    font-size: 0.88rem;
+    font-size: var(--fs-pricing-sub-mobile);
   }
 
   .roleSelector {
@@ -564,12 +587,12 @@
   }
 
   .ctaTitle {
-    font-size: clamp(1.6rem, 7vw, 2.5rem);
+    font-size: var(--fs-pricing-cta-title-mobile);
     max-width: 100%;
   }
 
   .ctaSub {
-    font-size: 0.9rem;
+    font-size: var(--fs-pricing-cta-sub-mobile);
     max-width: 100%;
     padding: 0 8px;
   }
@@ -597,7 +620,7 @@
   }
 
   .pricingTitle {
-    font-size: clamp(1.3rem, 7vw, 1.8rem);
+    font-size: var(--fs-pricing-title-small-mobile);
   }
 
   .roleTabIcon {
@@ -606,7 +629,7 @@
   }
 
   .roleTabLabel {
-    font-size: 0.72rem;
+    font-size: var(--fs-pricing-role-tab-mobile);
   }
 
   .planCard {
@@ -614,25 +637,25 @@
   }
 
   .planName {
-    font-size: 1rem;
+    font-size: var(--fs-pricing-plan-name-mobile);
   }
 
   .planPrice {
-    font-size: 2.2rem;
+    font-size: var(--fs-pricing-plan-price-mobile);
   }
 
   .planDesc {
-    font-size: 0.82rem;
+    font-size: var(--fs-pricing-plan-desc-mobile);
   }
 
   .planFeatureItem {
-    font-size: 0.82rem;
+    font-size: var(--fs-pricing-feature-item-mobile);
   }
 
   .btnFeatured,
   .btnOutline {
     padding: 12px 20px;
-    font-size: 0.88rem;
+    font-size: var(--fs-pricing-btn-mobile);
   }
 
   .ctaInner {
@@ -640,11 +663,11 @@
   }
 
   .ctaTitle {
-    font-size: clamp(1.4rem, 8vw, 2rem);
+    font-size: var(--fs-pricing-cta-title-small-mobile);
   }
 
   .ctaSub {
-    font-size: 0.85rem;
+    font-size: var(--fs-pricing-cta-sub-mobile);
   }
 
   .ctaStats {
@@ -652,7 +675,7 @@
   }
 
   .statNum {
-    font-size: 1rem;
+    font-size: var(--fs-pricing-stat-num-mobile);
   }
 
   .ctaVideo {

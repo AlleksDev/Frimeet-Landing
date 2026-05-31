@@ -1,6 +1,7 @@
 import styles from './FooterSection.module.css';
 import { MapPin, Mail} from 'lucide-react';
 import logo from '../assets/icons/fynko.svg';
+import cityAerial from '../assets/images/sections/city_aerial.png';
 import { Reveal } from '../components/Reveal';
 
 const footerLinks = {
@@ -13,6 +14,9 @@ const footerLinks = {
 export default function Footer() {
   return (
     <footer className={styles.footer} id='contact'>
+      <div className={styles.footerBgWrap}>
+        <img src={cityAerial} alt="" className={styles.footerBgImg} aria-hidden="true" />
+      </div>
 
       <div className={styles.footerMain}>
         <div className={styles.footerGrid}>

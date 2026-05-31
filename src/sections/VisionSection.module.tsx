@@ -1,6 +1,7 @@
 import styles from './VisionSection.module.css';
 import { MapPin, Star, Heart } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
+import friendsCafe from '../assets/images/sections/friends_selfie.jpg';
 
 const VisionSection = () => {
   const visionItems = [
@@ -20,19 +21,12 @@ const VisionSection = () => {
             <span className={`${styles.dot} ${styles.dotGreenMid}`} />
             <span className={`${styles.dot} ${styles.dotOrangeBR}`} />
           </div>
-          <Reveal animation="fadeRight" delay={0} duration={800} className={styles.heroCard}>
-            <div className={styles.heroIconWrap}>
-              <Heart size={32} />
+          <Reveal animation="fadeRight" delay={0} duration={800} className={styles.imageCard}>
+            <img src={friendsCafe} alt="Amigos disfrutando en un café" className={styles.imageCardPhoto} />
+            <div className={styles.imageCardOverlay}>
+              <Heart size={16} />
+              <span>La ciudad es tuya</span>
             </div>
-
-            <div>
-              <p className={styles.heroCardLabel}>La ciudad es tuya</p>
-              <h3 className={styles.heroCardTitle}>Descúbrela con tus amigos</h3>
-            </div>
-
-            <p className={styles.heroCardSub}>
-              Cada esquina tiene una historia que descubrir
-            </p>
           </Reveal>
         </div>
 

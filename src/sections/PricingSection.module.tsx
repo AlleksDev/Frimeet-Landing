@@ -2,6 +2,7 @@ import styles from "./PricingSection.module.css";
 import { Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../components/Reveal";
 import mapVideo from "../assets/map_bottom.webm";
+import friendsFood from "../assets/images/sections/friends_food.png";
 
 /* ---- Plans ---- */
 const plans = [
@@ -225,6 +226,14 @@ const PricingSection = () => {
             autoPlay
             muted
             playsInline
+          />
+
+          {/* Floating decorative photo */}
+          <img
+            src={friendsFood}
+            alt=""
+            className={styles.ctaFloatingImg}
+            aria-hidden="true"
           />
         </div>
       </section>

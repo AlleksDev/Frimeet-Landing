@@ -39,8 +39,8 @@
 
 .logoText {
   font-family: var(--font-title);
-  font-size: 1.8rem;
-  font-weight: 800;
+  font-size: var(--fs-nav-logo);
+  font-weight: var(--fw-extrabold);
   color: var(--white);
   letter-spacing: 0.1rem;
   text-transform: uppercase;
@@ -56,8 +56,8 @@
 .navLinks a {
   position: relative;
   font-family: var(--font-body);
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-size: var(--fs-nav-link);
+  font-weight: var(--fw-normal);
   color: var(--white);
   opacity: 0.85;
   transition: opacity 0.2s ease, color 0.2s ease;
@@ -85,7 +85,7 @@
 
 .navLinks a.active {
   color: var(--orange) !important;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   opacity: 1;
 }
 
@@ -146,7 +146,7 @@
   }
 
   .navLinks a {
-    font-size: 1rem;
+    font-size: var(--fs-nav-link-tablet);
   }
 }
 
@@ -167,8 +167,8 @@
 
   .logoText {
     font-family: var(--font-title);
-    font-size: 1.2rem;
-    font-weight: 800;
+    font-size: var(--fs-nav-logo-tablet);
+    font-weight: var(--fw-extrabold);
     color: var(--white);
     letter-spacing: 0.1rem;
     text-transform: uppercase;
@@ -209,7 +209,7 @@
     border-bottom: 1px solid rgba(100, 100, 100, 0.421);
     width: 100%;
     color: #ffffff !important;
-    font-size: 1.15rem;
+    font-size: var(--fs-nav-link-mobile);
     opacity: 0.9;
   }
 
@@ -255,6 +255,6 @@
     padding: 16px 16px;
   }
   .logoText {
-    font-size: 1rem;
+    font-size: var(--fs-nav-logo-mobile);
   }
 }

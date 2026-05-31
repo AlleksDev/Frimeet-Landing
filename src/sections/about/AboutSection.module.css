@@ -78,9 +78,9 @@
 }
 
 .title {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: clamp(2.2rem, 3.5vw, 3.5rem);
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-about-title);
+  font-weight: var(--fw-black);
   color: #000000;
   margin: 0;
   letter-spacing: -0.02em;
@@ -88,8 +88,8 @@
 }
 
 .subtitle {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.05rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-about-subtitle);
   color: #888888;
   max-width: 480px;
   line-height: 1.6;
@@ -225,8 +225,8 @@
   display: inline-block;
   background: #FF590018;
   color: #FF5900;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--fs-about-tag);
+  font-weight: var(--fw-bold);
   padding: 4px 14px;
   border-radius: 999px;
   width: fit-content;
@@ -238,8 +238,8 @@
   display: inline-block;
   background: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--fs-about-tag);
+  font-weight: var(--fw-bold);
   padding: 4px 14px;
   border-radius: 999px;
   width: fit-content;
@@ -275,30 +275,30 @@
 
 /* ---- Text ---- */
 .cardTitle {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-family: var(--font-title);
+  font-size: var(--fs-about-card-title);
+  font-weight: var(--fw-extrabold);
   color: #000;
   margin: 0;
 }
 
 .cardTitleGrad {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-family: var(--font-title);
+  font-size: var(--fs-about-card-title-mobile);
+  font-weight: var(--fw-extrabold);
   color: #ffffff;
   margin: 0;
 }
 
 .cardDesc {
-  font-size: 0.95rem;
+  font-size: var(--fs-about-card-desc);
   color: #666;
   line-height: 1.6;
   margin: 0;
 }
 
 .cardDescGrad {
-  font-size: 0.88rem;
+  font-size: var(--fs-about-card-desc-mobile);
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.6;
   margin: 0;
@@ -311,8 +311,8 @@
   gap: 8px;
   background: #ffffff;
   color: #FF2D87;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: var(--fs-about-cta);
+  font-weight: var(--fw-bold);
   padding: 10px 22px;
   border-radius: 999px;
   border: none;
@@ -419,9 +419,9 @@
 }
 
 .techTitle {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  font-weight: 800;
+  font-family: var(--font-title);
+  font-size: var(--fs-about-tech-title);
+  font-weight: var(--fw-extrabold);
   color: #222;
   margin: 0;
   text-align: center;
@@ -442,8 +442,8 @@
   border: 1px solid #e5e5e5;
   border-radius: 999px;
   padding: 10px 20px;
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: var(--fs-about-tech-badge);
+  font-weight: var(--fw-semibold);
   color: #444;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -479,9 +479,9 @@
 }
 
 .stepsTitle {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: clamp(2rem, 3.5vw, 3.2rem);
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-about-steps-title);
+  font-weight: var(--fw-black);
   color: #000000;
   margin: 0;
   letter-spacing: -0.02em;
@@ -571,9 +571,9 @@
 }
 
 .stepLabel {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-size: var(--fs-about-step-label);
+  font-weight: var(--fw-semibold);
   letter-spacing: 0.05em;
 }
 
@@ -583,16 +583,16 @@
 .step:nth-child(4) .stepLabel { color: #76DD76; }
 
 .stepName {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-family: var(--font-title);
+  font-size: var(--fs-about-step-name);
+  font-weight: var(--fw-bold);
   color: #000000;
   margin: 0;
 }
 
 .stepDesc {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-about-step-desc);
   color: #666666;
   line-height: 1.5;
   margin: 0;
@@ -616,7 +616,7 @@
   }
 
   .title {
-    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-size: var(--fs-about-title-tablet);
   }
 }
 
@@ -652,11 +652,11 @@
   }
 
   .title {
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-size: var(--fs-about-title-mobile);
   }
 
   .subtitle {
-    font-size: 0.95rem;
+    font-size: var(--fs-about-subtitle-mobile);
     text-align: center;
   }
 
@@ -747,7 +747,7 @@
   .stepDesc { max-width: 100%; text-align: left; }
 
   .stepsTitle {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: var(--fs-about-steps-title-mobile);
   }
 }
 
@@ -757,11 +757,11 @@
   }
 
   .title {
-    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-size: var(--fs-about-title-small-mobile);
   }
 
   .subtitle {
-    font-size: 0.9rem;
+    font-size: var(--fs-about-subtitle-mobile);
   }
 
   .videoStage {
@@ -779,17 +779,17 @@
 
   .cardTitle,
   .cardTitleGrad {
-    font-size: 1.05rem;
+    font-size: var(--fs-about-card-title-mobile);
   }
 
   .cardDesc,
   .cardDescGrad {
-    font-size: 0.85rem;
+    font-size: var(--fs-about-card-desc-mobile);
   }
 
   .techBadge {
     padding: 8px 14px;
-    font-size: 0.78rem;
+    font-size: var(--fs-about-tech-badge-mobile);
   }
 
   .belowStickyContent {
@@ -801,7 +801,7 @@
   }
 
   .stepsTitle {
-    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-size: var(--fs-about-steps-title-small-mobile);
   }
 
   .step {
@@ -814,6 +814,6 @@
     font-size: 20px;
   }
 
-  .stepName { font-size: 1rem; }
-  .stepDesc { font-size: 0.85rem; }
+  .stepName { font-size: var(--fs-about-step-name-mobile); }
+  .stepDesc { font-size: var(--fs-about-step-desc-mobile); }
 }

@@ -27,18 +27,18 @@
   display: inline-block;
   background: #FF2D8720;
   color: #FF2D87;
-  font-size: 13px;
-  font-weight: 600;
-  font-family: General Sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: var(--fs-mision-badge);
+  font-weight: var(--fw-semibold);
+  font-family: var(--font-body);
   padding: 6px 18px;
   border-radius: 999px;
   width: fit-content;
 }
 
 .missionTitle {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-mision-title);
+  font-weight: var(--fw-black);
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: #000000;
@@ -53,7 +53,7 @@
 }
 
 .missionBody {
-  font-size: 0.95rem;
+  font-size: var(--fs-mision-body);
   color: #666666;
   line-height: 1.65;
   max-width: 420px;
@@ -72,8 +72,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-size: var(--fs-mision-check);
+  font-weight: var(--fw-semibold);
   color: #222222;
 }
 
@@ -110,12 +110,34 @@
   padding: 28px 28px 80px 28px;
   color: white;
   position: relative;
+  overflow: hidden;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
 
 .bigCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 16px 32px rgba(255, 45, 135, 0.3);
+}
+
+.bigCardBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.22;
+  transition: opacity 0.4s ease, transform 6s ease-out;
+  z-index: 0;
+}
+
+.bigCard:hover .bigCardBg {
+  opacity: 0.35;
+  transform: scale(1.06);
+}
+
+.bigCardContent {
+  position: relative;
+  z-index: 1;
 }
 
 .bigCardTop {
@@ -139,20 +161,20 @@
 }
 
 .bigCardLabel {
-  font-size: 12px;
+  font-size: var(--fs-mision-card-label);
   opacity: 0.85;
-  font-weight: 500;
+  font-weight: var(--fw-medium);
 }
 
 .bigCardNum {
-  font-size: 26px;
-  font-weight: 800;
+  font-size: var(--fs-mision-card-num);
+  font-weight: var(--fw-extrabold);
   letter-spacing: -0.02em;
 }
 
 .bigCardDesc {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--fs-mision-card-desc);
+  font-weight: var(--fw-semibold);
   line-height: 1.5;
   opacity: 0.95;
 }
@@ -192,14 +214,14 @@
 }
 
 .smallCardLabel {
-  font-size: 13px;
+  font-size: var(--fs-mision-card-label);
   color: #888888;
-  font-weight: 500;
+  font-weight: var(--fw-medium);
 }
 
 .smallCardNum {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: var(--fs-mision-card-num-mobile);
+  font-weight: var(--fw-extrabold);
   color: #111111;
   letter-spacing: -0.02em;
 }
@@ -245,7 +267,7 @@
   }
 
   .missionTitle {
-    font-size: clamp(1.6rem, 6vw, 2.4rem);
+    font-size: var(--fs-mision-title-mobile);
   }
 
   .missionBody {
@@ -295,15 +317,15 @@
   }
 
   .missionTitle {
-    font-size: clamp(1.4rem, 7vw, 2rem);
+    font-size: var(--fs-mision-title-small-mobile);
   }
 
   .missionBody {
-    font-size: 0.88rem;
+    font-size: var(--fs-mision-body-mobile);
   }
 
   .checkItem {
-    font-size: 0.82rem;
+    font-size: var(--fs-mision-check-mobile);
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row-reverse !important;
@@ -312,7 +334,7 @@
   }
 
   .checkItem span {
-    font-size: 0.82rem;
+    font-size: var(--fs-mision-check-mobile);
     text-align: left;
     justify-content: start;
     flex-wrap: wrap;
@@ -324,11 +346,11 @@
   }
 
   .bigCardNum {
-    font-size: 22px;
+    font-size: var(--fs-mision-card-num-mobile);
   }
 
   .bigCardDesc {
-    font-size: 0.9rem;
+    font-size: var(--fs-mision-card-desc-mobile);
   }
 
   .smallCard {
@@ -342,7 +364,7 @@
   }
 
   .smallCardNum {
-    font-size: 18px;
+    font-size: var(--fs-mision-card-num-mobile);
   }
 
   .missionRight:hover .smallCard{

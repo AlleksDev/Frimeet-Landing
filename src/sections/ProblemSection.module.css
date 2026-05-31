@@ -32,9 +32,9 @@
 }
 
 .title {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-problem-title);
+  font-weight: var(--fw-black);
   color: #000000;
   margin: 0;
   letter-spacing: -0.02em;
@@ -42,8 +42,8 @@
 }
 
 .subtitle {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.05rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-problem-subtitle);
   color: #888888;
   max-width: 580px;
   line-height: 1.6;
@@ -115,9 +115,9 @@
 }
 
 .chartPercent {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 2.8rem;
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-problem-chart-percent);
+  font-weight: var(--fw-black);
   color: #333;
   line-height: 1;
 }
@@ -239,9 +239,9 @@
 
 /* Title */
 .cardTitle {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 800;
+  font-family: var(--font-title);
+  font-size: var(--fs-problem-card-title);
+  font-weight: var(--fw-extrabold);
   color: #000000;
   margin: 0;
   line-height: 1.3;
@@ -249,9 +249,9 @@
 
 /* Percentage – large accent */
 .cardPercent {
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 4.5rem;
-  font-weight: 900;
+  font-family: var(--font-title);
+  font-size: var(--fs-problem-card-percent);
+  font-weight: var(--fw-black);
   line-height: 1;
   background: linear-gradient(135deg, #FF5900, #FF2D87);
   -webkit-background-clip: text;
@@ -262,8 +262,8 @@
 
 /* Description */
 .cardDescription {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.05rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-problem-card-desc);
   color: #555555;
   line-height: 1.65;
   margin: 0;
@@ -274,7 +274,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.9rem;
+  font-size: var(--fs-problem-card-source);
   color: #aaaaaa;
   font-weight: 500;
   margin-top: auto;
@@ -336,11 +336,11 @@
   }
 
   .chartPercent {
-    font-size: 2.4rem;
+    font-size: var(--fs-problem-chart-percent-tablet);
   }
 
   .cardPercent {
-    font-size: 3rem;
+    font-size: var(--fs-problem-card-percent-tablet);
   }
 }
 
@@ -371,15 +371,15 @@
   }
 
   .chartPercent {
-    font-size: 2.2rem;
+    font-size: var(--fs-problem-chart-percent-mobile);
   }
 
   .title {
-    font-size: clamp(1.6rem, 5vw, 2.5rem);
+    font-size: var(--fs-problem-title-mobile);
   }
 
   .subtitle {
-    font-size: 0.95rem;
+    font-size: var(--fs-problem-subtitle-mobile);
   }
 
   .decorBlob {
@@ -410,7 +410,7 @@
   }
 
   .chartPercent {
-    font-size: 1.8rem;
+    font-size: var(--fs-problem-chart-percent-small-mobile);
   }
 
   .card {
@@ -420,15 +420,15 @@
   }
 
   .cardTitle {
-    font-size: 1.05rem;
+    font-size: var(--fs-problem-card-title-mobile);
   }
 
   .cardPercent {
-    font-size: 2.5rem;
+    font-size: var(--fs-problem-card-percent-mobile);
   }
 
   .cardDescription {
-    font-size: 0.85rem;
+    font-size: var(--fs-problem-card-desc-mobile);
   }
 
   .navBtn {
@@ -437,7 +437,7 @@
   }
 
   .title {
-    font-size: clamp(1.4rem, 6vw, 2rem);
+    font-size: var(--fs-problem-title-small-mobile);
   }
 
   .decorBlob {
