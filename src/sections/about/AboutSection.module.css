@@ -720,7 +720,7 @@
     width: 3px;
     height: 110%;
     border-radius: 2px;
-    background: linear-gradient(90deg, #FF2D87 0%, #FF6B1A 50%, #B8F02D 100%);
+    background: linear-gradient(180deg, #FF2D87 0%, #FF6B1A 50%, #B8F02D 100%);
 }
 
   .step {
