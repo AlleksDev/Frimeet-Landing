@@ -225,7 +225,7 @@
 
 .cardLabel {
   font-size: var(--fs-scope-card-label);
-  font-weight: var(--fw-extrabold);
+  font-weight: var(--fw-bold);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: 6px 14px;
@@ -235,9 +235,9 @@
 }
 
 .cardLabelActive {
-  background: var(--orange);
+  background: rgba(255, 107, 0, 0.45);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(255, 107, 0, 0.45);
+  border: 1px solid rgba(255, 107, 0, 0.8);
 }
 
 .cardLabelFuture {
@@ -544,7 +544,7 @@
   }
 
   .card {
-    flex: 0 0 88%;
+    flex: 0 0 100%;
     min-width: 260px;
     height: 410px;
   }
