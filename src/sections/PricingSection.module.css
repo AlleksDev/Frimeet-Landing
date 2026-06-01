@@ -476,8 +476,8 @@
   bottom: 0;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -40%);
-  width: 60%;
+  transform: translate(-50%, -30%);
+  width: 80%;
   height: auto;
   display: block;
   pointer-events: none;
@@ -679,6 +679,7 @@
   }
 
   .ctaVideo {
-    width: 150%;
+    width: 130%;
+    transform: translate(-50%, -15%);
   }
 }
