@@ -1,11 +1,10 @@
 /* ========================================
    AboutSection – "Tu ciudad, redescubierta"
-   Scroll-pinned cards + video state machine
+   Scroll-pinned cards + single continuous video
    Layout: Left (title + cards) | Right (video stage)
 
-   Animation classes are driven by the FSM, not
-   by simple index comparison. This guarantees
-   perfect 1:1 sync between cards and videos.
+   Video playback is controlled by pause-point
+   timestamps synced to the active scroll card.
    ======================================== */
 
 /* ---- Section: outer wrapper ---- */
@@ -19,8 +18,8 @@
 .scrollPinArea {
   position: relative;
   width: 100%;
-  /* 6 cards × 100vh scroll room + 100vh for the sticky viewport */
-  height: calc(100vh + 600vh);
+  /* 6 cards × 150vh scroll room + 100vh for the sticky viewport */
+  height: calc(100vh + 900vh);
 }
 
 /* ---- Sticky viewport ---- */
@@ -33,6 +32,8 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 2;
+  /* GPU: prevent scroll-induced repaints of entire viewport */
+  will-change: transform;
 }
 
 .stickyInner {
@@ -329,17 +330,12 @@
 
 /* ========================================
    Right column: Video Stage
-   Two GPU-accelerated layers stacked for
-   seamless entrance/outing crossfades.
-   Opacity is controlled imperatively via JS
-   (ref.style.opacity) — NOT React classes.
+   Single continuous video controlled by
+   pause-point timestamps synced to scroll.
 
-   Anti-flicker essentials:
-     - background: transparent (no black flash)
-     - will-change: opacity  (GPU compositing)
+   GPU-acceleration essentials:
      - translateZ(0)         (own compositor layer)
      - backface-visibility    (avoids sub-pixel artifacts)
-     - short opacity transition (smooth crossfade)
    ======================================== */
 .rightCol {
   display: flex;
@@ -353,40 +349,35 @@
 .videoStage {
   position: relative;
   width: 100%;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* GPU: isolate video repaint boundary */
+  contain: layout style paint;
+  
 }
 
-/* Shared base for both video layers */
+/* Single video layer — always visible once loaded */
 .videoLayer {
   position: absolute;
-  top: 60%;
+  top: 55%;
   left: 50%;
   width: auto;
   height: 90vh;
   object-fit: contain;
-  /* Hidden by default — opacity managed by JS imperative code */
   opacity: 0;
   pointer-events: none;
-  /* GPU acceleration — prevents decode-flicker */
-  transform: translate(-50%, -50%) translateZ(0);
-  will-change: opacity;
+  /* GPU: own compositor layer for smooth scrubbing */
+  transform: translate(-50%, -50%) translateZ(0) !important;
+  will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  /* Smooth crossfade — short enough not to feel sluggish */
-  transition: opacity 0.08s ease-out;
 }
 
-/* Entrance layer — sits behind the outing layer */
-.videoEntrance {
-  z-index: 1;
-}
-
-/* Outing layer — always on top so the crossfade is invisible */
-.videoOuting {
-  z-index: 2;
+/* Video is shown when it has a source loaded */
+.videoVisible {
+  opacity: 1;
 }
 
 /* ========================================

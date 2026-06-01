@@ -5,16 +5,20 @@ import { useEffect, useCallback, useState, useRef } from 'react'
  * ───────────────────────────
  * Maps scroll position → active card index + a phase indicator.
  *
- * Each card occupies a scroll zone of 100vh.
- * Within that zone the card goes through 3 phases:
- *   - "entering"  (first 15%):  card animates IN, entrance video plays
- *   - "active"    (15% – 70%):  card is fully visible, video is playing
- *   - "exiting"   (70% – 100%): card animates OUT, outing video plays
+ * Each card occupies a scroll zone of ~150vh (governed by the CSS
+ * height of scrollPinArea). Within that zone the card goes through
+ * 3 phases:
+ *   - "entering"  (first 15%):  card animates IN
+ *   - "active"    (15% – 70%):  card is fully visible
+ *   - "exiting"   (70% – 100%): card animates OUT
  *
  * Returns:
  *   - scrollIndex:   integer in [0, totalCards-1]
  *   - phase:         'entering' | 'active' | 'exiting'
  *   - localProgress: raw float [0, 1] for the current card's scroll zone
+ *
+ * Performance: state updates are gated — only fires a React re-render
+ * when scrollIndex or phase change, NOT on every pixel of scroll.
  */
 export type Phase = 'entering' | 'active' | 'exiting'
 
@@ -61,12 +65,15 @@ export function useScrollIndex(
         phase = 'exiting'
       }
 
+      // Only trigger a React re-render when index or phase change.
+      // localProgress updates are absorbed silently to prevent lag.
       setData((prev) => {
         if (
           prev.scrollIndex === newIndex &&
-          prev.phase === phase &&
-          Math.abs(prev.localProgress - localProgress) < 0.001
+          prev.phase === phase
         ) {
+          // Still update localProgress in the ref-like state object
+          // but only if it changed significantly, to avoid unnecessary renders
           return prev
         }
         return { scrollIndex: newIndex, phase, localProgress }

@@ -1,48 +1,32 @@
-import { forwardRef } from 'react'
 import styles from '../AboutSection.module.css'
+import videoSrc from '../../../assets/videos/video_complete.webm'
 
 /**
  * VideoStage
  * ──────────
- * Renders the two stacked \<video\> elements used for double-buffered
- * entrance/outing transitions. Opacity is controlled imperatively by
- * the useVideoPlayer hook via refs — no React re-renders involved.
+ * Renders a single <video> element whose playback is controlled
+ * imperatively by the useVideoPlayer hook via ref.
  *
- * Layer stacking:
- *   - Entrance layer: z-index 1 (bottom)
- *   - Outing layer:   z-index 2 (top)
+ * The video source (video_complete.webm) is a single continuous
+ * video that pauses at specific timestamps synced to the scroll cards.
  */
 interface VideoStageProps {
-  entranceRef: React.RefObject<HTMLVideoElement | null>
-  outingRef: React.RefObject<HTMLVideoElement | null>
+  videoRef: React.RefObject<HTMLVideoElement | null>
 }
 
-const VideoStage = forwardRef<HTMLDivElement, VideoStageProps>(
-  ({ entranceRef, outingRef }, _ref) => {
-    return (
-      <div className={styles.videoStage}>
-        {/* Entrance layer (z-index: 1) — opacity controlled by JS */}
-        <video
-          ref={entranceRef}
-          className={`${styles.videoLayer} ${styles.videoEntrance}`}
-          muted
-          playsInline
-          preload="auto"
-        />
-
-        {/* Outing layer (z-index: 2, always on top) — opacity controlled by JS */}
-        <video
-          ref={outingRef}
-          className={`${styles.videoLayer} ${styles.videoOuting}`}
-          muted
-          playsInline
-          preload="auto"
-        />
-      </div>
-    )
-  },
-)
-
-VideoStage.displayName = 'VideoStage'
+const VideoStage = ({ videoRef }: VideoStageProps) => {
+  return (
+    <div className={styles.videoStage}>
+      <video
+        ref={videoRef}
+        className={`${styles.videoLayer} ${styles.videoVisible}`}
+        src={videoSrc}
+        muted
+        playsInline
+        preload="auto"
+      />
+    </div>
+  )
+}
 
 export default VideoStage

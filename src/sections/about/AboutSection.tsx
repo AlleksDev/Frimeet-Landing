@@ -8,7 +8,6 @@ import { cardSteps, stepsData } from './data/cardSteps'
 /* ---- Hooks ---- */
 import { useScrollIndex } from './hooks/useScrollIndex'
 import { useVideoPlayer } from './hooks/useVideoPlayer'
-import { useVideoPreloader } from './hooks/useVideoPreloader'
 
 /* ---- Components ---- */
 import CardStack from './components/CardStack'
@@ -18,25 +17,17 @@ import VideoStage from './components/VideoStage'
    AboutSection
    ════════════
    Thin orchestrator that composes hooks and renders the UI.
-   Scroll position drives card transitions and video scrubbing
-   directly — no state machine needed.
+   Scroll position drives card transitions and a single continuous
+   video that pauses at frame-precise timestamps.
    ================================================================ */
 const AboutSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   /* ---- 1. Scroll → index + phase + local progress ---- */
-  const { scrollIndex, phase, localProgress } = useScrollIndex(sectionRef, cardSteps.length)
+  const { scrollIndex, phase } = useScrollIndex(sectionRef, cardSteps.length)
 
-  /* ---- 2. Video playback (driven by scroll phase) ---- */
-  const { entranceRef, outingRef } = useVideoPlayer(
-    scrollIndex,
-    phase,
-    localProgress,
-    cardSteps,
-  )
-
-  /* ---- 3. Preload adjacent videos ---- */
-  useVideoPreloader(scrollIndex, cardSteps)
+  /* ---- 2. Video playback (scroll-scrubbed, lerp-interpolated) ---- */
+  const { videoRef } = useVideoPlayer(sectionRef)
 
   /* ================================================================
      JSX
@@ -69,10 +60,7 @@ const AboutSection = () => {
 
               {/* ---- Right column: video stage ---- */}
               <div className={styles.rightCol}>
-                <VideoStage
-                  entranceRef={entranceRef}
-                  outingRef={outingRef}
-                />
+                <VideoStage videoRef={videoRef} />
               </div>
             </div>
           </div>
