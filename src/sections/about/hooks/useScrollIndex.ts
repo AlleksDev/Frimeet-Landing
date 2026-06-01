@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState, useRef } from 'react'
 
 /**
- * useScrollIndex (Snap-Based)
- * ───────────────────────────
+ * useScrollIndex (Snap-Based with Overlap)
+ * ─────────────────────────────────────────
  * Maps scroll position → active card index + a phase indicator.
  *
  * Each card occupies a scroll zone of ~150vh (governed by the CSS
@@ -12,13 +12,17 @@ import { useEffect, useCallback, useState, useRef } from 'react'
  *   - "active"    (15% – 70%):  card is fully visible
  *   - "exiting"   (70% – 100%): card animates OUT
  *
+ * OVERLAP: During the "exiting" phase, the NEXT card is simultaneously
+ * in its "entering" phase. This prevents any blank space between cards.
+ *
  * Returns:
  *   - scrollIndex:   integer in [0, totalCards-1]
  *   - phase:         'entering' | 'active' | 'exiting'
  *   - localProgress: raw float [0, 1] for the current card's scroll zone
+ *   - exitingIndex:  index of the card currently exiting (-1 if none)
  *
  * Performance: state updates are gated — only fires a React re-render
- * when scrollIndex or phase change, NOT on every pixel of scroll.
+ * when scrollIndex, phase, or exitingIndex change.
  */
 export type Phase = 'entering' | 'active' | 'exiting'
 
@@ -26,6 +30,8 @@ export interface ScrollData {
   scrollIndex: number
   phase: Phase
   localProgress: number
+  /** Index of the card that is currently exiting, or -1 if none */
+  exitingIndex: number
 }
 
 export function useScrollIndex(
@@ -36,6 +42,7 @@ export function useScrollIndex(
     scrollIndex: 0,
     phase: 'entering',
     localProgress: 0,
+    exitingIndex: -1,
   })
   const rafId = useRef(0)
 
@@ -57,26 +64,33 @@ export function useScrollIndex(
 
       // Determine phase based on localProgress within the card's zone
       let phase: Phase
+      let exitingIndex = -1
+
       if (localProgress < 0.15) {
         phase = 'entering'
       } else if (localProgress < 0.70) {
         phase = 'active'
       } else {
+        // During the exiting phase, the current card exits while
+        // the NEXT card enters simultaneously → no blank space
         phase = 'exiting'
+        // The current card is exiting, which means the next card
+        // should be entering. We signal this via exitingIndex.
+        if (newIndex < totalCards - 1) {
+          exitingIndex = newIndex
+        }
       }
 
-      // Only trigger a React re-render when index or phase change.
-      // localProgress updates are absorbed silently to prevent lag.
+      // Only trigger a React re-render when something visual changes
       setData((prev) => {
         if (
           prev.scrollIndex === newIndex &&
-          prev.phase === phase
+          prev.phase === phase &&
+          prev.exitingIndex === exitingIndex
         ) {
-          // Still update localProgress in the ref-like state object
-          // but only if it changed significantly, to avoid unnecessary renders
           return prev
         }
-        return { scrollIndex: newIndex, phase, localProgress }
+        return { scrollIndex: newIndex, phase, localProgress, exitingIndex }
       })
     })
   }, [sectionRef, totalCards])

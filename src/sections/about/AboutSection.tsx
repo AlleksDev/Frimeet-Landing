@@ -24,10 +24,10 @@ const AboutSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   /* ---- 1. Scroll → index + phase + local progress ---- */
-  const { scrollIndex, phase } = useScrollIndex(sectionRef, cardSteps.length)
+  const { scrollIndex, phase, exitingIndex } = useScrollIndex(sectionRef, cardSteps.length)
 
-  /* ---- 2. Video playback (scroll-scrubbed, lerp-interpolated) ---- */
-  const { videoRef } = useVideoPlayer(sectionRef)
+  /* ---- 2. Video playback (native play forward, seek backward) ---- */
+  const { videoRef } = useVideoPlayer(scrollIndex, sectionRef)
 
   /* ================================================================
      JSX
@@ -55,6 +55,7 @@ const AboutSection = () => {
                   cardSteps={cardSteps}
                   scrollIndex={scrollIndex}
                   phase={phase}
+                  exitingIndex={exitingIndex}
                 />
               </div>
 

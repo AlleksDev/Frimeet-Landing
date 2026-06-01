@@ -1,16 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 
 /**
- * useVideoPlayer (Scroll-Scrubbed, Lerp-Interpolated)
- * ────────────────────────────────────────────────────
- * Controls a single continuous video via direct currentTime manipulation
- * (NO play/pause). Uses a rAF lerp loop for buttery-smooth scrubbing
- * synchronized with scroll position.
+ * useVideoPlayer (Hybrid: Native Play + Smooth Reverse Seek)
+ * ──────────────────────────────────────────────────────────
+ * Controls a single continuous video using the browser's native
+ * media pipeline for smooth forward playback, and frame-by-frame
+ * rAF stepping for smooth backward navigation.
  *
- * Architecture (100% imperative — zero React state, zero re-renders):
- *   1. Scroll handler → computes target video time from scroll progress
- *   2. rAF lerp loop  → smoothly interpolates video.currentTime → target
- *   3. IntersectionObserver → detects entry direction & manages lifecycle
+ * Strategy:
+ *   ▶ FORWARD (scroll ↓): video.play() + rAF monitor for precise pause
+ *   ◀ BACKWARD (scroll ↑): rAF-driven reverse stepping for smooth rewind
  *
  * Pause points (30 FPS):
  *   Card 0 → frame 28  (~0.933s)
@@ -20,14 +19,9 @@ import { useEffect, useRef } from 'react'
  *   Card 4 → frame 164 (~5.467s)
  *   Card 5 → frame 194 (~6.467s)
  *
- * Piecewise mapping (per card scroll zone):
- *   - Entering (0%–15%):  lerp from prev pause → current pause
- *   - Active  (15%–70%):  hold at current pause point
- *   - Exiting (70%–100%): lerp from current pause → next pause
- *
  * Entry behavior (cyclic — resets on every exit/re-entry):
- *   - From top  (scroll ↓): currentTime = 0, auto-lerps → pause point 0
- *   - From bottom (scroll ↑): currentTime = end, auto-lerps → last pause point
+ *   ▼ From top:    currentTime=0, plays forward to PAUSE_POINTS[scrollIndex]
+ *   ▲ From bottom: plays in REVERSE from end to PAUSE_POINTS[scrollIndex]
  */
 
 /* ================================================================
@@ -46,173 +40,234 @@ const PAUSE_POINTS: number[] = [
 
 const TOTAL_CARDS = PAUSE_POINTS.length
 
-/** Smoothing factor per frame (higher = snappier, lower = smoother) */
-const LERP_SPEED = 0.12
+/** Tolerance for time comparisons (~1 frame at 30fps) */
+const TIME_EPSILON = 0.04
 
-/** Below this threshold (≈1 frame at 30fps) snap to target */
-const SNAP_THRESHOLD = 0.033
-
-/* ================================================================
-   Pure helpers
-   ================================================================ */
-
-function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t
-}
-
-/**
- * Maps raw scroll progress [0, 1] → target video time (seconds).
- *
- * Piecewise interpolation with "hold" zones at each pause point:
- *   - 0%–15%  of each card's zone: interpolate from prev → current pause
- *   - 15%–70%: hold at current pause point (user reads the card)
- *   - 70%–100%: interpolate from current → next pause
- *
- * Boundary behavior:
- *   - progress ≤ 0: returns first pause point (entry target)
- *   - progress ≥ 1: returns last pause point (exit/reverse target)
- *   - Last card's exit zone holds (no interpolation past final pause)
- */
-function getTargetTime(progress: number): number {
-  if (progress <= 0) return PAUSE_POINTS[0]
-  if (progress >= 1) return PAUSE_POINTS[TOTAL_CARDS - 1]
-
-  const raw = progress * TOTAL_CARDS
-  const index = Math.min(TOTAL_CARDS - 1, Math.floor(raw))
-  const local = Math.min(1, raw - index)
-
-  const prevTime = index > 0 ? PAUSE_POINTS[index - 1] : 0
-  const currTime = PAUSE_POINTS[index]
-  // Last card holds at final pause — no interpolation beyond it
-  const nextTime =
-    index < TOTAL_CARDS - 1 ? PAUSE_POINTS[index + 1] : currTime
-
-  if (local < 0.15) {
-    // Entering: smooth transition from previous pause → current
-    return lerp(prevTime, currTime, local / 0.15)
-  }
-  if (local < 0.70) {
-    // Active: video holds while user reads the card
-    return currTime
-  }
-  // Exiting: smooth transition from current pause → next
-  return lerp(currTime, nextTime, (local - 0.70) / 0.30)
-}
+/** Speed for reverse playback: seconds to rewind per real second */
+const REVERSE_SPEED = 3.0
 
 /* ================================================================
    Hook
    ================================================================ */
 
 export function useVideoPlayer(
+  scrollIndex: number,
   sectionRef: React.RefObject<HTMLDivElement | null>,
 ) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  /** rAF id for the forward-playback monitor loop */
+  const monitorRafRef = useRef(0)
+
+  /** rAF id for the reverse-playback loop */
+  const reverseRafRef = useRef(0)
+
+  /** Which pause-point index the video was last sent to */
+  const prevTargetRef = useRef(-1)
+
+  /** Whether the section is currently in the viewport */
+  const isEnteredRef = useRef(false)
+
+  /** Mirror of scrollIndex for reading inside observer callbacks */
+  const scrollIndexRef = useRef(scrollIndex)
+  scrollIndexRef.current = scrollIndex
+
+  /** Track last rAF timestamp for smooth reverse delta calculations */
+  const lastFrameTimeRef = useRef(0)
+
+  /* ── Cancel any in-flight rAF playback monitor ── */
+  const cancelMonitor = useCallback(() => {
+    cancelAnimationFrame(monitorRafRef.current)
+    monitorRafRef.current = 0
+  }, [])
+
+  /* ── Cancel any in-flight reverse playback loop ── */
+  const cancelReverse = useCallback(() => {
+    cancelAnimationFrame(reverseRafRef.current)
+    reverseRafRef.current = 0
+    lastFrameTimeRef.current = 0
+  }, [])
+
+  /* ── Cancel all playback loops ── */
+  const cancelAll = useCallback(() => {
+    cancelMonitor()
+    cancelReverse()
+  }, [cancelMonitor, cancelReverse])
+
+  /* ────────────────────────────────────────────────────
+     Smooth reverse playback via rAF frame stepping.
+     Steps currentTime backward at REVERSE_SPEED until
+     reaching the target timestamp.
+     ──────────────────────────────────────────────────── */
+  const playReverse = useCallback(
+    (target: number) => {
+      const video = videoRef.current
+      if (!video) return
+
+      video.pause()
+      cancelAll()
+
+      const step = (timestamp: number) => {
+        const v = videoRef.current
+        if (!v) return
+
+        // Initialize on first frame
+        if (lastFrameTimeRef.current === 0) {
+          lastFrameTimeRef.current = timestamp
+          reverseRafRef.current = requestAnimationFrame(step)
+          return
+        }
+
+        const deltaMs = timestamp - lastFrameTimeRef.current
+        lastFrameTimeRef.current = timestamp
+
+        // Calculate how much time to rewind (capped to avoid jumps)
+        const deltaSec = Math.min(deltaMs / 1000, 0.05) * REVERSE_SPEED
+
+        const newTime = v.currentTime - deltaSec
+
+        if (newTime <= target + TIME_EPSILON) {
+          // Reached target — snap and stop
+          v.currentTime = target
+          lastFrameTimeRef.current = 0
+          return
+        }
+
+        v.currentTime = newTime
+        reverseRafRef.current = requestAnimationFrame(step)
+      }
+
+      reverseRafRef.current = requestAnimationFrame(step)
+    },
+    [cancelAll],
+  )
+
+  /* ────────────────────────────────────────────────────
+     Navigate to a pause point.
+       ▶ Forward  → native play() for smooth decoded frames
+       ◀ Backward → smooth rAF-driven reverse stepping
+     ──────────────────────────────────────────────────── */
+  const goToPoint = useCallback(
+    (pointIndex: number) => {
+      const video = videoRef.current
+      if (!video) return
+
+      const idx = Math.max(0, Math.min(TOTAL_CARDS - 1, pointIndex))
+
+      // Skip if already targeting this point
+      if (idx === prevTargetRef.current) return
+      prevTargetRef.current = idx
+
+      const target = PAUSE_POINTS[idx]
+      const current = video.currentTime
+
+      // Cancel any previous playback loops
+      cancelAll()
+
+      if (current < target - TIME_EPSILON) {
+        /* ▶ FORWARD: use native play() for smooth video decoding.
+           Scale playbackRate for large jumps (max 3×) so the video
+           catches up without feeling sluggish. */
+        const distance = target - current
+        video.playbackRate = Math.max(1, Math.min(3, distance / 1.0))
+
+        video.play().catch(() => {
+          // Autoplay blocked — fall back to direct seek
+          video.currentTime = target
+        })
+
+        // rAF monitor: checks every frame (~60fps) for precise pausing
+        const monitor = () => {
+          const v = videoRef.current
+          if (!v) return
+          if (v.currentTime >= target - TIME_EPSILON) {
+            v.pause()
+            v.currentTime = target // Snap to exact frame
+            v.playbackRate = 1
+            return
+          }
+          monitorRafRef.current = requestAnimationFrame(monitor)
+        }
+        monitorRafRef.current = requestAnimationFrame(monitor)
+      } else if (current > target + TIME_EPSILON) {
+        /* ◀ BACKWARD: smooth reverse playback via rAF stepping.
+           Creates a fluid rewind effect instead of a jarring jump. */
+        playReverse(target)
+      } else {
+        /* ≈ Already at target — just ensure paused */
+        video.pause()
+        video.currentTime = target
+      }
+    },
+    [cancelAll, playReverse],
+  )
+
+  /* ────────────────────────────────────────────────────
+     React to scrollIndex changes
+     (only fires when index actually changes — phase
+     changes are handled by useScrollIndex separately)
+     ──────────────────────────────────────────────────── */
+  useEffect(() => {
+    if (!isEnteredRef.current) return
+    goToPoint(scrollIndex)
+  }, [scrollIndex, goToPoint])
+
+  /* ────────────────────────────────────────────────────
+     IntersectionObserver: entry direction + lifecycle
+     Detects whether the user enters from top or bottom
+     and initializes the video accordingly. Cyclic: full
+     reset on exit so re-entry always works.
+     ──────────────────────────────────────────────────── */
   useEffect(() => {
     const section = sectionRef.current
     const video = videoRef.current
     if (!section || !video) return
 
-    /* ── Mutable state (refs-in-closure, zero React overhead) ── */
-    let targetTime = 0
-    let isActive = false
-    let isSettling = false // true during entry animation, blocks scroll
-    let rafId = 0
-    let scrollRafId = 0
-
-    /* ── Compute target from current scroll position ── */
-    const computeTarget = () => {
-      const rect = section.getBoundingClientRect()
-      const sectionTop = -rect.top
-      const sectionHeight = section.offsetHeight - window.innerHeight
-      if (sectionHeight <= 0) return
-
-      const progress = Math.max(0, Math.min(1, sectionTop / sectionHeight))
-      targetTime = getTargetTime(progress)
-    }
-
-    /* ── Scroll handler: updates target imperatively ── */
-    const onScroll = () => {
-      cancelAnimationFrame(scrollRafId)
-      scrollRafId = requestAnimationFrame(() => {
-        if (!isActive || isSettling) return
-        computeTarget()
-      })
-    }
-
-    /* ── rAF lerp loop: smoothly interpolates currentTime → target ── */
-    const tick = () => {
-      if (!isActive) return
-
-      const dur = video.duration
-      if (!dur || isNaN(dur)) {
-        // Video metadata not loaded yet — retry next frame
-        rafId = requestAnimationFrame(tick)
-        return
-      }
-
-      const current = video.currentTime
-      const diff = targetTime - current
-      const absDiff = Math.abs(diff)
-
-      if (absDiff > SNAP_THRESHOLD) {
-        // Smooth interpolation — the core of jank-free scrubbing
-        video.currentTime = current + diff * LERP_SPEED
-      } else if (absDiff > 0.001) {
-        // Close enough — snap to exact target
-        video.currentTime = targetTime
-
-        if (isSettling) {
-          // Entry animation reached its target — hand off to scroll
-          isSettling = false
-          computeTarget()
-        }
-      } else {
-        // Already at target
-        if (isSettling) {
-          isSettling = false
-          computeTarget()
-        }
-      }
-
-      rafId = requestAnimationFrame(tick)
-    }
-
-    /* ── IntersectionObserver: entry direction + lifecycle ── */
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            /* ---- Determine entry direction ---- */
             const rect = entry.boundingClientRect
-            const dur = video.duration
-            const hasDuration = dur && !isNaN(dur) && dur > 0
+            const currentIdx = scrollIndexRef.current
 
             if (rect.top >= 0) {
-              // ▼ Entry from TOP (user scrolling down)
-              // Video starts at 0, lerps to first pause point
+              /* ▼ Entry from TOP (user scrolling down)
+                 Start at 0, play forward to the current card's pause point. */
               video.currentTime = 0
-              targetTime = PAUSE_POINTS[0]
-            } else if (hasDuration) {
-              // ▲ Entry from BOTTOM (user scrolling up)
-              // Video starts at end, lerps back to last pause point
-              video.currentTime = dur - 0.001
-              targetTime = PAUSE_POINTS[TOTAL_CARDS - 1]
+              prevTargetRef.current = -1
+              isEnteredRef.current = true
+              goToPoint(currentIdx)
             } else {
-              // Bottom entry but metadata not ready — safe fallback
-              video.currentTime = 0
-              targetTime = PAUSE_POINTS[TOTAL_CARDS - 1]
+              /* ▲ Entry from BOTTOM (user scrolling up)
+                 Start at end of video and play in REVERSE to the current
+                 card's pause point for a smooth rewind effect. */
+              const targetIdx = Math.min(currentIdx, TOTAL_CARDS - 1)
+              const lastPausePoint = PAUSE_POINTS[TOTAL_CARDS - 1]
+              
+              // Set video to the last pause point (end of content)
+              video.currentTime = lastPausePoint
+              prevTargetRef.current = -1
+              isEnteredRef.current = true
+              
+              // Play in reverse to the target pause point
+              if (targetIdx < TOTAL_CARDS - 1) {
+                const target = PAUSE_POINTS[targetIdx]
+                playReverse(target)
+                prevTargetRef.current = targetIdx
+              } else {
+                // Already at the last card, just pause
+                prevTargetRef.current = targetIdx
+              }
             }
-
-            // Block scroll handler until entry animation settles
-            isSettling = true
-            isActive = true
-            rafId = requestAnimationFrame(tick)
           } else {
-            // ── Section left viewport — full reset for cyclic re-entry ──
-            isActive = false
-            isSettling = false
-            cancelAnimationFrame(rafId)
+            /* ── Section left viewport: full reset for cyclic re-entry ── */
+            isEnteredRef.current = false
+            prevTargetRef.current = -1
+            cancelAll()
+            if (videoRef.current) {
+              videoRef.current.pause()
+              videoRef.current.playbackRate = 1
+            }
           }
         }
       },
@@ -220,16 +275,12 @@ export function useVideoPlayer(
     )
 
     observer.observe(section)
-    window.addEventListener('scroll', onScroll, { passive: true })
 
-    /* ── Cleanup ── */
     return () => {
       observer.disconnect()
-      window.removeEventListener('scroll', onScroll)
-      cancelAnimationFrame(rafId)
-      cancelAnimationFrame(scrollRafId)
+      cancelAll()
     }
-  }, [sectionRef])
+  }, [sectionRef, goToPoint, cancelAll, playReverse])
 
   return { videoRef }
 }
