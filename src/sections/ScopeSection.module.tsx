@@ -83,22 +83,35 @@ const ScopeSection = () => {
   const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* ---- Scroll to card ---- */
+/* ---- Scroll to card ---- */
+/* ---- Scroll to card ---- */
   const scrollTo = useCallback((index: number) => {
     const track = trackRef.current;
     if (!track) return;
-    const cards = track.querySelectorAll<HTMLElement>(`.${styles.card}`);
-    if (cards[index]) {
-      isProgrammaticScroll.current = true;
-      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    
+    isProgrammaticScroll.current = true;
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
-      track.scrollTo({ left: cards[index].offsetLeft - 20, behavior: 'smooth' });
-      setActive(index);
+    // 1. Actualizamos el estado PRIMERO
+    setActive(index);
 
-      // Disable programmatic scroll lock after transition completes (600ms)
-      scrollTimeout.current = setTimeout(() => {
-        isProgrammaticScroll.current = false;
-      }, 600);
-    }
+    // 2. Esperamos un brevísimo momento (50ms) para que React aplique 
+    // la clase .cardActive a la nueva tarjeta y enccoja la anterior.
+    setTimeout(() => {
+      const cards = track.querySelectorAll<HTMLElement>(`.${styles.card}`);
+      if (cards[index]) {
+        // Ahora sí, el DOM tiene los tamaños correctos y el cálculo será exacto
+        track.scrollTo({ 
+          left: cards[index].offsetLeft - 20, // -20 respeta tu padding izquierdo
+          behavior: 'smooth' 
+        });
+      }
+    }, 50);
+
+    // 3. Reactivamos la detección de scroll manual cuando termine la animación
+    scrollTimeout.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 600);
   }, []);
 
   const prev = () => {
