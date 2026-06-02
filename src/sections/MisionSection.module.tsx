@@ -2,6 +2,7 @@ import styles from './MisionSection.module.css';
 import { CheckCircle, Heart } from 'lucide-react'
 import { Reveal } from '../components/Reveal'
 import localBusiness from '../assets/images/sections/local_business.png';
+import { Link2 } from 'lucide-react'
 
 const MissionSection = () => {
   return (
@@ -13,22 +14,25 @@ const MissionSection = () => {
             <span className={styles.missionTitleGradient}>economía invisible</span>
           </h2>
           <p className={styles.missionBody}>
-            Más del 55% del comercio local en ciudades medianas no tiene presencia digital.
-            Frimeet les da visibilidad, y a ti acceso a experiencias auténticas que ninguna
-            plataforma convencional puede ofrecerte.
+            El 64.3% de las unidades económicas en México operan en la informalidad. Al no existir en los mapas tradicionales, pierden visibilidad digital. 
+            Frimeet usa el poder del crowdsourcing para digitalizar esta economía oculta en Chiapas, dándoles visibilidad... y a ti acceso a experiencias auténticas
           </p>
 
           <div className={styles.checkList}>
             {[
-              'Comercios validados por geolocalización comunitaria',
-              'Rutas que se adaptan a tu presupuesto y estado de ánimo',
-              'Impacto económico directo en micronegocios locales',
+              'Comercios validados físicamente mediante geolocalización (PostGIS)',
+              'Rutas inteligentes optimizadas para el presupuesto de tu Tribu.',
+              'Recompensas en Fricoins por digitalizar micronegocios locales.',
             ].map((item) => (
               <div key={item} className={styles.checkItem}>
                 <span>{item}</span>
                 <CheckCircle size={15} className={styles.icPink} />
               </div>
             ))}
+          </div>
+          <div className={styles.cardSource}>
+            <Link2 size={24} />
+            <span>Fuente: INEGI</span>
           </div>
         </Reveal>
 
@@ -41,13 +45,12 @@ const MissionSection = () => {
                   <Heart size={26} strokeWidth={2.5} />
                 </div>
                 <div>
-                  <div className={styles.bigCardLabel}>Conexiones reales</div>
-                  <div className={styles.bigCardNum}>+15,000</div>
+                  <div className={styles.bigCardLabel}>Sincronización en tiempo real</div>
+                  <div className={styles.bigCardNum}>100%</div>
                 </div>
               </div>
               <p className={styles.bigCardDesc}>
-                Personas han encontrado su próximo lugar favorito gracias a
-                recomendaciones de la comunidad.
+                Lugares respaldados por bases de datos de OpenStreetMap y verificaciones de usuarios locales.
               </p>
             </div>
           </Reveal>
@@ -57,8 +60,8 @@ const MissionSection = () => {
               <Heart size={22} strokeWidth={2.5} className={styles.icPink} />
             </div>
             <div>
-              <div className={styles.smallCardLabel}>Comercios descubiertos</div>
-              <div className={styles.smallCardNum}>+15,000</div>
+              <div className={styles.smallCardLabel}>Gamificación Activa</div>
+              <div className={styles.smallCardNum}>Gana Fricoins</div>
             </div>
           </Reveal>
         </div>

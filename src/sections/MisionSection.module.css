@@ -84,6 +84,14 @@
   flex-shrink: 0;
 }
 
+.cardSource {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-mision-card-source);
+  color: #888888;
+}
+
 /* ---- Right ---- */
 .missionRight {
   position: relative;
@@ -104,7 +112,7 @@
 }
 
 .bigCard {
-  background: linear-gradient(135deg, #FF8C00 0%, #FF2D87 100%);
+  background: linear-gradient(135deg, var(--pink) 0%, var(--orange) 100%);
   border-radius: 24px;
   width: 500px;
   max-width: 100%;
@@ -126,7 +134,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.22;
+  opacity: 0.2;
   transition: opacity 0.4s ease, transform 6s ease-out;
   z-index: 0;
 }

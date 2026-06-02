@@ -2,7 +2,6 @@ import styles from "./PricingSection.module.css";
 import { Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../components/Reveal";
 import video from "../assets/videos/entrance_bottom.webm"
-import friendsFood from "../assets/images/sections/friends_food.png";
 
 /* ---- Plans ---- */
 const plans = [
