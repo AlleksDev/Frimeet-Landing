@@ -47,7 +47,7 @@ export const cardSteps: Step[] = [
   {
     icon: <ShieldCheck size={20} />,
     title: 'Sistema antifraude',
-    description: 'Cero lugares falsos en nuestro ecosistema. Implementamos un pipeline estricto: cruce de precisión GPS y un microservicio de *Visión Computacional* que analiza las fotografías enviadas por los Exploradores para verificar la existencia real del negocio antes de aprobarlo.'
+    description: 'Cero lugares falsos en nuestro ecosistema. Implementamos un pipeline estricto: cruce de precisión GPS y un sistema de score para verificar la existencia real del negocio antes de aprobarlo.'
   },
   {
     tag: 'Datos en vivo',
