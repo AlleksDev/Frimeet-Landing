@@ -1,5 +1,5 @@
 import styles from '../AboutSection.module.css'
-import videoSrc from '../../../assets/videos/video_complete.webm'
+import videoSrc from '../../../assets/videos/video_complete_bucle.webm'
 
 /**
  * VideoStage
@@ -7,8 +7,8 @@ import videoSrc from '../../../assets/videos/video_complete.webm'
  * Renders a single <video> element whose playback is controlled
  * imperatively by the useVideoPlayer hook via ref.
  *
- * The video source (video_complete.webm) is a single continuous
- * video that pauses at specific timestamps synced to the scroll cards.
+ * The video source is a single boomerang video that pauses at specific
+ * timestamps synced to the scroll cards.
  */
 interface VideoStageProps {
   videoRef: React.RefObject<HTMLVideoElement | null>
