@@ -52,7 +52,7 @@ export const cardSteps: Step[] = [
   {
     tag: 'Datos en vivo',
     icon: <Radio size={22} />,
-    title: 'Radar de Aforo en Tiempo Real',
+    title: 'Radar de Aforo',
     description: '¿Odias llegar y que el lugar esté lleno? Nuestro backend transaccional (Go) mantiene un control estricto de los asistentes. El mapa refleja un semáforo de afluencia en tiempo real, permitiendo a tu grupo tomar decisiones logísticas inteligentes antes de salir de casa.'
   },
   {
