@@ -5,9 +5,9 @@ import friendsCafe from '../assets/images/sections/friends_selfie.jpg';
 
 const VisionSection = () => {
   const visionItems = [
-    { icon: <MapPin size={19} />, text: 'Descubre joyas ocultas en tu barrio' },
-    { icon: <Star size={19} />,   text: 'Conecta con comunidades que comparten tus intereses' },
-    { icon: <Heart size={19} />,  text: 'Apoya directamente a micronegocios locales' },
+    { icon: <MapPin size={19} />, text: ' Módulo de Eventos: Control de aforo en tiempo real para evitar lugares saturados' },
+    { icon: <Heart size={19} />,   text: 'Clubes Digitales: Espacios para delegar decisiones y planear salidas sin estrés.' },
+    { icon: <Star size={19} />,  text: 'Economía Virtual: Gana y gasta Fricoins ayudando a la comunidad de tu ciudad.' },
   ];
 
   return (
@@ -33,14 +33,14 @@ const VisionSection = () => {
         <Reveal animation="fadeLeft" delay={200} duration={800} className={styles.visionRight}>
 
           <h2 className={styles.visionTitle}>
-            Más que una app,<br />
-            <span className={styles.visionTitleGrad}>una comunidad</span>
+            El Ecosistema<br />
+            <span className={styles.visionTitleGrad}>Logístico-Social</span>
           </h2>
 
           <p className={styles.visionBody}>
-            Frimeet nace de la idea de que las mejores experiencias se viven en comunidad.
-            Conectamos personas con lugares auténticos, formalizamos la economía invisible
-            y creamos lazos que trascienden lo digital.
+            Frimeet no es solo un directorio, es el punto de encuentro entre la logística de grupos y el descubrimiento urbano. 
+            Conectamos Tribus con lugares auténticos, eliminamos la fricción de organizar salidas (FOBO) 
+            y premiamos económicamente a los "Exploradores" que mantienen vivo y actualizado el mapa de la ciudad.
           </p>
 
           <div className={styles.visionList}>

@@ -189,12 +189,13 @@
 .visionList {
   display: flex;
   flex-direction: column;
+  max-width: 440px;
   gap: 16px;
 }
 
 .visionItem {
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 12px;
   font-size: var(--fs-vision-item);
   color: #222222;
@@ -202,6 +203,7 @@
 }
 
 .visionItemIcon {
+  margin-top: 2px;
   font-size: 19px;
   color: #FF2D87;
   flex-shrink: 0;
