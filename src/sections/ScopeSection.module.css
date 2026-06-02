@@ -387,7 +387,7 @@
   }
 
   .scopeInner {
-    padding: 0 16px;
+    padding: 0px;
   }
 
   .scopeTitle {
@@ -403,21 +403,67 @@
   }
 
   .gridWrapper {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    gap: 12px;
-    height: 360px;
+    gap: 0px;
+    height: auto;
   }
 
   .card {
-    flex: 1;
+    width: 100%;
+    opacity: 1 !important;
+    flex: none !important;
+    transform: none !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+    height: auto;
+    min-height: auto;
+    cursor: default;
+  }
+
+  .card:hover {
+    opacity: 1 !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .cardHovered {
+    opacity: 1 !important;
+    flex: none !important;
+    transform: none !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .cardShrunken {
+    display: flex !important;
+    opacity: 1 !important;
+    flex: none !important;
+    filter: none !important;
+  }
+
+  .cardBg {
+    transition: none;
+  }
+
+  .card:hover .cardBg {
+    transform: none;
   }
 
   .cardContent {
     padding: 20px;
   }
 
+  .cardTop {
+    margin-bottom: 12px;
+  }
+
+  .cardBody {
+    margin-bottom: 12px;
+  }
+
   .cardSubtitle {
     font-size: var(--fs-scope-card-subtitle);
+    display: block !important;
+    opacity: 1 !important;
   }
 
   .cardTitle {
@@ -426,10 +472,21 @@
 
   .cardDesc {
     font-size: var(--fs-scope-card-desc-mobile);
+    display: block !important;
+    opacity: 1 !important;
+  }
+
+  .cardStatus {
+    display: block !important;
+  }
+
+  .cardFeatures {
+    display: flex !important;
   }
 
   .featurePill {
     font-size: var(--fs-scope-feature-pill-mobile);
     padding: 5px 11px;
+    display: inline-flex !important;
   }
 }

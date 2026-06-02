@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './ScopeSection.module.css';
 import {
   MapPin,
@@ -74,6 +74,25 @@ const phases = [
 
 const ScopeSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 480);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleMouseEnter = (index: number) => {
+    if (!isMobile) setHoveredIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMobile) setHoveredIndex(null);
+  };
+
+  // En mobile, mostrar todo (como si todo estuviera hovereado)
+  const isExpanded = isMobile ? true : hoveredIndex;
 
   return (
     <section className={styles.scopeSection} id="scope">
@@ -105,8 +124,8 @@ const ScopeSection = () => {
                     ? styles.cardShrunken
                     : ''
                 }`}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave()}
               >
                 {/* Background image */}
                 <img
@@ -129,7 +148,7 @@ const ScopeSection = () => {
                     >
                       {phase.label}
                     </span>
-                    {hoveredIndex === index && (
+                    {(isExpanded === index || isMobile) && (
                       <span
                         className={`${styles.cardStatus} ${
                           phase.isActive
@@ -144,7 +163,7 @@ const ScopeSection = () => {
 
                   <div className={styles.cardBody}>
                     <h3 className={styles.cardTitle}>{phase.title}</h3>
-                    {hoveredIndex === index && (
+                    {(isExpanded === index || isMobile) && (
                       <>
                         <p className={styles.cardSubtitle}>{phase.subtitle}</p>
                         <p className={styles.cardDesc}>{phase.description}</p>
@@ -152,7 +171,7 @@ const ScopeSection = () => {
                     )}
                   </div>
 
-                  {hoveredIndex === index && (
+                  {(isExpanded === index || isMobile) && (
                     <div className={styles.cardFeatures}>
                       {phase.features.map((feat, fi) => (
                         <span key={fi} className={styles.featurePill}>

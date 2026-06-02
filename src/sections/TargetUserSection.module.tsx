@@ -126,8 +126,8 @@ const explorerProfiles: UserProfile[] = [
     avatarIcon: Search,
     demographics: [
       { icon: Calendar, label: 'Edad', value: '18 – 35 años' },
-      { icon: Globe, label: 'Nacionalidad', value: 'México · Zonas metropolitanas' },
-      { icon: MapPin, label: 'Ubicación', value: 'Barrios emergentes, alta densidad comercial' },
+      { icon: Globe, label: 'Nacionalidad', value: 'México' },
+      { icon: MapPin, label: 'Ubicación', value: 'Tuxtla Gutiérrez, Chiapas' },
       { icon: Users, label: 'Género', value: 'Todos los géneros' },
     ],
     slides: [
@@ -531,6 +531,7 @@ const TargetUserSection = () => {
                     {profile.demographics.map((d, i) => (
                       <div key={i} className={`${styles.demoItem} ${accent === 'pink' ? styles.demoItemPink : styles.demoItemOrange}`}>
                         <CheckCircle size={15} className={styles.demoIcon} />
+                        <span className={styles.demoLabel}>{d.label}:</span>
                         <span className={styles.demoValue}>{d.value}</span>
                       </div>
                     ))}

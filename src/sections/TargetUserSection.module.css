@@ -303,7 +303,7 @@
 .demoItem {
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   border-radius: 14px;
   transition: all 0.3s ease;
