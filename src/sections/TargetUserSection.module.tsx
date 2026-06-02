@@ -39,6 +39,7 @@ interface CarouselSlide {
   label: string;
   type: 'rows' | 'chips' | 'bullets' | 'motivations';
   data: InfoItem[] | string[];
+  ctaLabel?: string;
 }
 
 interface UserProfile {
@@ -59,12 +60,12 @@ const explorerProfiles: UserProfile[] = [
     id: 'catalizer',
     name: 'El Catalizador Social',
     tagline: 'Perfil A · B2C',
-    headline: 'El organizador del grupo de amigos que siempre toma la iniciativa para planear la siguiente salida.',
+    headline: 'Este es el usuario que sufre el problema logístico de primera mano. Es tu "Admin" de los grupos.',
     avatarIcon: Target,
     demographics: [
       { icon: Calendar, label: 'Edad', value: '18 – 30 años' },
       { icon: Globe, label: 'Nacionalidad', value: 'México · Zonas urbanas' },
-      { icon: MapPin, label: 'Ubicación', value: 'GDL, CDMX, MTY, Puebla, QRO' },
+      { icon: MapPin, label: 'Ubicación', value: 'Tuxtla Gutiérrez, Chiapas' },
       { icon: Users, label: 'Género', value: 'Todos los géneros' },
     ],
     slides: [
@@ -74,9 +75,9 @@ const explorerProfiles: UserProfile[] = [
         label: 'Ocupación y Estilo de Vida',
         type: 'rows',
         data: [
-          { icon: Briefcase, label: 'Ocupación', value: 'Estudiante universitario / Profesional junior' },
-          { icon: Wallet, label: 'Ingreso', value: '$3,000 – $12,000 MXN/mes' },
-          { icon: Coffee, label: 'Estilo de vida', value: 'Socialmente activo, organiza salidas 2–3 veces por semana' },
+          { icon: Briefcase, label: 'OCUPACIÓN', value: 'Estudiante universitario / Profesional Junior (El "Admin" del grupo).' },
+          { icon: Wallet, label: 'INGRESO', value: '$3,000 – $12,000 MXN/mes.' },
+          { icon: Coffee, label: 'ESTILO DE VIDA', value: 'Socialmente activo, pero estresado. Organiza salidas 2–3 veces por semana y siempre termina siendo el que persigue a los demás para que confirmen y paguen.' },
         ] as InfoItem[],
       },
       {
@@ -85,12 +86,11 @@ const explorerProfiles: UserProfile[] = [
         label: 'Gustos e Intereses',
         type: 'chips',
         data: [
-          'Restaurantes trendy',
-          'Bares con concepto',
-          'Eventos culturales',
-          'Actividades al aire libre',
-          'Noches de juegos',
-          'Comida callejera',
+          'Bares con concepto local',
+          'Restaurantes de moda en Tuxtla o San Cris',
+          'Eventos culturales y vida nocturna',
+          'Comida callejera validada',
+          'Busca opciones que se ajusten al presupuesto de estudiantes y que queden en un punto medio para todos.',
         ],
       },
       {
@@ -99,10 +99,9 @@ const explorerProfiles: UserProfile[] = [
         label: 'Perfil Digital',
         type: 'bullets',
         data: [
-          'WhatsApp como canal principal de coordinación',
-          'Instagram activo — consume contenido lifestyle',
-          '3+ horas diarias en smartphone',
-          'Busca apps que simplifiquen su vida social',
+          'La pesadilla de las apps: Salta entre WhatsApp, Instagram y mapas para intentar coordinar a 5 personas distintas.',
+          'Busca automatización: Necesita que una app haga las matemáticas por él.',
+          'La solución Frimeet: Centraliza a sus amigos en Clubes (Tribus) y crea Eventos donde la app calcula el aforo, la ruta y centraliza la decisión.',
         ],
       },
       {
@@ -110,11 +109,11 @@ const explorerProfiles: UserProfile[] = [
         icon: Sparkles,
         label: 'Motivaciones',
         type: 'motivations',
+        ctaLabel: 'Crea tu Tribu',
         data: [
-          'Evitar la fatiga de decisión grupal',
-          'Optimizar tiempo y presupuesto de salidas',
-          'Descubrir opciones nuevas para su grupo',
-          'Dejar de ser el único que organiza todo',
+          'Evitar la fatiga de decisión grupal (FOBO) usando las sugerencias de Frimeet.',
+          'Optimizar el tiempo y presupuesto de su Tribu.',
+          'Dejar de ser el "niñero" que organiza todo; delegar la logística al ecosistema de la app.',
         ],
       },
     ],
@@ -123,7 +122,7 @@ const explorerProfiles: UserProfile[] = [
     id: 'validator',
     name: 'El Explorador Validador',
     tagline: 'Perfil B · B2C',
-    headline: 'El foodie hiperconectado que descubre lugares antes que nadie y comparte sus hallazgos con todos.',
+    headline: 'Este es el usuario que hace que la base de datos esté viva. Es la fuente de datos descentralizada.',
     avatarIcon: Search,
     demographics: [
       { icon: Calendar, label: 'Edad', value: '18 – 35 años' },
@@ -138,9 +137,9 @@ const explorerProfiles: UserProfile[] = [
         label: 'Ocupación y Estilo de Vida',
         type: 'rows',
         data: [
-          { icon: Briefcase, label: 'Ocupación', value: 'Freelancer, creativo, profesional joven' },
-          { icon: Wallet, label: 'Ingreso', value: '$8,000 – $18,000 MXN/mes' },
-          { icon: Coffee, label: 'Estilo de vida', value: 'Foodie urbano, salidas frecuentes a lugares nuevos' },
+          { icon: Briefcase, label: 'OCUPACIÓN', value: 'Universitario, Freelancer, Creativo.' },
+          { icon: Wallet, label: 'INGRESO', value: '$8,000 – $18,000 MXN/mes.' },
+          { icon: Coffee, label: 'ESTILO DE VIDA', value: 'Foodie urbano y aventurero local. Le encanta meterse por los barrios emergentes para encontrar "esa cafetería que nadie conoce" o el mejor puesto de la ciudad.' },
         ] as InfoItem[],
       },
       {
@@ -149,13 +148,11 @@ const explorerProfiles: UserProfile[] = [
         label: 'Gustos e Intereses',
         type: 'chips',
         data: [
-          'Cafés de especialidad',
-          'Gastronomía local',
-          'Arte urbano',
+          'Cafés de especialidad y Gastronomía chiapaneca',
+          'Mercados locales y bazares',
+          'Fotografía urbana y Arte',
           'Música en vivo',
-          'Mercados locales',
-          'Cócteles artesanales',
-          'Fotografía',
+          'Huyen de las franquicias internacionales. Quieren apoyar la economía local y presumir que ellos descubrieron el lugar primero.',
         ],
       },
       {
@@ -164,10 +161,9 @@ const explorerProfiles: UserProfile[] = [
         label: 'Perfil Digital',
         type: 'bullets',
         data: [
-          'Hiperconectado — comparte reseñas y fotos constantemente',
-          'Power user: prueba apps nuevas en fase temprana',
-          'Valora la gamificación y las recompensas digitales',
-          'Genera contenido UGC de alta calidad',
+          'Generador de Contenido (UGC): Sabe tomar buenas fotos de fachadas y platillos.',
+          'Detector de Fraudes: Odia las reseñas falsas de internet; prefiere datos reales.',
+          'La solución Frimeet: Se convierte en el "sensor físico" de la app. Usa su GPS para estar a menos de 50 metros de un lugar en fase de Descubrimiento y envía pruebas visuales para que la IA y la comunidad lo aprueben.',
         ],
       },
       {
@@ -175,11 +171,11 @@ const explorerProfiles: UserProfile[] = [
         icon: Sparkles,
         label: 'Motivaciones',
         type: 'motivations',
+        ctaLabel: 'Empieza a ganar Fricoins',
         data: [
-          'Descubrir "joyas ocultas" antes que los demás',
-          'Obtener reconocimiento social por sus hallazgos',
-          'Recibir recompensas por contribuir a la comunidad',
-          'Tener datos precisos y en tiempo real',
+          'Validar las "joyas ocultas" de Chiapas para digitalizar la economía local.',
+          'Subir la fase de un negocio para aumentar su Trust Score.',
+          'Recibir Fricoins y reputación en el ranking por mantener el ecosistema limpio y seguro.',
         ],
       },
     ],
@@ -192,9 +188,9 @@ const explorerProfiles: UserProfile[] = [
 const businessProfiles: UserProfile[] = [
   {
     id: 'emerging',
-    name: 'Emprendimiento Emergente',
+    name: 'El Héroe Local (Emprendimiento Emergente)',
     tagline: 'Perfil C · B2B',
-    headline: 'Locales independientes con propuestas creativas de alta calidad que aún no tienen la visibilidad que merecen.',
+    headline: 'El 64% de la economía está aquí. Son las cafeterías de especialidad, los food trucks y los negocios de barrio que no tienen presupuesto para publicidad, pero tienen un producto increíble.',
     avatarIcon: Sprout,
     demographics: [
       { icon: Store, label: 'Tipo', value: 'Cafetería de especialidad, bar alternativo, food truck' },
@@ -209,9 +205,9 @@ const businessProfiles: UserProfile[] = [
         label: 'Operación y Capacidad',
         type: 'rows',
         data: [
-          { icon: UserCheck, label: 'Capacidad', value: '20 – 60 personas' },
-          { icon: Wallet, label: 'Mkt Budget', value: '$500 – $3,000 MXN/mes' },
-          { icon: Briefcase, label: 'Operación', value: 'Dueño operador / equipo pequeño multifuncional' },
+          { icon: UserCheck, label: 'CAPACIDAD', value: '10 – 50 personas (Espacios íntimos).' },
+          { icon: Wallet, label: 'PRESUPUESTO MKT', value: '$0 – $1,500 MXN/mes (Casi nulo).' },
+          { icon: Briefcase, label: 'OPERACIÓN', value: 'Dueño-operador (Hace de todo, no tiene tiempo para gestionar redes sociales complejas).' },
         ] as InfoItem[],
       },
       {
@@ -220,11 +216,10 @@ const businessProfiles: UserProfile[] = [
         label: 'Enfoque del Negocio',
         type: 'chips',
         data: [
-          'Productos artesanales',
-          'Propuesta de nicho',
-          'Comunidad local',
-          'Sostenibilidad',
-          'Experiencias auténticas',
+          'Experiencias auténticas y locales.',
+          'Propuestas de nicho (Street food, bazares, cafés).',
+          'Construcción de comunidad vecinal.',
+          'Su superpoder: Ofrecer algo único que las grandes franquicias no pueden replicar.',
         ],
       },
       {
@@ -233,10 +228,9 @@ const businessProfiles: UserProfile[] = [
         label: 'Perfil Digital',
         type: 'bullets',
         data: [
-          'Redes sociales básicas (Instagram y Facebook)',
-          'Sin sitio web propio ni app',
-          'Marketing orgánico — depende del boca a boca',
-          'Poco tiempo para gestionar presencia digital',
+          'Sufren el algoritmo: Tienen un Instagram básico que no llega a nadie nuevo.',
+          'Invisibles en el mapa: A menudo no están en Google Maps o su información está desactualizada.',
+          'La solución Frimeet: Nuestros Exploradores los digitalizan, suben sus fotos y los validan a cambio de Fricoins, dándoles un Trust Score alto sin que el dueño mueva un dedo.',
         ],
       },
       {
@@ -244,20 +238,20 @@ const businessProfiles: UserProfile[] = [
         icon: Sparkles,
         label: 'Motivaciones',
         type: 'motivations',
+        ctaLabel: 'Aparece en el mapa',
         data: [
-          'Ganar visibilidad orgánica sin competir con franquicias',
-          'Atraer clientes calificados de su zona inmediata',
-          'Digitalizar su presencia sin costo alto',
-          'Fidelizar a su comunidad local',
+          'Digitalización 100% gratuita impulsada por la comunidad.',
+          'Ganar visibilidad orgánica frente a las Tribus que buscan planes cerca de su zona.',
+          'Convertirse en el lugar favorito del barrio sin gastar en Ads.',
         ],
       },
     ],
   },
   {
     id: 'consolidated',
-    name: 'Establecimiento Consolidado',
+    name: 'El Hub Social (Establecimiento Consolidado)',
     tagline: 'Perfil D · B2B',
-    headline: 'Negocios con flujo constante que buscan optimizar su capacidad y entender mejor a sus clientes.',
+    headline: 'Son los bares populares, restaurantes y centros nocturnos. Ellos ya tienen clientes, su problema no es existir, su problema es la logística, las mesas vacías por cancelaciones y atraer grupos grandes.',
     avatarIcon: Building2,
     demographics: [
       { icon: Store, label: 'Tipo', value: 'Restaurante, bar popular, centro nocturno' },
@@ -272,9 +266,9 @@ const businessProfiles: UserProfile[] = [
         label: 'Operación y Capacidad',
         type: 'rows',
         data: [
-          { icon: UserCheck, label: 'Capacidad', value: '80 – 300+ personas' },
-          { icon: Wallet, label: 'Mkt Budget', value: '$5,000 – $25,000 MXN/mes' },
-          { icon: Briefcase, label: 'Operación', value: 'Gerente de operaciones / equipo de marketing dedicado' },
+          { icon: UserCheck, label: 'CAPACIDAD', value: '80 – 300+ personas (Volumen alto).' },
+          { icon: Wallet, label: 'PRESUPUESTO MKT', value: '$5,000 – $25,000+ MXN/mes.' },
+          { icon: Briefcase, label: 'OPERACIÓN', value: 'Gerente de operaciones y staff dedicado.' },
         ] as InfoItem[],
       },
       {
@@ -283,11 +277,10 @@ const businessProfiles: UserProfile[] = [
         label: 'Enfoque del Negocio',
         type: 'chips',
         data: [
-          'Eventos temáticos',
-          'Promociones dinámicas',
-          'Retención de clientes',
-          'Experiencia de marca',
-          'Grupos y reservaciones',
+          'Gestión inteligente del aforo.',
+          'Creación de Eventos temáticos y promociones.',
+          'Maximizar el ticket promedio por mesa.',
+          'Su reto: Llenar el local en horas muertas y evitar las temidas cancelaciones de grupos de último minuto.',
         ],
       },
       {
@@ -296,10 +289,9 @@ const businessProfiles: UserProfile[] = [
         label: 'Perfil Digital',
         type: 'bullets',
         data: [
-          'Google Business activo, redes sociales profesionales',
-          'Posiblemente con sitio web propio o app de delivery',
-          'Invierte en publicidad digital (Meta Ads, Google Ads)',
-          'Maneja herramientas de POS y reservaciones',
+          'Gastan en Ads con bajo ROI: Pagan publicidad en Meta/Google que trae "likes", pero no garantiza visitas físicas.',
+          'Ciegos ante la logística: No saben cuántos grupos están planeando ir esta noche hasta que ya están en la puerta.',
+          'La solución Frimeet: Les permitimos reclamar su perfil, gestionar su estado de Aforo en tiempo real y patrocinar Eventos directamente en el feed de los Clubes.',
         ],
       },
       {
@@ -307,11 +299,11 @@ const businessProfiles: UserProfile[] = [
         icon: Sparkles,
         label: 'Motivaciones',
         type: 'motivations',
+        ctaLabel: 'Atrae más Tribus',
         data: [
-          'Optimizar flujo de clientes en horas de baja afluencia',
-          'Obtener analíticas reales sobre intención de visita',
-          'Reducir costos operativos en horas muertas',
-          'Conocer el comportamiento de grupos que los visitan',
+          'Conectar directamente con Clubes (Grupos) que ya resolvieron su logística de salida.',
+          'Optimizar el flujo de clientes y reportar su capacidad en tiempo real.',
+          'Ser una "parada clave" en las rutas sugeridas por nuestro motor de recomendaciones.',
         ],
       },
     ],
@@ -387,10 +379,11 @@ const SlideCarousel = ({ slides, accent }: SlideCarouselProps) => {
             {slide.type === 'chips' && (
               <div className={styles.slideChips}>
                 {(slide.data as string[]).map((chip, i) => (
-                  <span
-                    key={i}
-                    className={`${styles.chip} ${accent === 'pink' ? styles.chipPink : styles.chipOrange}`}
-                  >
+
+                    <span
+                      key={i}
+                      className={`${styles.chip} ${accent === 'pink' ? styles.chipPink : styles.chipOrange}`}
+                    >
                     {chip}
                   </span>
                 ))}
@@ -423,11 +416,11 @@ const SlideCarousel = ({ slides, accent }: SlideCarouselProps) => {
                 <div className={styles.slideCtaWrapper}>
                   {accent === 'pink' ? (
                     <a href="#hero" className={styles.slideCtaBtnPink}>
-                      Empieza a ganar <ArrowRight size={16} />
+                      {slide.ctaLabel || 'Empieza a ganar'} <ArrowRight size={16} />
                     </a>
                   ) : (
                     <a href="#business" className={styles.slideCtaBtnOrange}>
-                      Empieza a crecer <ArrowRight size={16} />
+                      {slide.ctaLabel || 'Empieza a crecer'} <ArrowRight size={16} />
                     </a>
                   )}
                 </div>
