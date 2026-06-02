@@ -31,42 +31,35 @@ export const cardSteps: Step[] = [
     tag: 'Inteligencia Artificial',
     icon: <Sparkles size={22} />,
     title: 'Recomendaciones con IA',
-    description:
-      'Olvídate de buscar por categorías aburridas. Pídele a nuestra IA en lenguaje natural: "Lugar relajado para hablar de negocios por menos de 500 pesos" y el algoritmo lo traducirá en tu itinerario ideal.',
+    description: 'Olvídate de buscar por categorías aburridas. Nuestro microservicio de Inteligencia Artificial procesa lenguaje natural (ej. "Lugar relajado para hablar de negocios por menos de 500 pesos en Tuxtla") y lo traduce en queries geoespaciales complejas para armar el itinerario ideal de tu Tribu'
   },
   {
     tag: 'Algoritmos Genéticos',
     icon: <Route size={22} />,
     title: 'Rutas optimizadas',
-    description:
-      'Resolvemos el debate del grupo. Nuestro Algoritmo Genético cruza el presupuesto, las preferencias de la tribu y las distancias (fórmula Haversine) para trazar la ruta de paradas perfecta.',
-  },
+    description: 'Resolvemos el problema matemático de salir en grupo. Nuestro Algoritmo Genético cruza el presupuesto máximo, las preferencias de la Tribu y calcula distancias exactas utilizando la fórmula Haversine en *PostGIS* para trazar la ruta perfecta sin estrés logístico.'
+      },
   {
     icon: <Store size={20} />,
     title: 'Comercios "Invisibles"',
-    description:
-      'Rescatamos a la economía de barrio. Formalizamos en el mapa digital a ese 55% de comercios locales que las grandes plataformas ignoran.',
+    description: 'Rescatamos la economía de barrio. Sabiendo que 6 de cada 10 establecimientos operan en la informalidad, nuestro motor de crowdsourcing premia a los usuarios por mapear digitalmente estos micronegocios en Chiapas, conectándolos con las Tribus y dándoles visibilidad real.'
   },
   {
     icon: <ShieldCheck size={20} />,
     title: 'Sistema antifraude',
-    description:
-      'Cero lugares falsos. Validación cruzada, cruce geoespacial GPS y escaneo documental OCR para asegurar que cada pin exista en la vida real.',
+    description: 'Cero lugares falsos en nuestro ecosistema. Implementamos un pipeline estricto: cruce de precisión GPS y un microservicio de *Visión Computacional* que analiza las fotografías enviadas por los Exploradores para verificar la existencia real del negocio antes de aprobarlo.'
   },
   {
     tag: 'Datos en vivo',
     icon: <Radio size={22} />,
     title: 'Radar de Aforo en Tiempo Real',
-    description:
-      '¿Odias llegar y no encontrar mesa? El ecosistema te muestra un semáforo de afluencia antes de salir de casa, optimizando tu tiempo y evitando las multitudes.',
+    description: '¿Odias llegar y que el lugar esté lleno? Nuestro backend transaccional (Go) mantiene un control estricto de los asistentes. El mapa refleja un semáforo de afluencia en tiempo real, permitiendo a tu grupo tomar decisiones logísticas inteligentes antes de salir de casa.'
   },
   {
     icon: <Coins size={22} />,
     title: 'Economía Interna (Fricoins)',
-    description:
-      'Gana Fricoins explorando, validando y recomendando lugares. Canjéalos por descuentos exclusivos en comercios locales y meses de Premium.',
+    description: 'Tu esfuerzo tiene valor. Gana *Fricoins* y aumenta tu Trust Score al descubrir y validar negocios en fase de descubrimiento. Una economía digital nativa diseñada para recompensar a los usuarios que mantienen limpia y actualizada la base de datos de nuestra ciudad.',
     gradient: true,
-    cta: 'Empieza a ganar',
   },
 ]
 
@@ -84,8 +77,19 @@ export const techBadges = [
    Steps data
    ================================================================ */
 export const stepsData = [
-  { number: '1', label: 'Explora', name: 'Descubre lugares', desc: 'Encuentra sitios únicos y negocios invisibles cerca de ti.' },
-  { number: '2', label: 'Evalúa', name: 'Revisa información', desc: 'Lee validaciones reales y datos generados por la comunidad.' },
-  { number: '3', label: 'Optimiza', name: 'Crea tu ruta', desc: 'Genera itinerarios inteligentes con IA y algoritmos genéticos.' },
-  { number: '4', label: 'Disfruta', name: 'Vive la experiencia', desc: 'Explora tu ciudad como nunca antes, con datos reales.' },
+  { number: '1', label: 'Explora', 
+    name: 'Mapea tu ciudad', 
+    desc: 'Descubre "joyas ocultas" usando nuestro radar geoespacial y saca a la luz la economía local. Adiós a las franquicias de siempre.' 
+  },
+  { number: '2', label: 'Evalúa', 
+    name: 'Valida y gana Fricoins', 
+    desc: 'Conviértete en el sensor de la ciudad. Confirma físicamente la existencia de nuevos lugares y recibe recompensas por mantener el ecosistema libre de fraudes.' 
+  },
+  { number: '3', label: 'Optimiza', 
+    name: 'Arma la ruta perfecta', 
+    desc: 'Deja de pelear en el chat. Nuestro Algoritmo Genético cruza distancias, presupuestos y los gustos de tu Tribu para trazar el itinerario matemático ideal.' 
+  },
+  { number: '4', label: 'Disfruta', 
+    name: 'Vive sin fricción', 
+    desc: 'Conéctate con tu Club, revisa el aforo del lugar en tiempo real (gracias a nuestro backend transaccional) y sal a disfrutar sin estrés logístico.' },
 ]

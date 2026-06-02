@@ -65,7 +65,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 128px 0 96px;
+  padding: 112px 0 96px;
   min-height: 0;
 }
 
@@ -145,6 +145,18 @@
   z-index: 1;
 }
 
+.cardSlideEnteringReverse {
+  animation: cardEnterReverse 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.cardSlideExitingReverse {
+  animation: cardExitReverse 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ---- PAST: cards that have already scrolled away ---- */
 .cardSlidePast {
   opacity: 0;
@@ -176,10 +188,32 @@
   }
 }
 
+@keyframes cardEnterReverse {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(-50% - 40px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes cardExitReverse {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-50% + 40px));
+  }
+}
+
 /* ---- Progress indicators ---- */
 .cardIndicators {
   position: absolute;
-  bottom: 8px;
+  bottom: -32px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -218,7 +252,6 @@
 .cardGradient {
   background: linear-gradient(135deg, #FF2D87 0%, #FF5900 100%);
   border: none;
-  box-shadow: 0 8px 32px rgba(255, 45, 135, 0.25);
 }
 
 /* ---- Tag ---- */
@@ -285,7 +318,7 @@
 
 .cardTitleGrad {
   font-family: var(--font-title);
-  font-size: var(--fs-about-card-title-mobile);
+  font-size: var(--fs-about-card-title);
   font-weight: var(--fw-extrabold);
   color: #ffffff;
   margin: 0;
@@ -723,7 +756,9 @@
 
   .cardSlideActive,
   .cardSlideEntering,
+  .cardSlideEnteringReverse,
   .cardSlideExiting,
+  .cardSlideExitingReverse,
   .cardSlidePast {
     transform: none;
     opacity: 1;

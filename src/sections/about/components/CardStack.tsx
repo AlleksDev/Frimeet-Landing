@@ -1,5 +1,5 @@
 import type { Step } from '../data/cardSteps'
-import type { Phase } from '../hooks/useScrollIndex'
+import type { Phase, ScrollDirection } from '../hooks/useScrollIndex'
 import FeatureCard from './FeatureCard'
 import styles from '../AboutSection.module.css'
 
@@ -25,21 +25,42 @@ import styles from '../AboutSection.module.css'
 interface CardStackProps {
   cardSteps: Step[]
   scrollIndex: number
+  activeIndex: number
   phase: Phase
+  direction: ScrollDirection
   /** Index of the card currently exiting, -1 if none */
   exitingIndex: number
 }
 
-const CardStack = ({ cardSteps, scrollIndex, phase, exitingIndex }: CardStackProps) => {
+const CardStack = ({
+  cardSteps,
+  scrollIndex,
+  activeIndex,
+  phase,
+  direction,
+  exitingIndex,
+}: CardStackProps) => {
   const getCardClass = (index: number): string => {
-    // The card that is currently exiting (overlap case)
-    if (exitingIndex >= 0 && index === exitingIndex && phase === 'exiting') {
-      return styles.cardSlideExiting
-    }
+    if (phase === 'exiting' && exitingIndex >= 0) {
+      if (direction === 'down') {
+        // The current card exits while the next one enters.
+        if (index === exitingIndex) {
+          return styles.cardSlideExiting
+        }
 
-    // The next card entering during the overlap (exitingIndex + 1)
-    if (exitingIndex >= 0 && index === exitingIndex + 1 && phase === 'exiting') {
-      return styles.cardSlideEntering
+        if (index === exitingIndex + 1) {
+          return styles.cardSlideEntering
+        }
+      }
+
+      // Reverse transition: the next card leaves and the previous one returns.
+      if (index === exitingIndex) {
+        return styles.cardSlideEnteringReverse
+      }
+
+      if (index === exitingIndex + 1) {
+        return styles.cardSlideExitingReverse
+      }
     }
 
     if (index === scrollIndex) {
@@ -78,7 +99,7 @@ const CardStack = ({ cardSteps, scrollIndex, phase, exitingIndex }: CardStackPro
           <span
             key={i}
             className={`${styles.indicator} ${
-              i === scrollIndex ? styles.indicatorActive : ''
+              i === activeIndex ? styles.indicatorActive : ''
             }`}
           />
         ))}

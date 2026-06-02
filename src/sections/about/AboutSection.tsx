@@ -24,10 +24,13 @@ const AboutSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   /* ---- 1. Scroll → index + phase + local progress ---- */
-  const { scrollIndex, phase, exitingIndex } = useScrollIndex(sectionRef, cardSteps.length)
+  const { scrollIndex, activeIndex, phase, direction, exitingIndex } = useScrollIndex(
+    sectionRef,
+    cardSteps.length,
+  )
 
   /* ---- 2. Video playback (native play forward, seek backward) ---- */
-  const { videoRef } = useVideoPlayer(scrollIndex, sectionRef)
+  const { videoRef } = useVideoPlayer(activeIndex, sectionRef)
 
   /* ================================================================
      JSX
@@ -54,7 +57,9 @@ const AboutSection = () => {
                 <CardStack
                   cardSteps={cardSteps}
                   scrollIndex={scrollIndex}
+                  activeIndex={activeIndex}
                   phase={phase}
+                  direction={direction}
                   exitingIndex={exitingIndex}
                 />
               </div>

@@ -25,11 +25,14 @@ import { useEffect, useCallback, useState, useRef } from 'react'
  * when scrollIndex, phase, or exitingIndex change.
  */
 export type Phase = 'entering' | 'active' | 'exiting'
+export type ScrollDirection = 'down' | 'up'
 
 export interface ScrollData {
   scrollIndex: number
+  activeIndex: number
   phase: Phase
   localProgress: number
+  direction: ScrollDirection
   /** Index of the card that is currently exiting, or -1 if none */
   exitingIndex: number
 }
@@ -40,11 +43,14 @@ export function useScrollIndex(
 ): ScrollData {
   const [data, setData] = useState<ScrollData>({
     scrollIndex: 0,
+    activeIndex: 0,
     phase: 'entering',
     localProgress: 0,
+    direction: 'down',
     exitingIndex: -1,
   })
   const rafId = useRef(0)
+  const lastSectionTopRef = useRef(0)
 
   const handleScroll = useCallback(() => {
     cancelAnimationFrame(rafId.current)
@@ -61,6 +67,9 @@ export function useScrollIndex(
       const raw = progress * totalCards
       const newIndex = Math.min(totalCards - 1, Math.floor(raw))
       const localProgress = Math.min(1, raw - newIndex)
+      const delta = sectionTop - lastSectionTopRef.current
+      const direction: ScrollDirection = delta < 0 ? 'up' : 'down'
+      lastSectionTopRef.current = sectionTop
 
       // Determine phase based on localProgress within the card's zone
       let phase: Phase
@@ -81,16 +90,23 @@ export function useScrollIndex(
         }
       }
 
+      const activeIndex =
+        direction === 'down' && phase === 'exiting' && newIndex < totalCards - 1
+          ? newIndex + 1
+          : newIndex
+
       // Only trigger a React re-render when something visual changes
       setData((prev) => {
         if (
           prev.scrollIndex === newIndex &&
+          prev.activeIndex === activeIndex &&
           prev.phase === phase &&
+          prev.direction === direction &&
           prev.exitingIndex === exitingIndex
         ) {
           return prev
         }
-        return { scrollIndex: newIndex, phase, localProgress, exitingIndex }
+        return { scrollIndex: newIndex, activeIndex, phase, localProgress, direction, exitingIndex }
       })
     })
   }, [sectionRef, totalCards])
