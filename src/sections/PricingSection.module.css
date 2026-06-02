@@ -110,7 +110,7 @@
 .pricingGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
+  gap: 32px;
   width: 100%;
 }
 
