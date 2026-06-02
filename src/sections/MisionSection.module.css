@@ -92,6 +92,15 @@
   color: #888888;
 }
 
+.cardSource:hover {
+  color: #FF2D87;
+  transition: color 0.3s ease;
+}
+
+.cardSource svg {
+  margin-top: 6px;
+}
+
 /* ---- Right ---- */
 .missionRight {
   position: relative;

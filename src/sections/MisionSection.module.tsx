@@ -14,8 +14,8 @@ const MissionSection = () => {
             <span className={styles.missionTitleGradient}>economía invisible</span>
           </h2>
           <p className={styles.missionBody}>
-            El 64.3% de las unidades económicas en México operan en la informalidad. Al no existir en los mapas tradicionales, pierden visibilidad digital. 
-            Frimeet usa el poder del crowdsourcing para digitalizar esta economía oculta en Chiapas, dándoles visibilidad... y a ti acceso a experiencias auténticas
+            El 64.3%<sup>1</sup> de las unidades económicas en México operan en la informalidad. Al no existir en los mapas tradicionales, pierden visibilidad digital. 
+            Frimeet usa el poder del crowdsourcing para digitalizar esta economía oculta en Chiapas, dándoles visibilidad... y a ti acceso a experiencias auténticas.
           </p>
 
           <div className={styles.checkList}>
@@ -30,10 +30,12 @@ const MissionSection = () => {
               </div>
             ))}
           </div>
-          <div className={styles.cardSource}>
+          
+          {/* Sección de la fuente mejorada */}
+          <a href="https://www.inegi.org.mx/programas/ce/2024/#documentacion" target="_blank" rel="noopener noreferrer" className={styles.cardSource}>
             <Link2 size={24} />
-            <span>Fuente: INEGI</span>
-          </div>
+            <span>Fuente: Censos Económicos 2024, INEGI <sup>1</sup></span>
+          </a>
         </Reveal>
 
         <div className={styles.missionRight}>
