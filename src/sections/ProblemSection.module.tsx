@@ -16,25 +16,25 @@ const cards = [
     icon: <LayoutGrid size={24} />,
     title: 'El FOBO y la parálisis social',
     percent: 60,
-    description:
-      'de los jóvenes adultos sufre de FOBO (Fear Of Better Options), un fenómeno psicológico donde la sobreabundancia de opciones retrasa la decisión, causando que 3 de cada 10 planes grupales se cancelen.',
-    source: 'CivicScience y YouGov',
+    description: 'de los adultos sufre de FOBO (Fear Of Better Options), un fenómeno psicológico donde la sobreabundancia de opciones retrasa o destruye la toma de decisiones. Esto ahoga los grupos de WhatsApp en debates interminables. Frimeet corta el ruido: conectamos a tu Tribu (Club) directamente con el lugar perfecto utilizando nuestro motor geoespacial',
+    source: 'The Fear of Better Options is Real, CivicScience',
+    link: 'https://civicscience.com/the-fear-of-better-options-is-real/',
   },
   {
     icon: <TrendingDown size={24} />,
     title: 'Cancelación de planes sociales',
-    percent: 57,
-    description:
-      'de los jóvenes en México cancelan sus planes por falta de opciones accesibles, falta de información sobre lugares cercanos y dificultad para coordinar grupos.',
-    source: 'INEGI y Deloitte',
+    percent: 53,
+    description: 'de las personas considera completamente aceptable cancelar planes sociales en el último minuto. ¿Por qué los planes se caen? Por la fricción. El estrés de coordinar horarios, calcular distancias y cuadrar presupuestos grupales agota a la Tribu antes de salir de casa. Al optimizar las rutas automáticamente, eliminamos la fricción y salvamos el plan.',
+    source: 'Ever agree to plans and later wish you hadn’t?, YouGov',
+    link: 'https://yougov.com/en-us/articles/43369-plans-later-wish-you-hadnt-cancel-poll',
   },
   {
     icon: <MapPinOff size={24} />,
     title: 'La economía local invisible',
-    percent: 80,
-    description:
-      'de las personas no conoce los comercios y experiencias que existen a menos de 2 km de su hogar, dejando miles de micronegocios sin visibilidad digital.',
-    source: 'INADEM y Google',
+    percent: 84,
+    description: 'de las búsquedas locales son de "descubrimiento" (la gente busca categorías como "cafetería" o "tacos", no marcas específicas). Sin embargo, los usuarios desconfían de las reseñas falsas. Frimeet soluciona esto con sus "Exploradores", quienes validan los lugares físicamente a cambio de Fricoins, garantizando que el destino sea real y seguro.',
+    source: 'Google My Business Insights Study , BrightLocal',
+    link: 'https://www.brightlocal.com/research/google-my-business-insights-study/',
   },
 ]
 
@@ -468,10 +468,10 @@ const ProblemSection = () => {
                 <p className={styles.cardDescription}>
                   {activeCard.description}
                 </p>
-                <div className={styles.cardSource}>
+                <a href={activeCard.link} target="_blank" rel="noopener noreferrer" className={styles.cardSource}>
                   <Link2 size={24} />
                   <span>Fuente: {activeCard.source}</span>
-                </div>
+                </a>
               </div>
 
               <button
