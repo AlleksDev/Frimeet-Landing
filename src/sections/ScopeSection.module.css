@@ -37,9 +37,8 @@
 
 /* ---- Inner container ---- */
 .scopeInner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 40px;
+  margin: 0;
+  padding: 0px;
   position: relative;
   z-index: 1;
 }
@@ -108,70 +107,43 @@
 }
 
 /* ========================================
-   Carousel
+   Grid Wrapper
    ======================================== */
-.carouselWrapper {
-  position: relative;
-}
-
-/* ---- Scroll track ---- */
-.track {
-  position: relative;
+.gridWrapper {
   display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  
-  /* Comportamiento del scroll */
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  
-  /* Tu padding físico */
-  padding: 10px 20px 24px; 
-  
-  /* EL NUEVO FIX: Le dice al snap que respete 20px al inicio */
-  scroll-padding-left: 20px; 
-
-  /* Ocultar scrollbar */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  width: 100vw;
+  gap: 0px;
+  height: 430px;
 }
-
-.track::-webkit-scrollbar { display: none; }
 
 /* ---- Card ---- */
 .card {
-  flex: 0 0 calc(50% - 10px);
-  min-width: 340px;
-  max-width: 540px;
-  height: 430px;
-  border-radius: 24px;
   position: relative;
   overflow: hidden;
-  scroll-snap-align: start;
   cursor: pointer;
-  opacity: 0.75;
-  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
-              box-shadow 0.4s ease,
-              opacity 0.4s ease;
+  opacity: 0.85;
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  flex: 0 0 calc((100vw) / 3);
+  box-sizing: border-box;
 }
 
 .card:hover {
   opacity: 1;
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
 }
 
-.cardActive {
+.cardHovered {
   opacity: 1;
-  transform: translateY(-4px) scale(1.02);
-  
-  /* EL FIX: Sobrescribimos el flex-basis para que respete el nuevo ancho */
-  flex: 0 0 800px; 
-  max-width: 90vw; /* Evita que la tarjeta sea más grande que la pantalla en móviles/laptops */
-  
+  flex: 0 0 70vw;
+  transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(255, 107, 0, 0.18), 0 0 0 2.5px var(--orange);
+  z-index: 10;
+}
+
+.cardShrunken {
+  opacity: 0.5;
+  flex: 0 0 calc(15vw - 10px);
+  filter: brightness(0.8);
 }
 
 /* ---- Background image ---- */
@@ -194,14 +166,19 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  /* Degradado optimizado para legibilidad */
   background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
-  transition: background 0.4s ease;
-  pointer-events: none; /* Buena práctica: evita que el overlay bloquee clics accidentales */
+  transition: background 0.5s ease;
+  pointer-events: none;
 }
-/* Active card has warmer overlay */
-.cardActive .cardOverlay {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+
+/* Hovered card has better overlay */
+.cardHovered .cardOverlay {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.15));
+}
+
+/* Shrunken card has darker overlay */
+.cardShrunken .cardOverlay {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.3));
 }
 
 /* ---- Card content ---- */
@@ -213,7 +190,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 24px;
+  padding: 40px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 /* Top row: label + status */
@@ -221,6 +201,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 40px;
 }
 
 .cardLabel {
@@ -235,9 +216,9 @@
 }
 
 .cardLabelActive {
-  background: rgba(255, 107, 0, 0.45);
-  color: #ffffff;
-  border: 1px solid rgba(255, 107, 0, 0.8);
+  background: rgba(115, 192, 137, 0.22);
+  color: var(--green);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .cardLabelFuture {
@@ -258,9 +239,8 @@
 }
 
 .cardStatusActive {
-  background: rgba(170, 255, 0, 0.25);
-  color: #c8f04a;
-  border: 1px solid rgba(170, 255, 0, 0.5);
+  color: var(--white);  
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .cardStatusPending {
@@ -336,131 +316,6 @@
   flex-shrink: 0;
 }
 
-/* ---- Navigation arrows ---- */
-.arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #333;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-}
-
-.arrow:hover {
-  transform: translateY(-50%) scale(1.08);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
-}
-
-.arrow:disabled {
-  opacity: 0.3;
-  cursor: default;
-  pointer-events: none;
-}
-
-.arrowLeft {
-  left: -16px;
-}
-
-.arrowRight {
-  right: -16px;
-}
-
-/* ---- Dots ---- */
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 28px;
-  position: relative;
-  z-index: 1;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background: #e0e0e0;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.35s ease;
-}
-
-.dot:hover {
-  background: #ccc;
-  transform: scale(1.2);
-}
-
-.dotActive {
-  background: linear-gradient(135deg, #FF5900, #FF2D87);
-  width: 28px;
-  border-radius: 999px;
-  box-shadow: 0 2px 8px rgba(255, 89, 0, 0.3);
-}
-
-/* ---- Technical Note ---- */
-.techNote {
-  margin-top: 48px;
-  display: flex;
-  justify-content: center;
-}
-
-.techNoteInner {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 28px;
-  border-radius: 16px;
-  background: #fafafa;
-  border: 1px solid #eee;
-  max-width: 760px;
-  width: 100%;
-}
-
-.techNoteIcon {
-  flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: rgba(255, 62, 127, 0.07);
-  border: 1px solid rgba(255, 62, 127, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--pink);
-}
-
-.techNoteContent {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.techNoteLabel {
-  font-size: var(--fs-scope-tech-label);
-  font-weight: var(--fw-bold);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--pink);
-}
-
-.techNoteText {
-  font-size: var(--fs-scope-tech-text);
-  color: #777;
-  line-height: 1.55;
-  margin: 0;
-}
-
 /* ========================================
    Responsive
    ======================================== */
@@ -473,14 +328,23 @@
     padding: 0 28px;
   }
 
-  .card {
-    flex: 0 0 65%;
-    min-width: 300px;
-    height: 440px;
+  .gridWrapper {
+    width: 100vw;
+    gap: 16px;
+    height: 400px;
   }
 
-  .arrowLeft { left: -10px; }
-  .arrowRight { right: -10px; }
+  .card {
+    flex: 0 0 calc((100vw - 32px) / 3);
+  }
+
+  .cardHovered {
+    flex: 0 0 calc(65vw - 16px);
+  }
+
+  .cardShrunken {
+    flex: 0 0 calc(17.5vw - 8px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -496,29 +360,24 @@
     margin-bottom: 36px;
   }
 
+  .gridWrapper {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+    height: 380px;
+    grid-template-columns: 1fr;
+  }
+
   .card {
-    flex: 0 0 82%;
-    min-width: 280px;
-    height: 440px;
+    flex: 1;
   }
 
-  .arrow {
-    width: 38px;
-    height: 38px;
+  .cardHovered {
+    flex: 1;
   }
 
-  .arrowLeft { left: -4px; }
-  .arrowRight { right: -4px; }
-
-  .techNoteInner {
-    flex-direction: column;
-    text-align: center;
-    padding: 18px;
-    gap: 10px;
-  }
-
-  .techNoteContent {
-    align-items: center;
+  .cardShrunken {
+    display: none;
   }
 }
 
@@ -543,10 +402,14 @@
     margin-bottom: 28px;
   }
 
+  .gridWrapper {
+    width: 100%;
+    gap: 12px;
+    height: 360px;
+  }
+
   .card {
-    flex: 0 0 100%;
-    min-width: 260px;
-    height: 410px;
+    flex: 1;
   }
 
   .cardContent {
@@ -568,21 +431,5 @@
   .featurePill {
     font-size: var(--fs-scope-feature-pill-mobile);
     padding: 5px 11px;
-  }
-
-  .arrow {
-    display: none;
-  }
-
-  .dots {
-    margin-top: 20px;
-  }
-
-  .techNoteInner {
-    padding: 14px;
-  }
-
-  .techNoteText {
-    font-size: var(--fs-scope-tech-text-mobile);
   }
 }

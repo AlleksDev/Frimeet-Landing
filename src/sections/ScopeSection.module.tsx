@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './ScopeSection.module.css';
 import {
   MapPin,
@@ -11,9 +11,7 @@ import {
   Shield,
   Database,
   Fingerprint,
-  Info,
-  ChevronLeft,
-  ChevronRight,
+  Coins,
 } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 
@@ -33,12 +31,12 @@ const phases = [
     isActive: true,
     title: 'Lanzamiento Hiper-Local',
     subtitle: 'Tuxtla Gutiérrez & Suchiapa',
-    description:
-      'Despliegue estratégico en la zona metropolitana para entrenar la IA y asegurar la máxima densidad de datos antes de la expansión.',
+    description: 'Despliegue inicial de nuestra API en Go en la zona Tuxtla Gutierrez para poblar la base de datos (PostGIS), validar el modelo de crowdsourcing y asegurar una alta densidad de lugares verificados antes de escalar.',
     features: [
       { icon: <MapPin size={14} />, text: 'Tuxtla Gutiérrez & Suchiapa' },
       { icon: <Brain size={14} />, text: 'Motor de recomendación IA' },
       { icon: <Database size={14} />, text: 'Entrenamiento de datos' },
+      { icon: <Coins size={14} />, text: 'Economía Beta' },
       { icon: <Shield size={14} />, text: 'Sin pasarela de pagos' },
     ],
   },
@@ -49,8 +47,7 @@ const phases = [
     isActive: false,
     title: 'Expansión Regional',
     subtitle: 'Sureste mexicano',
-    description:
-      'Arquitectura Cloud escalable con algoritmo genético validado. Expansión a zonas metropolitanas clave.',
+    description: 'Escalado horizontal en la nube (Cloud) e integración total del Algoritmo Genético para procesar rutas complejas de múltiples paradas. Expansión a ciudades clave para poner a prueba la concurrencia del sistema.',
     features: [
       { icon: <Cloud size={14} />, text: 'Arquitectura Cloud' },
       { icon: <Cpu size={14} />, text: 'Algoritmo genético optimizado' },
@@ -65,8 +62,7 @@ const phases = [
     isActive: false,
     title: 'Cobertura Nacional',
     subtitle: 'Todo México',
-    description:
-      'Escalamiento a nivel nacional con pasarelas de pago integradas y ecosistema completo.',
+    description: 'Apertura del panel administrativo (B2B) para establecimientos consolidados. Activación de pasarelas de pago, suscripciones de negocios y despliegue del microservicio de IA conversacional para todo el país.',
     features: [
       { icon: <Globe size={14} />, text: 'Cobertura nacional' },
       { icon: <Zap size={14} />, text: 'Pagos transaccionales' },
@@ -77,83 +73,7 @@ const phases = [
 ];
 
 const ScopeSection = () => {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-  const isProgrammaticScroll = useRef(false);
-  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  /* ---- Scroll to card ---- */
-/* ---- Scroll to card ---- */
-/* ---- Scroll to card ---- */
-  const scrollTo = useCallback((index: number) => {
-    const track = trackRef.current;
-    if (!track) return;
-    
-    isProgrammaticScroll.current = true;
-    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-
-    // 1. Actualizamos el estado PRIMERO
-    setActive(index);
-
-    // 2. Esperamos un brevísimo momento (50ms) para que React aplique 
-    // la clase .cardActive a la nueva tarjeta y enccoja la anterior.
-    setTimeout(() => {
-      const cards = track.querySelectorAll<HTMLElement>(`.${styles.card}`);
-      if (cards[index]) {
-        // Ahora sí, el DOM tiene los tamaños correctos y el cálculo será exacto
-        track.scrollTo({ 
-          left: cards[index].offsetLeft - 20, // -20 respeta tu padding izquierdo
-          behavior: 'smooth' 
-        });
-      }
-    }, 50);
-
-    // 3. Reactivamos la detección de scroll manual cuando termine la animación
-    scrollTimeout.current = setTimeout(() => {
-      isProgrammaticScroll.current = false;
-    }, 600);
-  }, []);
-
-  const prev = () => {
-    const nextIndex = active === 0 ? phases.length - 1 : active - 1;
-    scrollTo(nextIndex);
-  };
-  const next = () => {
-    const nextIndex = active === phases.length - 1 ? 0 : active + 1;
-    scrollTo(nextIndex);
-  };
-
-  /* ---- Sync scroll position → active dot ---- */
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const onScroll = () => {
-      // If scroll was triggered programmatically (via buttons), ignore dot syncing
-      if (isProgrammaticScroll.current) return;
-
-      const cards = track.querySelectorAll<HTMLElement>(`.${styles.card}`);
-      const trackRect = track.getBoundingClientRect();
-      let closest = 0;
-      let minDist = Infinity;
-      cards.forEach((card, i) => {
-        const cardRect = card.getBoundingClientRect();
-        // Since cards are snap-aligned to the start, compare card left with track left
-        const dist = Math.abs(cardRect.left - trackRect.left);
-        if (dist < minDist) {
-          minDist = dist;
-          closest = i;
-        }
-      });
-      setActive(closest);
-    };
-    track.addEventListener('scroll', onScroll, { passive: true });
-    // Run once on load to ensure correct initial state
-    onScroll();
-    return () => {
-      track.removeEventListener('scroll', onScroll);
-      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-    };
-  }, []);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <section className={styles.scopeSection} id="scope">
@@ -172,56 +92,44 @@ const ScopeSection = () => {
           </div>
         </Reveal>
 
-        {/* ---- Carousel ---- */}
+        {/* ---- Grid Layout ---- */}
         <Reveal animation="fadeUp" delay={200} duration={900}>
-          <div className={styles.carouselWrapper}>
-            {/* Arrows */}
-            <button
-              className={`${styles.arrow} ${styles.arrowLeft}`}
-              onClick={prev}
-              aria-label="Anterior"
-            >
-              <ChevronLeft size={22} />
-            </button>
-            <button
-              className={`${styles.arrow} ${styles.arrowRight}`}
-              onClick={next}
-              aria-label="Siguiente"
-            >
-              <ChevronRight size={22} />
-            </button>
+          <div className={styles.gridWrapper}>
+            {phases.map((phase, index) => (
+              <div
+                key={phase.id}
+                className={`${styles.card} ${
+                  hoveredIndex === index ? styles.cardHovered : ''
+                } ${
+                  hoveredIndex !== null && hoveredIndex !== index
+                    ? styles.cardShrunken
+                    : ''
+                }`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                {/* Background image */}
+                <img
+                  src={PHASE_IMAGES[index]}
+                  alt=""
+                  className={styles.cardBg}
+                  loading="lazy"
+                />
+                <div className={styles.cardOverlay} />
 
-            {/* Scroll track */}
-            <div className={styles.track} ref={trackRef}>
-              {phases.map((phase, index) => (
-                <div
-                  key={phase.id}
-                  className={`${styles.card} ${
-                    active === index ? styles.cardActive : ''
-                  }`}
-                  onClick={() => scrollTo(index)}
-                >
-                  {/* Background image */}
-                  <img
-                    src={PHASE_IMAGES[index]}
-                    alt=""
-                    className={styles.cardBg}
-                    loading="lazy"
-                  />
-                  <div className={styles.cardOverlay} />
-
-                  {/* Content */}
-                  <div className={styles.cardContent}>
-                    <div className={styles.cardTop}>
-                      <span
-                        className={`${styles.cardLabel} ${
-                          phase.isActive
-                            ? styles.cardLabelActive
-                            : styles.cardLabelFuture
-                        }`}
-                      >
-                        {phase.label}
-                      </span>
+                {/* Content */}
+                <div className={styles.cardContent}>
+                  <div className={styles.cardTop}>
+                    <span
+                      className={`${styles.cardLabel} ${
+                        phase.isActive
+                          ? styles.cardLabelActive
+                          : styles.cardLabelFuture
+                      }`}
+                    >
+                      {phase.label}
+                    </span>
+                    {hoveredIndex === index && (
                       <span
                         className={`${styles.cardStatus} ${
                           phase.isActive
@@ -231,14 +139,20 @@ const ScopeSection = () => {
                       >
                         {phase.status}
                       </span>
-                    </div>
+                    )}
+                  </div>
 
-                    <div className={styles.cardBody}>
-                      <p className={styles.cardSubtitle}>{phase.subtitle}</p>
-                      <h3 className={styles.cardTitle}>{phase.title}</h3>
-                      <p className={styles.cardDesc}>{phase.description}</p>
-                    </div>
+                  <div className={styles.cardBody}>
+                    <h3 className={styles.cardTitle}>{phase.title}</h3>
+                    {hoveredIndex === index && (
+                      <>
+                        <p className={styles.cardSubtitle}>{phase.subtitle}</p>
+                        <p className={styles.cardDesc}>{phase.description}</p>
+                      </>
+                    )}
+                  </div>
 
+                  {hoveredIndex === index && (
                     <div className={styles.cardFeatures}>
                       {phase.features.map((feat, fi) => (
                         <span key={fi} className={styles.featurePill}>
@@ -249,43 +163,10 @@ const ScopeSection = () => {
                         </span>
                       ))}
                     </div>
-                  </div>
+                  )}
                 </div>
-              ))}
-            </div>
-
-            {/* Dots */}
-            <div className={styles.dots}>
-              {phases.map((_, i) => (
-                <button
-                  key={i}
-                  className={`${styles.dot} ${
-                    active === i ? styles.dotActive : ''
-                  }`}
-                  onClick={() => scrollTo(i)}
-                  aria-label={`Ir a fase ${i + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </Reveal>
-
-        {/* ---- Technical Note ---- */}
-        <Reveal animation="fadeUp" delay={400} duration={800}>
-          <div className={styles.techNote}>
-            <div className={styles.techNoteInner}>
-              <div className={styles.techNoteIcon}>
-                <Info size={18} />
               </div>
-              <div className={styles.techNoteContent}>
-                <span className={styles.techNoteLabel}>Nota Técnica</span>
-                <p className={styles.techNoteText}>
-                  Fase 1 delimitada al motor de recomendación inteligente, sin
-                  pasarelas de pago transaccionales, para garantizar la calidad
-                  del algoritmo genético antes de la expansión nacional.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </Reveal>
       </div>
