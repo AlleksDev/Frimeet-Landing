@@ -191,8 +191,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 40px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
