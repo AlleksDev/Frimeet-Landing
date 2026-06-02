@@ -20,11 +20,6 @@ const FeatureCard = ({ step }: FeatureCardProps) => {
         ${step.gradient ? styles.cardGradient : ''}
       `}
     >
-      {step.tag && (
-        <span className={step.gradient ? styles.tagGrad : styles.tag}>
-          {step.tag}
-        </span>
-      )}
       <div className={step.gradient ? styles.iconWrapGrad : styles.iconWrap}>
         {step.icon}
       </div>

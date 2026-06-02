@@ -477,9 +477,6 @@ const TargetUserSection = () => {
       <div className={styles.container}>
         {/* Header */}
         <Reveal animation="fadeUp" delay={0} duration={800} className={styles.header}>
-          <span className={`${styles.badge} ${isExplorer ? styles.badgePink : styles.badgeOrange}`}>
-            {isExplorer ? 'Mercado Meta B2C' : 'Mercado Meta B2B'}
-          </span>
           <h2 className={styles.title}>
             ¿Quién usa{' '}
             <span className={`${styles.titleGrad} ${!isExplorer ? styles.titleGradBiz : ''}`}>Frimeet?</span>

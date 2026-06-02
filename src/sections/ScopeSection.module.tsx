@@ -161,10 +161,6 @@ const ScopeSection = () => {
         {/* ---- Header ---- */}
         <Reveal animation="fadeUp" delay={0} duration={800}>
           <div className={styles.scopeHeader}>
-            <span className={styles.scopeBadge}>
-              <span className={styles.badgeDot} />
-              Fase Beta
-            </span>
             <h2 className={styles.scopeTitle}>
               Alcance{' '}
               <span className={styles.scopeTitleGrad}>Tecnológico</span>
