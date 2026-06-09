@@ -5,30 +5,226 @@
   --orange: #FF6B00;
   --orange-light: #FF8C00;
   --pink: #FF3E7F;
+  --pink-light: #FF5E9E;
   --green: #AAFF00;
   --white: #FFFFFF;
   --gray: #9ca3af;
-  --font-display: 'Nunito', sans-serif;
+
+  /* --- Fonts (Families) --- */
   --font-body: general-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-title: 'Clash Display', sans-serif;
+  --font-title: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Nunito', sans-serif;
+
+  /* --- Font Weights --- */
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --fw-black: 900;
+
+  /* --- Font Sizes & Spacings by Element / Section --- */
+  
+  /* Global / Base Body */
+  --fs-body-base: 1rem;
+
+  /* Navbar */
+  --fs-nav-logo: 1.8rem;
+  --fs-nav-logo-tablet: 1.2rem;
+  --fs-nav-logo-mobile: 1rem;
+  --fs-nav-link: 1.1rem;
+  --fs-nav-link-tablet: 1rem;
+  --fs-nav-link-mobile: 1.15rem;
+
+  /* Hero Section */
+  --fs-hero-title: clamp(4.2rem, 6.5vw, 6.5rem);
+  --fs-hero-title-tablet: clamp(4.2rem, 4.5vw, 4.5rem);
+  --fs-hero-title-mobile: clamp(3.5rem, 9vw, 3.5rem);
+  --fs-hero-title-small-mobile: clamp(3rem, 10vw, 3rem);
+  --fs-hero-subtext: 1.05rem;
+  --fs-hero-subtext-mobile: 1rem;
+  --fs-hero-subtext-small-mobile: 1rem;
+  --fs-hero-btn: 1rem;
+  --fs-hero-btn-mobile: 1rem;
+
+  /* Problem Section */
+  --fs-problem-title: clamp(2rem, 4vw, 3.2rem);
+  --fs-problem-title-mobile: clamp(1.6rem, 5vw, 2.5rem);
+  --fs-problem-title-small-mobile: clamp(1.4rem, 6vw, 2rem);
+  --fs-problem-subtitle: 1.05rem;
+  --fs-problem-subtitle-mobile: 1rem;
+  --fs-problem-card-title: 1.8rem;
+  --fs-problem-card-title-mobile: 1.05rem;
+  --fs-problem-card-percent: 4.5rem;
+  --fs-problem-card-percent-tablet: 3rem;
+  --fs-problem-card-percent-mobile: 2.5rem;
+  --fs-problem-card-desc: 1.05rem;
+  --fs-problem-card-desc-mobile: 1rem;
+  --fs-problem-card-source: 0.9rem;
+  --fs-problem-chart-percent: 2.8rem;
+  --fs-problem-chart-percent-tablet: 2.4rem;
+  --fs-problem-chart-percent-mobile: 2.2rem;
+  --fs-problem-chart-percent-small-mobile: 1.8rem;
+
+  /* Target User Section */
+  --fs-target-badge: 0.85rem;
+  --fs-target-title: clamp(2.2rem, 4.5vw, 3.4rem);
+  --fs-target-title-mobile: clamp(1.7rem, 6vw, 2.6rem);
+  --fs-target-title-small-mobile: clamp(1.4rem, 7vw, 2.1rem);
+  --fs-target-subtitle: 1.1rem;
+  --fs-target-subtitle-mobile: 1rem;
+  --fs-target-switch: 1rem;
+  --fs-target-switch-mobile: 0.9rem;
+  --fs-target-switch-small-mobile: 0.82rem;
+  --fs-target-tagline: 0.85rem;
+  --fs-target-profile-name: 1.6rem;
+  --fs-target-profile-name-mobile: 1.4rem;
+  --fs-target-profile-name-small-mobile: 1.25rem;
+  --fs-target-headline: 1.05rem;
+  --fs-target-headline-mobile: 1rem;
+  --fs-target-demo-label: 0.85rem;
+  --fs-target-demo-value: 1rem;
+  --fs-target-slide-tag: 0.85rem;
+  --fs-target-slide-title: 1.45rem;
+  --fs-target-slide-title-mobile: 1.2rem;
+  --fs-target-slide-row-label: 0.85rem;
+  --fs-target-slide-row-value: 1rem;
+  --fs-target-slide-row-value-mobile: 1rem;
+  --fs-target-chip: 0.88rem;
+  --fs-target-bullet: 1rem;
+  --fs-target-bullet-light: 1rem;
+  --fs-target-slide-cta: 1rem;
+  --fs-target-slide-cta-mobile: 1rem;
+
+  /* Mision / Vision Sections */
+  --fs-mision-badge: 0.85rem;
+  --fs-mision-title: clamp(2rem, 3.5vw, 3rem);
+  --fs-mision-title-mobile: clamp(1.6rem, 6vw, 2.4rem);
+  --fs-mision-title-small-mobile: clamp(1.4rem, 7vw, 2rem);
+  --fs-mision-body: 1.05rem;
+  --fs-mision-body-mobile: 1rem;
+  --fs-mision-check: 1rem;
+  --fs-mision-check-mobile: 1rem;
+  --fs-mision-card-label: 0.85rem;
+  --fs-mision-card-num: 26px;
+  --fs-mision-card-num-mobile: 22px;
+  --fs-mision-card-desc: 1.05rem;
+  --fs-mision-card-desc-mobile: 1rem;
+
+  --fs-vision-badge: 0.85rem;
+  --fs-vision-title: clamp(2rem, 3.2vw, 2.8rem);
+  --fs-vision-title-mobile: clamp(1.6rem, 6vw, 2.4rem);
+  --fs-vision-title-small-mobile: clamp(1.4rem, 7vw, 2rem);
+  --fs-vision-body: 1.05rem;
+  --fs-vision-body-mobile: 1rem;
+  --fs-vision-item: 1rem;
+  --fs-vision-item-mobile: 1rem;
+  --fs-vision-overlay: 0.85rem;
+
+  /* About Section */
+  --fs-about-title: clamp(2.2rem, 3.5vw, 3.5rem);
+  --fs-about-title-tablet: clamp(2rem, 3vw, 2.8rem);
+  --fs-about-title-mobile: clamp(1.8rem, 5vw, 2.8rem);
+  --fs-about-title-small-mobile: clamp(1.5rem, 5vw, 2.2rem);
+  --fs-about-subtitle: 1.05rem;
+  --fs-about-subtitle-mobile: 1rem;
+  --fs-about-tag: 0.85rem;
+  --fs-about-card-title: 1.5rem;
+  --fs-about-card-title-mobile: 1.05rem;
+  --fs-about-card-desc: 1.05rem;
+  --fs-about-card-desc-mobile: 1rem;
+  --fs-about-cta: 1rem;
+  --fs-about-tech-title: clamp(1.2rem, 2.5vw, 1.6rem);
+  --fs-about-tech-badge: 0.85rem;
+  --fs-about-tech-badge-mobile: 0.85rem;
+  --fs-about-steps-title: clamp(2rem, 3.5vw, 3.2rem);
+  --fs-about-steps-title-mobile: clamp(1.5rem, 4vw, 2.5rem);
+  --fs-about-steps-title-small-mobile: clamp(1.3rem, 4vw, 2rem);
+  --fs-about-step-label: 0.85rem;
+  --fs-about-step-name: 1.1rem;
+  --fs-about-step-name-mobile: 1rem;
+  --fs-about-step-desc: 1rem;
+  --fs-about-step-desc-mobile: 1rem;
+
+  /* Scope Section */
+  --fs-scope-badge: 0.85rem;
+  --fs-scope-title: clamp(2rem, 4vw, 3rem);
+  --fs-scope-title-mobile: clamp(1.5rem, 7vw, 2.1rem);
+  --fs-scope-subtitle: 1.05rem;
+  --fs-scope-subtitle-mobile: 1rem;
+  --fs-scope-card-label: 0.85rem;
+  --fs-scope-card-status: 0.85rem;
+  --fs-scope-card-subtitle: 0.88rem;
+  --fs-scope-card-title: clamp(1.6rem, 2.8vw, 2.1rem);
+  --fs-scope-card-title-mobile: 1.4rem;
+  --fs-scope-card-desc: 1.05rem;
+  --fs-scope-card-desc-mobile: 1rem;
+  --fs-scope-feature-pill: 0.85rem;
+  --fs-scope-feature-pill-mobile: 0.85rem;
+  --fs-scope-tech-label: 0.85rem;
+  --fs-scope-tech-text: 1rem;
+  --fs-scope-tech-text-mobile: 1rem;
+
+  /* Pricing Section */
+  --fs-pricing-title: clamp(1.8rem, 3vw, 2.6rem);
+  --fs-pricing-title-mobile: clamp(1.5rem, 6vw, 2.2rem);
+  --fs-pricing-title-small-mobile: clamp(1.3rem, 7vw, 1.8rem);
+  --fs-pricing-sub: 1.05rem;
+  --fs-pricing-sub-mobile: 1rem;
+  --fs-pricing-role-tab: 0.85rem;
+  --fs-pricing-role-tab-mobile: 0.85rem;
+  --fs-pricing-plan-badge: 0.85rem;
+  --fs-pricing-plan-name: 1.1rem;
+  --fs-pricing-plan-name-mobile: 1rem;
+  --fs-pricing-plan-price: 3rem;
+  --fs-pricing-plan-price-tablet: 2.5rem;
+  --fs-pricing-plan-price-mobile: 2.2rem;
+  --fs-pricing-plan-period: 1rem;
+  --fs-pricing-plan-desc: 1.05rem;
+  --fs-pricing-plan-desc-mobile: 1rem;
+  --fs-pricing-feature-item: 1rem;
+  --fs-pricing-feature-item-mobile: 1rem;
+  --fs-pricing-btn: 1rem;
+  --fs-pricing-btn-mobile: 1rem;
+  --fs-pricing-cta-title: clamp(2rem, 6vw, 3.5rem);
+  --fs-pricing-cta-title-mobile: clamp(1.6rem, 7vw, 2.5rem);
+  --fs-pricing-cta-title-small-mobile: clamp(1.4rem, 8vw, 2rem);
+  --fs-pricing-cta-sub: 1.2rem;
+  --fs-pricing-cta-sub-mobile: 1rem;
+  --fs-pricing-cta-btn: 1rem;
+  --fs-pricing-stat-num: 1.1rem;
+  --fs-pricing-stat-num-mobile: 1rem;
+  --fs-pricing-stat-label: 0.85rem;
+
+  /* Footer Section */
+  --fs-footer-logo: 1.3rem;
+  --fs-footer-logo-mobile: 1.15rem;
+  --fs-footer-tagline: 1rem;
+  --fs-footer-tagline-mobile: 1rem;
+  --fs-footer-contact: 1rem;
+  --fs-footer-col-title: 0.85rem;
+  --fs-footer-link: 1rem;
+  --fs-footer-copy: 1rem;
+  --fs-footer-copy-mobile: 1rem;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: general-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   font-family: var(--font-body);
   background-color: var(--black);
   color: var(--white);
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 

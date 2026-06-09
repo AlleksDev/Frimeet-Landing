@@ -1,0 +1,452 @@
+/* ========================================
+   ProblemSection – "¿Por qué salir se ha
+   vuelto tan complicado?"
+   3D donut (stacked layers) + carousel
+   ======================================== */
+
+/* ---- Section ---- */
+.section {
+  position: relative;
+  width: 100%;
+  background-color: #fafafa;
+  padding: 80px 40px;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 72px;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-title);
+  font-size: var(--fs-problem-title);
+  font-weight: var(--fw-black);
+  color: #000000;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: var(--fs-problem-subtitle);
+  color: #888888;
+  max-width: 580px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---- Content Layout ---- */
+.content {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0px;
+  align-items: center;
+}
+
+/* ========================================
+   3-D Donut Chart
+   ======================================== */
+.chartArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container provides perspective */
+.donut3dContainer {
+  perspective: 700px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Rotated parent – children preserve 3d */
+.donut3d {
+  width: 540px;
+  height: 540px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(40deg) rotateZ(-12deg) translateY(-50px);
+  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform;
+}
+
+.donut3d:hover {
+  transform: rotateX(20deg) rotateZ(-0deg) scale(1.03);
+}
+
+/* Each stacked SVG layer */
+.donutLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Center text (top-most element in 3d stack) */
+.chartCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform: translateZ(px); /* above all layers */
+}
+
+.chartPercent {
+  font-family: var(--font-title);
+  font-size: var(--fs-problem-chart-percent);
+  font-weight: var(--fw-black);
+  color: #333;
+  line-height: 1;
+}
+
+/* Soft shadow on the ground beneath donut */
+.donutShadow {
+  width: 260px;
+  height: 24px;
+  margin-top: -30px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.12) 0%,
+    transparent 70%
+  );
+  transform: rotateX(55deg);
+  pointer-events: none;
+}
+
+/* ========================================
+   Carousel
+   ======================================== */
+.carouselArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+
+/* Decorative gradient blob */
+.decorBlob {
+  position: absolute;
+  top: -20px;
+  right: -40px;
+  width: 220px;
+  height: 140px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 89, 0, 0.12),
+    rgba(255, 45, 135, 0.06)
+  );
+  border-radius: 60px;
+  transform: rotate(-12deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.carouselContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* ---- Nav buttons ---- */
+.navBtn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+  background: #ffffff;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.navBtn:hover {
+  border-color: #FF5900;
+  color: #FF5900;
+  box-shadow: 0 4px 16px rgba(255, 89, 0, 0.15);
+  transform: scale(1.08);
+}
+
+/* ---- Card ---- */
+.card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: cardFadeIn 0.4s ease-out;
+  min-height: 300px;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Icon */
+.cardIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #FF5900, #FF8C00);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Title */
+.cardTitle {
+  font-family: var(--font-title);
+  font-size: var(--fs-problem-card-title);
+  font-weight: var(--fw-extrabold);
+  color: #000000;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Percentage – large accent */
+.cardPercent {
+  font-family: var(--font-title);
+  font-size: var(--fs-problem-card-percent);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  background: linear-gradient(135deg, #FF5900, #FF2D87);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+/* Description */
+.cardDescription {
+  font-family: var(--font-body);
+  font-size: var(--fs-problem-card-desc);
+  color: #555555;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Source */
+.cardSource {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-problem-card-source);
+  color: #aaaaaa;
+  font-weight: 500;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.cardSource:hover,
+.cardSource:hover svg {
+  color: var(--pink);
+  transition: all 0.3s ease;
+}
+
+.cardSource svg {
+  flex-shrink: 0;
+  color: #cccccc;
+}
+
+/* ---- Indicator dots ---- */
+.indicators {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #e0e0e0;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.35s ease;
+}
+
+.dot:hover {
+  background: #ccc;
+  transform: scale(1.2);
+}
+
+.dotActive {
+  background: linear-gradient(135deg, #FF5900, #FF2D87);
+  width: 28px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(255, 89, 0, 0.3);
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 32px;
+  }
+
+  .content {
+    gap: 36px;
+  }
+
+  .donut3d {
+    width: 340px;
+    height: 340px;
+  }
+
+  .chartPercent {
+    font-size: var(--fs-problem-chart-percent-tablet);
+  }
+
+  .cardPercent {
+    font-size: var(--fs-problem-card-percent-tablet);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 70px 0;
+  }
+
+  .container {
+    gap: 48px;
+    padding: 0 24px;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    justify-items: center;
+  }
+
+  .donut3d {
+    width: 340px;
+    height: 340px;
+    transform: rotateX(50deg) rotateZ(-10deg);
+  }
+
+  .donut3d:hover {
+    transform: rotateX(44deg) rotateZ(-6deg) scale(1.03);
+  }
+
+  .chartPercent {
+    font-size: var(--fs-problem-chart-percent-mobile);
+  }
+
+  .title {
+    font-size: var(--fs-problem-title-mobile);
+  }
+
+  .subtitle {
+    font-size: var(--fs-problem-subtitle-mobile);
+  }
+
+  .decorBlob {
+    width: 160px;
+    height: 100px;
+    right: -20px;
+    top: -10px;
+  }
+
+  .card {
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 56px 0;
+  }
+
+  .container {
+    gap: 36px;
+    padding: 0 16px;
+  }
+
+  .donut3d {
+    width: min(340px, 85vw);
+    height: min(340px, 85vw);
+  }
+
+  .chartPercent {
+    font-size: var(--fs-problem-chart-percent-small-mobile);
+  }
+
+  .card {
+    padding: 24px 20px;
+    gap: 10px;
+    min-height: 240px;
+  }
+
+  .cardTitle {
+    font-size: var(--fs-problem-card-title-mobile);
+  }
+
+  .cardPercent {
+    font-size: var(--fs-problem-card-percent-mobile);
+  }
+
+  .cardDescription {
+    font-size: var(--fs-problem-card-desc-mobile);
+  }
+
+  .navBtn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .title {
+    font-size: var(--fs-problem-title-small-mobile);
+  }
+
+  .decorBlob {
+    display: none;
+  }
+}

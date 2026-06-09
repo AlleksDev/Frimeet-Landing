@@ -139,14 +139,14 @@
 .headlineWhite {
   height: 8vw;
   filter: drop-shadow(2px 2px 2px #000000);
-  font-size: clamp(4.2rem, 6.5vw, 6.5rem);
+  font-size: var(--fs-hero-title);
   color: #ffffff;
 }
 
 .headlinePink, 
 .headlineOrange {
   height: 8vw;
-  font-size: clamp(4.2rem, 6.5vw, 6.5rem);
+  font-size: var(--fs-hero-title);
   
   background: linear-gradient(90deg, #ff6b1a, #ff2d87, #ff6b1a, #ff2d87);
   background-size: 400% 100%; 
@@ -173,12 +173,12 @@
 
 /* ---- Subtext ---- */
 .subtext {
-  font-size: 1rem;
-  line-height: 1.65;
+  font-size: var(--fs-hero-subtext);
+  line-height: var(--lh-body);
   color: rgba(255, 255, 255, 0.75);
   max-width: 400px;
   text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   margin: 0;
 }
 
@@ -193,9 +193,9 @@
 .btnPrimary {
   background: #aaff00;
   color: #0a0a0a;
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
+  font-family: var(--font-title);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-hero-btn);
   padding: 14px 32px;
   border-radius: 50px;
   border: none;
@@ -229,9 +229,9 @@
 .btnSecondary {
   background: transparent;
   color: #ffffff;
-  font-family: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
+  font-family: var(--font-title);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-hero-btn);
   padding: 13px 32px;
   border-radius: 50px;
   border: 2px solid rgba(255, 255, 255, 0.5);
@@ -295,7 +295,7 @@
   .headlineWhite,
   .headlinePink,
   .headlineOrange {
-    font-size: clamp(4.2rem, 4.5vw, 4.5rem);
+    font-size: var(--fs-hero-title-tablet);
     height: 10vw;
   }
 }
@@ -334,13 +334,13 @@
   .headlineWhite,
   .headlinePink,
   .headlineOrange {
-    font-size: clamp(3.5rem, 9vw, 3.5rem);
-    height: 13vw;
+    font-size: var(--fs-hero-title-mobile);
+    height: auto;
     filter: drop-shadow(2px 2px 2px #000000);
   }
 
   .subtext {
-    font-size: 0.9rem;
+    font-size: var(--fs-hero-subtext-mobile);
     max-width: 100%;
     padding: 0 8px;
   }
@@ -352,9 +352,9 @@
   .imagesRightInside {
     display: block;
     position: absolute;
-    max-width: 55vw;
+    max-width: 45vw;
     right: 0;
-    top: 10.5%;
+    top: 5%;
     transform: translateY(-50%);
     z-index: 2;
   }
@@ -371,32 +371,25 @@
     min-height: 100vh;
   }
   .container {
-    height: 95vh;
+    min-height: 95vh;
+    height: auto;
     padding: 90px 16px 50px;
-  }
-
-  .imageLeft {
-    width: 75%;
-  }
-
-  .imageLeft img {
-    max-height: 30vh;
   }
 
   .headlineWhite,
   .headlinePink,
   .headlineOrange {
-    height: 15vw;
-    font-size: clamp(3rem, 10vw, 3rem);
+    height: auto;
+    font-size: var(--fs-hero-title-small-mobile);
   }
 
   .subtext {
-    font-size: 0.85rem;
+    font-size: var(--fs-hero-subtext-small-mobile);
   }
 
   .btnPrimary,
   .btnSecondary {
-    font-size: 0.9rem;
+    font-size: var(--fs-hero-btn-mobile);
     padding: 12px 24px;
     width: 100%;
     align-items: center;

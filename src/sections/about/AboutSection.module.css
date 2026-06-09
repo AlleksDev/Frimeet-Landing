@@ -1,0 +1,899 @@
+/* ========================================
+   AboutSection – "Tu ciudad, redescubierta"
+   Scroll-pinned cards + single continuous video
+   Layout: Left (title + cards) | Right (video stage)
+
+   Video playback is controlled by pause-point
+   timestamps synced to the active scroll card.
+   ======================================== */
+
+/* ---- Section: outer wrapper ---- */
+.section {
+  position: relative;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+
+/* ---- Scroll-pin area ---- */
+.scrollPinArea {
+  position: relative;
+  width: 100%;
+  /* 6 cards × 150vh scroll room + 100vh for the sticky viewport */
+  height: calc(100vh + 900vh);
+}
+
+/* ---- Sticky viewport ---- */
+.stickyViewport {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 2;
+  /* GPU: prevent scroll-induced repaints of entire viewport */
+  will-change: transform;
+}
+
+.stickyInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+/* ========================================
+   Two-column layout
+   ======================================== */
+.twoColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: stretch;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+/* ---- Left column ---- */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 112px 0 96px;
+  min-height: 0;
+}
+
+/* ---- Header (static, left-aligned) ---- */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-title);
+  font-size: var(--fs-about-title);
+  font-weight: var(--fw-black);
+  color: #000000;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: var(--fs-about-subtitle);
+  color: #888888;
+  max-width: 480px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ========================================
+   Cards: stacked, one visible at a time
+   Animation classes driven by FSM phase.
+   ======================================== */
+.cardContainer {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  min-height: 260px;
+}
+
+/* Base: all cards hidden and positioned absolutely */
+.cardSlide {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(calc(-50%));
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* No CSS transition — animations are explicit keyframes */
+}
+
+/* ---- ENTERING: card sliding in (plays with entrance video) ---- */
+.cardSlideEntering {
+  animation: cardEnter 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* ---- ACTIVE/IDLE: card fully visible and static ---- */
+.cardSlideActive {
+  opacity: 1;
+  transform: translateY(-50%);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* ---- EXITING: card sliding out (plays with outing video) ---- */
+.cardSlideExiting {
+  animation: cardExit 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cardSlideEnteringReverse {
+  animation: cardEnterReverse 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.cardSlideExitingReverse {
+  animation: cardExitReverse 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- PAST: cards that have already scrolled away ---- */
+.cardSlidePast {
+  opacity: 0;
+  transform: translateY(calc(-50% - 40px));
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- Keyframe animations ---- */
+@keyframes cardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(-50% + 40px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes cardExit {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-50% - 40px));
+  }
+}
+
+@keyframes cardEnterReverse {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(-50% - 40px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes cardExitReverse {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-50% + 40px));
+  }
+}
+
+/* ---- Progress indicators ---- */
+.cardIndicators {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d1d1;
+  transition: background 0.35s ease, transform 0.35s ease, width 0.35s ease;
+}
+
+.indicatorActive {
+  background: linear-gradient(135deg, #FF5900, #FF2D87);
+  transform: scale(1.15);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ---- Card base ---- */
+.card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardGradient {
+  background: linear-gradient(135deg, #FF2D87 0%, #FF5900 100%);
+  border: none;
+}
+
+/* ---- Tag ---- */
+.tag {
+  display: inline-block;
+  background: #FF590018;
+  color: #FF5900;
+  font-size: var(--fs-about-tag);
+  font-weight: var(--fw-bold);
+  padding: 4px 14px;
+  border-radius: 999px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tagGrad {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--fs-about-tag);
+  font-weight: var(--fw-bold);
+  padding: 4px 14px;
+  border-radius: 999px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---- Icons ---- */
+.iconWrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FF5900, #FF2D87);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconWrapGrad {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  backdrop-filter: blur(4px);
+}
+
+/* ---- Text ---- */
+.cardTitle {
+  font-family: var(--font-title);
+  font-size: var(--fs-about-card-title);
+  font-weight: var(--fw-extrabold);
+  color: #000;
+  margin: 0;
+}
+
+.cardTitleGrad {
+  font-family: var(--font-title);
+  font-size: var(--fs-about-card-title);
+  font-weight: var(--fw-extrabold);
+  color: #ffffff;
+  margin: 0;
+}
+
+.cardDesc {
+  font-size: var(--fs-about-card-desc);
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cardDescGrad {
+  font-size: var(--fs-about-card-desc-mobile);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---- CTA ---- */
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #FF2D87;
+  font-size: var(--fs-about-cta);
+  font-weight: var(--fw-bold);
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  margin-top: 4px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   Right column: Video Stage
+   Single continuous video controlled by
+   pause-point timestamps synced to scroll.
+
+   GPU-acceleration essentials:
+     - translateZ(0)         (own compositor layer)
+     - backface-visibility    (avoids sub-pixel artifacts)
+   ======================================== */
+.rightCol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.videoStage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* GPU: isolate video repaint boundary */
+  contain: layout style paint;
+  
+}
+
+/* Single video layer — always visible once loaded */
+.videoLayer {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  width: auto;
+  height: 90vh;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+  /* GPU: own compositor layer for smooth scrubbing */
+  transform: translate(-50%, -50%) translateZ(0) !important;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Video is shown when it has a source loaded */
+.videoVisible {
+  opacity: 1;
+}
+
+/* ========================================
+   Below Sticky Content
+   ======================================== */
+.belowStickyContent {
+  position: relative;
+  z-index: 2;
+  background-color: #f5f5f5;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 40px;
+}
+
+/* ========================================
+   Alcance Tecnológico y Geográfico
+   ======================================== */
+.techReach {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 80px 0 60px;
+  border-top: 1px solid #e8e8e8;
+  margin-top: 20px;
+}
+
+.techTitle {
+  font-family: var(--font-title);
+  font-size: var(--fs-about-tech-title);
+  font-weight: var(--fw-extrabold);
+  color: #222;
+  margin: 0;
+  text-align: center;
+}
+
+.techBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+.techBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: var(--fs-about-tech-badge);
+  font-weight: var(--fw-semibold);
+  color: #444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.techBadge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.techBadgeIcon {
+  color: #FF5900;
+  display: flex;
+}
+
+/* ========================================
+   Steps Section
+   ======================================== */
+.stepsSection {
+  margin-top: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+}
+
+.stepsHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stepsTitle {
+  font-family: var(--font-title);
+  font-size: var(--fs-about-steps-title);
+  font-weight: var(--fw-black);
+  color: #000000;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.timelineContainer {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.timelineContainer::before {
+  content: '';
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  right: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #FF2D87 0%, #FF6B1A 50%, #B8F02D 100%);
+  z-index: 0;
+}
+
+.timelineContainer::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  top: 26px;
+  left: 40px;
+  background: var(--white);
+  z-index: 0;
+  animation: timelinePulse 4s linear infinite;
+}
+
+
+@keyframes timelinePulse {
+  0% {
+    left: 40px;
+    border: 4px solid var(--pink);
+    box-shadow: 0 0 0 10px #FF2D8725;
+  }
+  25% {
+    border: 5px solid var(--pink);
+    box-shadow: 0 0 0 16px #FF6B1A25;
+  }
+  50% {
+    border: 4px solid var(--orange);
+    box-shadow: 0 0 0 10px #FF6B1A25;
+  }
+  75% {
+    border: 5px solid var(--orange);
+    box-shadow: 0 0 0 16px #76DD7625;
+  }
+  100% {
+    left: calc(100% - 52px);
+    border: 4px solid var(--green);
+    box-shadow: 0 0 0 10px #76DD7625;
+  }
+}
+
+.step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.stepCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  padding: 8px;
+  background-clip: padding-box;
+  flex-shrink: 0;
+  border: none;
+  transition: transform 0.4s ease;
+}
+
+.stepCircle:hover {
+  transform: scale(1.4) !important;
+}
+
+.step:nth-child(1) .stepCircle {
+  background: linear-gradient(135deg, #B8F02D 0%, #FF2D87 40%);
+  color: white;
+  box-shadow: 0 0 0 20px oklch(66.111% 0.2448 1.92 / 0.125);
+}
+
+.step:nth-child(2) .stepCircle {
+  background: linear-gradient(135deg, #FF2D87 0%, #FF6B1A 100%);
+  color: white;
+  box-shadow: 0 0 0 20px rgba(255, 45, 136, 0.203);
+}
+
+.step:nth-child(3) .stepCircle {
+  background: linear-gradient(135deg, #FF6B1A 40%, #B8F02D 100%);
+  color: white;
+  box-shadow: 0 0 0 20px rgba(255, 106, 26, 0.2);
+}
+
+.step:nth-child(4) .stepCircle {
+  background: linear-gradient(135deg, #B8F02D 20%, #FF2D87 90%);
+  color: white;
+  box-shadow: 0 0 0 20px rgba(185, 240, 45, 0.205);
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.stepLabel {
+  font-family: var(--font-title);
+  font-size: var(--fs-about-step-label);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.05em;
+}
+
+.step:nth-child(1) .stepLabel { color: #8B4B7D; }
+.step:nth-child(2) .stepLabel { color: #FF4D6D; }
+.step:nth-child(3) .stepLabel { color: #FF8C42; }
+.step:nth-child(4) .stepLabel { color: #76DD76; }
+
+.stepName {
+  font-family: var(--font-title);
+  font-size: var(--fs-about-step-name);
+  font-weight: var(--fw-bold);
+  color: #000000;
+  margin: 0;
+}
+
+.stepDesc {
+  font-family: var(--font-body);
+  font-size: var(--fs-about-step-desc);
+  color: #666666;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 200px;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 1024px) {
+  .stickyInner {
+    padding: 0 32px;
+  }
+
+  .twoColumns {
+    gap: 36px;
+  }
+
+  .leftCol {
+    padding: 48px 0;
+  }
+
+  .title {
+    font-size: var(--fs-about-title-tablet);
+  }
+}
+
+@media (max-width: 768px) {
+  /* Disable scroll-pinning on mobile */
+  .scrollPinArea {
+    height: auto;
+  }
+
+  .stickyViewport {
+    position: relative;
+    height: auto;
+  }
+
+  .stickyInner {
+    padding: 60px 24px;
+    height: auto;
+  }
+
+  .twoColumns {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .leftCol {
+    padding: 0;
+  }
+
+  .header {
+    text-align: center;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+
+  .title {
+    font-size: var(--fs-about-title-mobile);
+  }
+
+  .subtitle {
+    font-size: var(--fs-about-subtitle-mobile);
+    text-align: center;
+  }
+
+  .rightCol {
+    order: -1;
+    padding: 0;
+  }
+
+  .videoStage {
+    height: 40vh;
+  }
+
+  .videoLayer {
+    height: 40vh;
+    width: 100%;
+  }
+
+  /* Show all cards stacked on mobile — disable animations */
+  .cardContainer {
+    min-height: auto;
+  }
+
+  .cardSlide {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    margin-bottom: 16px;
+    animation: none;
+  }
+
+  .cardSlideActive,
+  .cardSlideEntering,
+  .cardSlideEnteringReverse,
+  .cardSlideExiting,
+  .cardSlideExitingReverse,
+  .cardSlidePast {
+    transform: none;
+    opacity: 1;
+    animation: none;
+  }
+
+  .cardIndicators {
+    display: none;
+  }
+
+  .belowStickyContent {
+    padding: 60px 24px;
+  }
+
+  .timelineContainer {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .timelineContainer::before {
+    top: -40px;
+    left: 59px;
+    right: 40px;
+    width: 3px;
+    height: 110%;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #FF2D87 0%, #FF6B1A 50%, #B8F02D 100%);
+  }
+
+  .timelineContainer::after {
+    top: -40px;
+    left: 53px;
+    animation: timelinePulseVertical 4s linear infinite;
+  }
+
+  @keyframes timelinePulseVertical {
+    0% {
+      top: -40px;
+    }
+    100% {
+      top: calc(100% - 52px);
+    }
+  }
+
+  .step {
+    width: auto;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .stepContent {
+    align-items: start;
+    gap: 16px;
+  }
+
+  .stepCircle {
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+  }
+
+  .stepName { text-align: left; }
+  .stepDesc { max-width: 100%; text-align: left; }
+
+  .stepsTitle {
+    font-size: var(--fs-about-steps-title-mobile);
+  }
+}
+
+@media (max-width: 480px) {
+  .stickyInner {
+    padding: 40px 16px;
+  }
+
+  .title {
+    font-size: var(--fs-about-title-small-mobile);
+  }
+
+  .subtitle {
+    font-size: var(--fs-about-subtitle-mobile);
+  }
+
+  .videoStage {
+    height: 30vh;
+  }
+
+  .videoLayer {
+    height: 30vh;
+    width: 100%;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+
+  .cardTitle,
+  .cardTitleGrad {
+    font-size: var(--fs-about-card-title-mobile);
+  }
+
+  .cardDesc,
+  .cardDescGrad {
+    font-size: var(--fs-about-card-desc-mobile);
+  }
+
+  .techBadge {
+    padding: 8px 14px;
+    font-size: var(--fs-about-tech-badge-mobile);
+  }
+
+  .belowStickyContent {
+    padding: 40px 16px;
+  }
+
+  .timelineContainer::before {
+    left: 43px;
+  }
+
+  .stepsTitle {
+    font-size: var(--fs-about-steps-title-small-mobile);
+  }
+
+  .step {
+    padding-left: 20px;
+  }
+
+  .stepCircle {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .stepName { font-size: var(--fs-about-step-name-mobile); }
+  .stepDesc { font-size: var(--fs-about-step-desc-mobile); }
+}
