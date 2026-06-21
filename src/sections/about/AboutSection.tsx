@@ -11,6 +11,7 @@ import { useVideoPlayer } from './hooks/useVideoPlayer'
 
 /* ---- Components ---- */
 import CardStack from './components/CardStack'
+import MobileFeatureCarousel from './components/MobileFeatureCarousel'
 import VideoStage from './components/VideoStage'
 
 /* ================================================================
@@ -62,6 +63,7 @@ const AboutSection = () => {
                   direction={direction}
                   exitingIndex={exitingIndex}
                 />
+                <MobileFeatureCarousel cardSteps={cardSteps} />
               </div>
 
               {/* ---- Right column: video stage ---- */}

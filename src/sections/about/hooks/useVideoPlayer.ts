@@ -32,9 +32,12 @@ const VIDEO_DURATION = MIRROR_END_TIME
 
 const CARD_POINT_COUNT = PAUSE_POINTS_FORWARD.length - 1
 const TIME_EPSILON = 0.04
+const MOBILE_MEDIA_QUERY = '(max-width: 768px)'
 
 type EntryMode = 'forward' | 'mirror'
 type ScrollDirection = 'down' | 'up'
+
+const isMobileViewport = () => window.matchMedia(MOBILE_MEDIA_QUERY).matches
 
 /* ================================================================
    Hook
@@ -223,11 +226,14 @@ export function useVideoPlayer(
   }, [cancelAll])
 
   useEffect(() => {
+    if (isMobileViewport()) return
     if (!isEnteredRef.current) return
     goToPoint(scrollIndex)
   }, [scrollIndex, goToPoint])
 
   useEffect(() => {
+    if (isMobileViewport()) return
+
     lastScrollYRef.current = window.scrollY
 
     const handleScrollDirection = () => {
@@ -255,6 +261,10 @@ export function useVideoPlayer(
     const section = sectionRef.current
     const video = videoRef.current
     if (!section || !video) return
+    if (isMobileViewport()) {
+      video.pause()
+      return
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {

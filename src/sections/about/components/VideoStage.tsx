@@ -19,12 +19,28 @@ const VideoStage = ({ videoRef }: VideoStageProps) => {
     <div className={styles.videoStage}>
       <video
         ref={videoRef}
-        className={`${styles.videoLayer} ${styles.videoVisible}`}
+        className={`${styles.videoLayer} ${styles.videoVisible} ${styles.desktopVideo}`}
         src={videoSrc}
         muted
         playsInline
         preload="auto"
       />
+      <div className={styles.mobileVideoPreview} aria-hidden="true">
+        <div className={styles.mobileVideoGlow} />
+        <video
+          className={styles.mobileVideo}
+          src={videoSrc}
+          muted
+          playsInline
+          autoPlay
+          loop
+          preload="metadata"
+        />
+        <span className={styles.mobileVideoBadge}>
+          <span className={styles.mobileVideoLiveDot} />
+          Frimeet en acción
+        </span>
+      </div>
     </div>
   )
 }
