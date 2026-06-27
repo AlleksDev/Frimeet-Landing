@@ -391,6 +391,53 @@
   z-index: 2;
 }
 
+.googlePlayButton {
+  min-height: 58px;
+  padding: 9px 18px 9px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  background: #050505;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.googlePlayButton:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
+}
+
+.googlePlayIcon {
+  width: 28px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.googlePlayText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.googlePlaySmall {
+  font-size: 0.7rem;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
+  opacity: 0.85;
+}
+
+.googlePlayLarge {
+  margin-top: 4px;
+  font-size: 1.18rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.02em;
+}
+
 .btnPrimary {
   background: #8BDB00;
   color: #1a3300;
@@ -430,17 +477,24 @@
   color: #ffffff;
   font-size: var(--fs-pricing-cta-btn);
   font-weight: var(--fw-semibold);
-  padding: 12px 24px;
+  min-height: 58px;
+  padding: 0 24px;
   border-radius: 999px;
   border: 1.5px solid rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  backdrop-filter: blur(8px);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.2s ease;
 }
 
 .btnSecondary:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: #ffffff;
-  transform: scale(1.1);
+  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.12);
+  transform: translateY(-3px);
 }
 
 .ctaStats {
@@ -601,11 +655,16 @@
     gap: 24px;
   }
 
+  .googlePlayButton,
   .btnPrimary,
   .btnSecondary {
     width: 100%;
     justify-content: center;
     text-align: center;
+  }
+
+  .googlePlayText {
+    align-items: flex-start;
   }
 
   .ctaVideo {
@@ -668,6 +727,11 @@
 
   .ctaSub {
     font-size: var(--fs-pricing-cta-sub-mobile);
+  }
+
+  .googlePlayButton,
+  .btnSecondary {
+    max-width: 280px;
   }
 
   .ctaStats {

@@ -4,11 +4,27 @@ import logo from '../assets/icons/fynko.svg';
 import cityAerial from '../assets/images/sections/city_aerial.png';
 import { Reveal } from '../components/Reveal';
 
-const footerLinks = {
-  Producto:  ['Características', 'Precios', 'API'],
-  Recursos:  ['Documentación', 'Soporte', 'Comunidad'],
-  Legal:     ['Privacidad', 'Términos', 'Cookies'],
-  Empresa:   ['Nosotros', 'Blog'],
+const footerLinks: Record<string, Array<{ label: string; href: string }>> = {
+  Producto: [
+    { label: 'Características', href: '/#about' },
+    { label: 'Precios', href: '/#pricing' },
+    { label: 'Alcance', href: '/#scope' },
+  ],
+  Recursos: [
+    { label: 'Soporte', href: 'mailto:support.frimeet@gmail.com?subject=Soporte%20Frimeet' },
+    { label: 'Reportar IA', href: '/reportar-ia' },
+    { label: 'Eliminar cuenta', href: '/eliminacion-de-cuenta' },
+  ],
+  Legal: [
+    { label: 'Privacidad', href: '/privacidad' },
+    { label: 'Aviso integral', href: '/privacidad/integral' },
+    { label: 'Términos', href: '/terminos' },
+    { label: 'Cookies', href: '/cookies' },
+  ],
+  Empresa: [
+    { label: 'Nosotros', href: '/#mission' },
+    { label: 'Contacto', href: '/#contact' },
+  ],
 }
 
 export default function Footer() {
@@ -31,7 +47,7 @@ export default function Footer() {
             </p>
             <div className={styles.footerContact}>
               <span className={styles.footerContactItem}><MapPin size={14} /> México • Latinoamérica</span>
-              <span className={styles.footerContactItem}><Mail size={14} /> Frimeetglobal@gmail.com</span>
+              <span className={styles.footerContactItem}><Mail size={14} /> support.frimeet@gmail.com</span>
             </div>
           </Reveal>
           {Object.entries(footerLinks).map(([section, links], index) => (
@@ -39,7 +55,7 @@ export default function Footer() {
               <span className={styles.footerColTitle}>{section}</span>
               <div className={styles.footerLinks}>
                 {links.map(link => (
-                  <a key={link} href="#" className={styles.footerLink}>{link}</a>
+                  <a key={link.label} href={link.href} className={styles.footerLink}>{link.label}</a>
                 ))}
               </div>
             </Reveal>

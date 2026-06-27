@@ -1,7 +1,6 @@
 import MainLayout from '../layout/MainLayout.module'
 import HeroSection from '../sections/HeroSection.module'
 import ProblemSection from '../sections/ProblemSection.module'
-import TargetUserSection from '../sections/TargetUserSection.module'
 import MissionSection from '../sections/MisionSection.module'
 import VisionSection from '../sections/VisionSection.module'
 import AboutSection from '../sections/about/AboutSection'
@@ -14,7 +13,6 @@ const HomePage = () => {
     <MainLayout>
       <HeroSection />
       <ProblemSection />
-      <TargetUserSection />
       <MissionSection />
       <VisionSection />
       <AboutSection />

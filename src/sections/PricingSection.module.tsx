@@ -3,6 +3,9 @@ import { Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../components/Reveal";
 import video from "../assets/videos/entrance_bottom.webm"
 
+const GOOGLE_PLAY_URL = "https://play.google.com/store";
+const LEARN_MORE_URL = "https://frimeet.app";
+
 /* ---- Plans ---- */
 const plans = [
   {
@@ -206,12 +209,36 @@ const PricingSection = () => {
             duration={800}
             className={styles.ctaButtons}
           >
-            <button className={styles.btnPrimary} type="button">
-              Descarga gratis <ArrowUpRight />
-            </button>
-            <button className={styles.btnSecondary} type="button">
-              Saber más
-            </button>
+            <a
+              className={styles.googlePlayButton}
+              href={GOOGLE_PLAY_URL}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Descargar Frimeet gratis en Google Play"
+            >
+              <svg
+                className={styles.googlePlayIcon}
+                viewBox="0 0 32 36"
+                aria-hidden="true"
+              >
+                <path fill="#00F076" d="M2.2 1.1C1.5.7.8.7.4 1.2c-.3.3-.4.8-.4 1.4v30.8c0 .6.1 1.1.4 1.4.4.5 1.1.5 1.8.1l16-16.9L2.2 1.1Z" />
+                <path fill="#00D4FF" d="m2.2 1.1 20.2 11.4-4.2 4.5L2.2 1.1Z" />
+                <path fill="#FFD400" d="m18.2 18 4.2 4.5L2.2 34.9 18.2 18Z" />
+                <path fill="#FF3D3D" d="m22.4 12.5 7.3 4.1c1.4.8 1.4 2 0 2.8l-7.3 4.1-4.2-4.5 4.2-4.5Z" />
+              </svg>
+              <span className={styles.googlePlayText}>
+                <span className={styles.googlePlaySmall}>Descarga gratis en</span>
+                <span className={styles.googlePlayLarge}>Google Play</span>
+              </span>
+            </a>
+            <a
+              className={styles.btnSecondary}
+              href={LEARN_MORE_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Saber más <ArrowUpRight size={17} />
+            </a>
           </Reveal>
 
           {/* Map video – autoplays and freezes on last frame */}

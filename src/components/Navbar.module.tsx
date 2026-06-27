@@ -3,7 +3,7 @@ import styles from './Navbar.module.css'
 import fynkoLogo from '../assets/icons/fynko.svg'
 
 // IDs de secciones con fondo oscuro donde el navbar debe usar texto claro
-const DARK_BG_SECTIONS = new Set(['hero', 'contact'])
+const DARK_BG_SECTIONS = new Set(['hero', 'contact', 'legal-hero'])
 
 // Mapeo de IDs de sección a grupo de navbar
 const SECTION_GROUP_MAP: Record<string, string> = {
@@ -16,6 +16,8 @@ const SECTION_GROUP_MAP: Record<string, string> = {
   scope: 'scope',
   pricing: 'pricing',
   contact: 'contact',
+  'legal-hero': 'legal',
+  'legal-content': 'legal',
 }
 
 const Navbar = () => {
@@ -25,6 +27,8 @@ const Navbar = () => {
   const rafRef = useRef<number>(0)
   const lastActiveRef = useRef('hero')
   const lastIsDarkRef = useRef(false)
+  const isHomePath = window.location.pathname === '/' || window.location.pathname === '/index.html'
+  const sectionHref = (hash: string) => (isHomePath ? hash : `/${hash}`)
 
   const updateNavbar = useCallback(() => {
     const sections = document.querySelectorAll<HTMLElement>('section[id], footer[id]')
@@ -110,7 +114,7 @@ const Navbar = () => {
   return (
     <>
       <nav className={`${styles.navbar} ${isDark ? styles.navDark : ''}`}>
-        <a href="#hero" className={styles.logo}>
+        <a href={sectionHref('#hero')} className={styles.logo}>
           <img src={fynkoLogo} alt="Fynko Logo" />
           <span className={styles.logoText}>Frimeet</span>
         </a>
@@ -126,12 +130,12 @@ const Navbar = () => {
         </button>
 
         <ul className={`${styles.navLinks} ${menuOpen ? styles.navLinksOpen : ''}`}>
-          <li><a href="#problem"      className={active === 'problem' ? styles.active : ''} onClick={handleLinkClick}>Problema</a></li>
-          <li><a href="#mission"      className={active === 'propósito' ? styles.active : ''} onClick={handleLinkClick}>Propósito</a></li>
-          <li><a href="#about"        className={active === 'about' ? styles.active : ''} onClick={handleLinkClick}>Funciones</a></li>
-          <li><a href="#scope"        className={active === 'scope' ? styles.active : ''} onClick={handleLinkClick}>Alcance</a></li>
-          <li><a href="#pricing"      className={active === 'pricing' ? styles.active : ''} onClick={handleLinkClick}>Precios</a></li>
-          <li><a href="#contact"      className={active === 'contact' ? styles.active : ''} onClick={handleLinkClick}>Contacto</a></li>
+          <li><a href={sectionHref('#problem')}      className={active === 'problem' ? styles.active : ''} onClick={handleLinkClick}>Problema</a></li>
+          <li><a href={sectionHref('#mission')}      className={active === 'propósito' ? styles.active : ''} onClick={handleLinkClick}>Propósito</a></li>
+          <li><a href={sectionHref('#about')}        className={active === 'about' ? styles.active : ''} onClick={handleLinkClick}>Funciones</a></li>
+          <li><a href={sectionHref('#scope')}        className={active === 'scope' ? styles.active : ''} onClick={handleLinkClick}>Alcance</a></li>
+          <li><a href={sectionHref('#pricing')}      className={active === 'pricing' ? styles.active : ''} onClick={handleLinkClick}>Precios</a></li>
+          <li><a href={sectionHref('#contact')}      className={active === 'contact' ? styles.active : ''} onClick={handleLinkClick}>Contacto</a></li>
         </ul>
       </nav>
 
