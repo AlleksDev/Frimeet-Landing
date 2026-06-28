@@ -18,6 +18,7 @@ const footerLinks: Record<string, Array<{ label: string; href: string }>> = {
   Legal: [
     { label: 'Privacidad', href: '/privacidad' },
     { label: 'Aviso integral', href: '/privacidad/integral' },
+    { label: 'Seguridad infantil', href: '/seguridad-infantil' },
     { label: 'Términos', href: '/terminos' },
     { label: 'Cookies', href: '/cookies' },
   ],

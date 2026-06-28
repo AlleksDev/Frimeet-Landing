@@ -14,7 +14,7 @@ import {
 import Navbar from '../components/Navbar.module'
 import Footer from '../sections/FooterSection.module'
 import styles from './LegalPage.module.css'
-import { privacyEmail, type LegalIcon, type LegalPageData } from './legalContent'
+import { childSafetyEmail, privacyEmail, type LegalIcon, type LegalPageData } from './legalContent'
 
 type IconComponent = ComponentType<{ size?: number; strokeWidth?: number }>
 
@@ -25,6 +25,7 @@ const iconMap: Record<LegalIcon, IconComponent> = {
   bot: Bot,
   cookie: Cookie,
   terms: ScrollText,
+  childSafety: ShieldCheck,
 }
 
 type LegalPageProps = {
@@ -43,6 +44,13 @@ const getPrimaryAction = (path: string) => {
     return {
       label: 'Enviar reporte IA',
       href: `mailto:${privacyEmail}?subject=Reporte%20IA%20Frimeet`,
+    }
+  }
+
+  if (path === '/seguridad-infantil') {
+    return {
+      label: 'Contactar seguridad infantil',
+      href: `mailto:${childSafetyEmail}?subject=Seguridad%20infantil%20Frimeet`,
     }
   }
 

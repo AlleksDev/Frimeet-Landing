@@ -1,4 +1,4 @@
-export type LegalIcon = 'shield' | 'file' | 'trash' | 'bot' | 'cookie' | 'terms'
+export type LegalIcon = 'shield' | 'file' | 'trash' | 'bot' | 'cookie' | 'terms' | 'childSafety'
 
 export type LegalBlock = {
   heading: string
@@ -25,6 +25,7 @@ export type LegalPageData = {
 
 export const legalBaseUrl = 'https://frimeet.app'
 export const privacyEmail = 'support.frimeet@gmail.com'
+export const childSafetyEmail = 'support.frimeet@gmail.com'
 
 export const legalPages: LegalPageData[] = [
   {
@@ -247,6 +248,17 @@ export const legalPages: LegalPageData[] = [
         ],
       },
       {
+        heading: 'Seguridad infantil',
+        paragraphs: [
+          'Frimeet prohibe cualquier forma de explotacion y abuso sexual infantil (CSAE), grooming, sextorsion, trata de menores con fines sexuales y material de abuso sexual infantil (CSAM).',
+          'Los usuarios deben poder denunciar preocupaciones de seguridad infantil dentro de la app. Frimeet revisara estos reportes con prioridad, tomara medidas de moderacion y, cuando corresponda, enviara denuncias a autoridades regionales o nacionales competentes.',
+        ],
+        bullets: [
+          'URL de estandares de seguridad infantil: https://frimeet.app/seguridad-infantil',
+          'Contacto designado para seguridad infantil y CSAM: support.frimeet@gmail.com',
+        ],
+      },
+      {
         heading: 'IA y recomendaciones',
         paragraphs: [
           'Frimeet puede usar IA/NLP para interpretar consultas y sugerir lugares o planes. La IA puede equivocarse y sus respuestas no sustituyen criterio personal, informacion oficial del lugar, recomendaciones medicas, legales, financieras ni decisiones de seguridad.',
@@ -277,6 +289,89 @@ export const legalPages: LegalPageData[] = [
       { label: 'Privacidad', href: '/privacidad' },
       { label: 'Reportar IA', href: '/reportar-ia' },
       { label: 'Eliminar cuenta', href: '/eliminacion-de-cuenta' },
+    ],
+  },
+  {
+    path: '/seguridad-infantil',
+    title: 'Estandares de seguridad infantil contra CSAE',
+    eyebrow: 'Seguridad infantil',
+    badge: 'Estandares publicados para Google Play',
+    icon: 'childSafety',
+    updatedAt: '28 de junio de 2026',
+    canonicalUrl: `${legalBaseUrl}/seguridad-infantil`,
+    summary:
+      'Estandares publicados de Frimeet contra la explotacion y el abuso sexual infantil (CSAE), el material de abuso sexual infantil (CSAM), y los procesos de reporte, moderacion y escalamiento.',
+    blocks: [
+      {
+        heading: 'Compromiso de Frimeet',
+        paragraphs: [
+          'Frimeet es una app social para descubrir lugares, crear planes y participar en contenido comunitario. Por esa naturaleza social, mantenemos estandares especificos para prevenir, detectar, remover y reportar riesgos relacionados con la seguridad de los ninos.',
+          'Frimeet prohibe de forma absoluta la explotacion y abuso sexual infantil (CSAE), el material de abuso sexual infantil (CSAM), el grooming, la sextorsion, la trata de menores con fines sexuales, la sexualizacion de menores y cualquier contenido o conducta que explote, abuse o ponga en riesgo a una persona menor de edad.',
+        ],
+      },
+      {
+        heading: 'Contenido y conductas prohibidas',
+        bullets: [
+          'Publicar, solicitar, almacenar, compartir, enlazar, vender o promover CSAM en imagenes, video, texto, audio, enlaces, comentarios, mensajes, perfiles, grupos, clubes, eventos, lugares o cualquier otra superficie de Frimeet.',
+          'Intentar contactar, manipular, acosar, amenazar, extorsionar, sexualizar o explotar a una persona menor de edad.',
+          'Crear cuentas, perfiles, eventos, grupos o publicaciones que faciliten abuso sexual infantil, captacion, intercambio de material, trata, turismo sexual, explotacion o encuentros inseguros con menores.',
+          'Usar IA, recomendaciones, imagenes, publicaciones o cualquier funcion de Frimeet para generar, promover o encubrir CSAE/CSAM.',
+          'Recompartir contenido sospechoso para denunciarlo publicamente dentro de la app. El reporte debe hacerse mediante los mecanismos de denuncia o el contacto de seguridad infantil.',
+        ],
+      },
+      {
+        heading: 'Mecanismos de denuncia',
+        paragraphs: [
+          'Frimeet debe permitir que los usuarios reporten preocupaciones de seguridad infantil desde la app sin salir de ella. Mientras se integra o mejora el flujo interno, los usuarios tambien pueden contactar al punto designado de seguridad infantil por correo.',
+          `Punto de contacto designado para seguridad infantil y CSAM: ${childSafetyEmail}`,
+        ],
+        bullets: [
+          'Motivos de denuncia esperados dentro de la app: seguridad infantil, CSAE/CSAM, acoso, contenido sexual, explotacion, amenaza, suplantacion, spam o riesgo inmediato.',
+          'Informacion util para investigar: usuario reportado, publicacion o contenido, captura si es seguro conservarla, fecha/hora aproximada, ciudad o contexto, y descripcion del riesgo.',
+          'Si un menor esta en peligro inmediato, el usuario debe contactar de inmediato a emergencias o a la autoridad local competente antes de enviar el reporte a Frimeet.',
+        ],
+      },
+      {
+        heading: 'Revision, remocion y acciones',
+        paragraphs: [
+          'Cuando Frimeet tenga conocimiento de contenido o conducta potencialmente relacionada con CSAE/CSAM, revisara el reporte con prioridad, limitara la distribucion del contenido cuando corresponda, preservara la evidencia necesaria de forma segura y tomara medidas proporcionales al riesgo.',
+        ],
+        bullets: [
+          'Remocion o bloqueo de contenido, perfiles, grupos, clubes, eventos, comentarios, imagenes o enlaces que infrinjan estos estandares.',
+          'Suspension o eliminacion de cuentas involucradas en CSAE/CSAM, grooming, sextorsion, explotacion o intentos de evadir moderacion.',
+          'Limitacion de funciones, bloqueo de usuarios, revision de patrones de abuso y mejora de filtros, reglas de moderacion o senales de deteccion.',
+          'Conservacion de registros necesarios para investigacion, cumplimiento legal, defensa de derechos y cooperacion con autoridades competentes.',
+        ],
+      },
+      {
+        heading: 'Reporte a autoridades',
+        paragraphs: [
+          'Frimeet cumple con las leyes de seguridad infantil aplicables y, cuando corresponda, enviara denuncias o informacion relevante a autoridades regionales, nacionales u organizaciones autorizadas para recibir reportes de CSAM.',
+          'Para orientacion publica sobre autoridades y organizaciones de reporte por region, Google mantiene una guia de ayuda en https://support.google.com/websearch/answer/148666.',
+        ],
+      },
+      {
+        heading: 'Prevencion y mejora continua',
+        bullets: [
+          'Mantener reglas publicas que prohiben CSAE/CSAM y explicar como reportar riesgos de seguridad infantil.',
+          'Revisar reportes de usuarios y senales internas para reducir abuso, reincidencia y evasion.',
+          'Capacitar al punto de contacto designado para hablar sobre practicas de prevencion de CSAM y cumplimiento de Frimeet.',
+          'Actualizar estos estandares cuando cambien funciones sociales, mecanismos de reporte, proveedores, procesos internos o requisitos legales.',
+        ],
+      },
+      {
+        heading: 'Contacto designado',
+        paragraphs: [
+          `El punto de contacto designado para asuntos de seguridad infantil, CSAE y CSAM es ${childSafetyEmail}. Este contacto debe estar preparado para hablar sobre las practicas de prevencion, moderacion, escalamiento y cumplimiento de Frimeet.`,
+          'Para soporte general, privacidad o eliminacion de cuenta, consulta las paginas legales correspondientes de Frimeet.',
+        ],
+      },
+    ],
+    related: [
+      { label: 'Terminos', href: '/terminos' },
+      { label: 'Privacidad', href: '/privacidad' },
+      { label: 'Reportar IA', href: '/reportar-ia' },
+      { label: 'Contacto seguridad infantil', href: `mailto:${childSafetyEmail}?subject=Seguridad%20infantil%20Frimeet` },
     ],
   },
   {
