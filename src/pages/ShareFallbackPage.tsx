@@ -4,7 +4,9 @@ import logo from '../assets/icons/fynko.svg'
 import styles from './ShareFallbackPage.module.css'
 
 const SUPPORTED_TYPES = ['profile', 'place', 'group', 'event', 'club', 'route', 'post'] as const
-const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps'
+const ANDROID_PACKAGE_NAME = 'com.coditos.frimeet'
+const GOOGLE_PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE_NAME}`
+const GOOGLE_PLAY_TESTING_URL = `https://play.google.com/apps/testing/${ANDROID_PACKAGE_NAME}`
 
 type ShareType = typeof SUPPORTED_TYPES[number]
 
@@ -84,6 +86,17 @@ export default function ShareFallbackPage({ target }: ShareFallbackPageProps) {
     () => `frimeet://open/${target.type}/${encodeURIComponent(target.id)}`,
     [target.id, target.type],
   )
+  const intentLink = useMemo(() => {
+    const fallback = encodeURIComponent(GOOGLE_PLAY_URL)
+    return `intent://open/${target.type}/${encodeURIComponent(target.id)}#Intent;scheme=frimeet;package=${ANDROID_PACKAGE_NAME};S.browser_fallback_url=${fallback};end`
+  }, [target.id, target.type])
+  const openInAppLink = useMemo(() => {
+    if (typeof navigator === 'undefined') {
+      return deepLink
+    }
+
+    return /android/i.test(navigator.userAgent) ? intentLink : deepLink
+  }, [deepLink, intentLink])
   const shareURL = typeof window !== 'undefined' ? window.location.href : ''
 
   const copyLink = async () => {
@@ -116,7 +129,7 @@ export default function ShareFallbackPage({ target }: ShareFallbackPageProps) {
           </div>
 
           <div className={styles.actions}>
-            <a className={styles.primaryAction} href={deepLink}>
+            <a className={styles.primaryAction} href={openInAppLink}>
               <ExternalLink size={20} />
               Abrir en Frimeet
             </a>
@@ -130,9 +143,15 @@ export default function ShareFallbackPage({ target }: ShareFallbackPageProps) {
             </button>
           </div>
 
-          <p className={styles.finePrint}>
+          <p className={styles.finePrintLegacy} aria-hidden="true">
             Si el botón de abrir no responde, instala Frimeet y vuelve a tocar este enlace. La beta estará disponible primero en Android.
           </p>
+          <p className={styles.finePrint}>
+            Si el boton de abrir no responde, instala Frimeet y vuelve a tocar este enlace.
+          </p>
+          <a className={styles.betaLink} href={GOOGLE_PLAY_TESTING_URL} target="_blank" rel="noreferrer">
+            Entrar a la prueba oficial de Google Play
+          </a>
         </div>
 
         <aside className={styles.preview} aria-label="Vista previa del enlace compartido">

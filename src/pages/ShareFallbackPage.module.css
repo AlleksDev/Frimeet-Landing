@@ -234,6 +234,23 @@
   line-height: 1.55;
 }
 
+.finePrintLegacy {
+  display: none;
+}
+
+.betaLink {
+  color: var(--green);
+  width: fit-content;
+  font-size: 0.92rem;
+  font-weight: var(--fw-bold);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.betaLink:hover {
+  color: var(--white);
+}
+
 @media (max-width: 900px) {
   .page {
     padding: 18px;
