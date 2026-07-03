@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState, type JSX } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Reveal.module.css';
+
+type RevealTag = keyof HTMLElementTagNameMap;
 
 interface RevealProps {
   children: React.ReactNode;
@@ -7,7 +9,7 @@ interface RevealProps {
   delay?: number;
   duration?: number;
   className?: string;
-  tag?: keyof JSX.IntrinsicElements;
+  tag?: RevealTag;
 }
 
 export const Reveal: React.FC<RevealProps> = ({ 
@@ -19,16 +21,19 @@ export const Reveal: React.FC<RevealProps> = ({
   tag = 'div'
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<any>(null);
+  const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
+    const node = ref.current;
+    if (!node) {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          if (ref.current) {
-            observer.unobserve(ref.current);
-          }
+          observer.unobserve(node);
         }
       },
       {
@@ -37,14 +42,10 @@ export const Reveal: React.FC<RevealProps> = ({
       }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    observer.observe(node);
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      observer.unobserve(node);
     };
   }, []);
 
@@ -53,15 +54,13 @@ export const Reveal: React.FC<RevealProps> = ({
     transitionDuration: `${duration}ms`,
   };
 
-  const Tag = tag as any;
-
-  return (
-    <Tag 
-      ref={ref} 
-      style={style}
-      className={`${styles.revealWrapper} ${styles[animation]} ${isVisible ? styles.visible : ''} ${className}`}
-    >
-      {children}
-    </Tag>
+  return React.createElement(
+    tag,
+    {
+      ref,
+      style,
+      className: `${styles.revealWrapper} ${styles[animation]} ${isVisible ? styles.visible : ''} ${className}`,
+    },
+    children,
   );
 };

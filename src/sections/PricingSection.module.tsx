@@ -3,7 +3,7 @@ import { Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../components/Reveal";
 import video from "../assets/videos/entrance_bottom.webm"
 
-const GOOGLE_PLAY_URL = "https://play.google.com/store";
+const GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=com.coditos.frimeet";
 const LEARN_MORE_URL = "https://frimeet.app";
 
 /* ---- Plans ---- */

@@ -292,7 +292,7 @@ const ProblemSection = () => {
 
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
-  }, [isVisible, activeIndex])
+  }, [isVisible, activeIndex, activeCard.percent])
 
   /* ---- Desktop: memoize SVG arc paths (only recalculate when animPercent changes) ---- */
   const { pinkD, orangeD } = useMemo(() => {

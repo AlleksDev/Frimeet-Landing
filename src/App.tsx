@@ -1,8 +1,9 @@
 import './App.css'
 import HomePage from './pages/HomePage'
 import LegalPage from './pages/LegalPage'
-import ShareFallbackPage, { parseShareTarget } from './pages/ShareFallbackPage'
+import ShareFallbackPage from './pages/ShareFallbackPage'
 import { getLegalPageByPath } from './pages/legalContent'
+import { parseShareTarget } from './pages/shareLinks'
 
 function App() {
   const shareTarget = parseShareTarget(window.location.pathname)

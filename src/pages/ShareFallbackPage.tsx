@@ -1,19 +1,12 @@
 import { Check, Copy, Download, ExternalLink, MapPin, Share2, Sparkles } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import logo from '../assets/icons/fynko.svg'
+import type { ShareTarget, ShareType } from './shareLinks'
 import styles from './ShareFallbackPage.module.css'
 
-const SUPPORTED_TYPES = ['profile', 'place', 'group', 'event', 'club', 'route', 'post'] as const
 const ANDROID_PACKAGE_NAME = 'com.coditos.frimeet'
 const GOOGLE_PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE_NAME}`
 const GOOGLE_PLAY_TESTING_URL = `https://play.google.com/apps/testing/${ANDROID_PACKAGE_NAME}`
-
-type ShareType = typeof SUPPORTED_TYPES[number]
-
-export interface ShareTarget {
-  type: ShareType
-  id: string
-}
 
 const typeCopy: Record<ShareType, { label: string; title: string; description: string }> = {
   profile: {
@@ -51,28 +44,6 @@ const typeCopy: Record<ShareType, { label: string; title: string; description: s
     title: 'Abre esta publicación en Frimeet',
     description: 'Mira la publicación, sus fotos y comentarios desde la app de Frimeet.',
   },
-}
-
-export function parseShareTarget(pathname: string): ShareTarget | null {
-  const parts = pathname.split('/').filter(Boolean)
-  if (parts.length < 3 || parts[0] !== 's') {
-    return null
-  }
-
-  const [, rawType, ...idParts] = parts
-  if (!SUPPORTED_TYPES.includes(rawType as ShareType)) {
-    return null
-  }
-
-  const id = decodeURIComponent(idParts.join('/')).trim()
-  if (!id) {
-    return null
-  }
-
-  return {
-    type: rawType as ShareType,
-    id,
-  }
 }
 
 interface ShareFallbackPageProps {

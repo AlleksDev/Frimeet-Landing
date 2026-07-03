@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.coditos.frimeet",
+      "sha256_cert_fingerprints": [
+        "3C:63:E1:D1:D9:F2:EE:99:FA:DE:52:DB:A1:5C:8D:44:7D:F6:C9:74:12:08:66:D2:EF:BC:57:6B:99:20:10:1D"
+      ]
+    }
+  }
+]
