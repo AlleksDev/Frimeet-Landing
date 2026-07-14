@@ -1,5 +1,5 @@
 import { Check, Copy, Download, ExternalLink, MapPin, Share2, Sparkles } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import logo from '../assets/icons/fynko.svg'
 import type { ShareTarget, ShareType } from './shareLinks'
 import styles from './ShareFallbackPage.module.css'
@@ -54,12 +54,12 @@ export default function ShareFallbackPage({ target }: ShareFallbackPageProps) {
   const [copied, setCopied] = useState(false)
   const copy = typeCopy[target.type]
   const deepLink = useMemo(
-    () => `frimeet://open/${target.type}/${encodeURIComponent(target.id)}`,
+    () => `frimeet://open/${target.type}/${encodeURIComponent(target.id)}?shared=1`,
     [target.id, target.type],
   )
   const intentLink = useMemo(() => {
     const fallback = encodeURIComponent(GOOGLE_PLAY_URL)
-    return `intent://open/${target.type}/${encodeURIComponent(target.id)}#Intent;scheme=frimeet;package=${ANDROID_PACKAGE_NAME};S.browser_fallback_url=${fallback};end`
+    return `intent://open/${target.type}/${encodeURIComponent(target.id)}?shared=1#Intent;scheme=frimeet;package=${ANDROID_PACKAGE_NAME};S.browser_fallback_url=${fallback};end`
   }, [target.id, target.type])
   const openInAppLink = useMemo(() => {
     if (typeof navigator === 'undefined') {
@@ -69,6 +69,17 @@ export default function ShareFallbackPage({ target }: ShareFallbackPageProps) {
     return /android/i.test(navigator.userAgent) ? intentLink : deepLink
   }, [deepLink, intentLink])
   const shareURL = typeof window !== 'undefined' ? window.location.href : ''
+
+  useEffect(() => {
+    if (!/android|iphone|ipad|ipod/i.test(navigator.userAgent)) {
+      return
+    }
+
+    const redirect = window.setTimeout(() => {
+      window.location.assign(openInAppLink)
+    }, 180)
+    return () => window.clearTimeout(redirect)
+  }, [openInAppLink])
 
   const copyLink = async () => {
     if (!navigator.clipboard || !shareURL) {
