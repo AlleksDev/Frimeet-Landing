@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist -r https://github.com/AlleksDev/Frimeet-Landing.git --dotfiles"
   },
   "dependencies": {
     "lucide-react": "^1.16.0",
