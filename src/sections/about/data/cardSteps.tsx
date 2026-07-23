@@ -50,10 +50,10 @@ export const cardSteps: Step[] = [
     description: 'Cero lugares falsos en nuestro ecosistema. Implementamos un pipeline estricto: cruce de precisión GPS y un sistema de score para verificar la existencia real del negocio antes de aprobarlo.'
   },
   {
-    tag: 'Datos en vivo',
+    tag: 'Información detallada',
     icon: <Radio size={22} />,
-    title: 'Radar de Aforo',
-    description: '¿Odias llegar y que el lugar esté lleno? Nuestro backend transaccional (Go) mantiene un control estricto de los asistentes. El mapa refleja un semáforo de afluencia en tiempo real, permitiendo a tu grupo tomar decisiones logísticas inteligentes antes de salir de casa.'
+    title: 'Análisis de Lugares',
+    description: 'Por cada lugar se pueden consultar sus características detalladas: si cuenta con entretenimiento, áreas verdes, servicios básicos y más, permitiendo a tu grupo tomar decisiones logísticas inteligentes antes de salir de casa.'
   },
   {
     icon: <Coins size={22} />,
@@ -91,5 +91,5 @@ export const stepsData = [
   },
   { number: '4', label: 'Disfruta', 
     name: 'Vive sin fricción', 
-    desc: 'Conéctate con tu Club, revisa el aforo del lugar en tiempo real (gracias a nuestro backend transaccional) y sal a disfrutar sin estrés logístico.' },
+    desc: 'Conéctate con tu Club, revisa las características del lugar y sal a disfrutar sin estrés logístico.' },
 ]

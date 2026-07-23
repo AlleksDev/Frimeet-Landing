@@ -21,7 +21,7 @@ const MissionSection = () => {
           <div className={styles.checkList}>
             {[
               'Comercios validados físicamente mediante geolocalización (PostGIS)',
-              'Rutas inteligentes optimizadas para el presupuesto de tu Tribu.',
+              'Rutas inteligentes adaptables al presupuesto de tu gente.',
               'Recompensas en Fricoins por digitalizar micronegocios locales.',
             ].map((item) => (
               <div key={item} className={styles.checkItem}>

@@ -5,7 +5,7 @@ import friendsCafe from '../assets/images/sections/friends_selfie.jpg';
 
 const VisionSection = () => {
   const visionItems = [
-    { icon: <MapPin size={19} />, text: ' Módulo de Eventos: Control de aforo en tiempo real para evitar lugares saturados' },
+    { icon: <MapPin size={19} />, text: ' Módulo de Eventos: Análisis de lugares y características detalladas' },
     { icon: <Heart size={19} />,   text: 'Clubes Digitales: Espacios para delegar decisiones y planear salidas sin estrés.' },
     { icon: <Star size={19} />,  text: 'Economía Virtual: Gana y gasta Fricoins ayudando a la comunidad de tu ciudad.' },
   ];

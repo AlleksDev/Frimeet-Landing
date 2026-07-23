@@ -101,7 +101,7 @@ const explorerProfiles: UserProfile[] = [
         data: [
           'La pesadilla de las apps: Salta entre WhatsApp, Instagram y mapas para intentar coordinar a 5 personas distintas.',
           'Busca automatización: Necesita que una app haga las matemáticas por él.',
-          'La solución Frimeet: Centraliza a sus amigos en Clubes (Tribus) y crea Eventos donde la app calcula el aforo, la ruta y centraliza la decisión.',
+          'La solución Frimeet: Centraliza a sus amigos en Clubes (Tribus) y crea Eventos donde la app analiza los lugares, la ruta y centraliza la decisión.',
         ],
       },
       {
@@ -277,7 +277,7 @@ const businessProfiles: UserProfile[] = [
         label: 'Enfoque del Negocio',
         type: 'chips',
         data: [
-          'Gestión inteligente del aforo.',
+          'Análisis de lugares y características.',
           'Creación de Eventos temáticos y promociones.',
           'Maximizar el ticket promedio por mesa.',
           'Su reto: Llenar el local en horas muertas y evitar las temidas cancelaciones de grupos de último minuto.',
@@ -291,7 +291,7 @@ const businessProfiles: UserProfile[] = [
         data: [
           'Gastan en Ads con bajo ROI: Pagan publicidad en Meta/Google que trae "likes", pero no garantiza visitas físicas.',
           'Ciegos ante la logística: No saben cuántos grupos están planeando ir esta noche hasta que ya están en la puerta.',
-          'La solución Frimeet: Les permitimos reclamar su perfil, gestionar su estado de Aforo en tiempo real y patrocinar Eventos directamente en el feed de los Clubes.',
+          'La solución Frimeet: Les permitimos reclamar su perfil, gestionar sus características en tiempo real y patrocinar Eventos directamente en el feed de los Clubes.',
         ],
       },
       {
